@@ -36,7 +36,7 @@ const richTextComponents = {
 
 export default async function Noticia({ params }) {
   const { uid } = params;
-  const noticia = await client.getByUID('noticia', uid);
+  const noticia = await client.getByUID('noticias', uid);
 
   if (!noticia) {
     return (
@@ -74,12 +74,12 @@ export default async function Noticia({ params }) {
               </div>
               <ShareButton 
                 url={typeof window !== 'undefined' ? window.location.href : ''} 
-                title={noticia.data.title} 
+                title={noticia.data.title[0].text} 
               />
             </div>
 
             <h1 className="text-4xl font-bold text-gray-900 mb-6">
-              {noticia.data.title}
+              {noticia.data.title[0].text}
             </h1>
 
             {noticia.data.image && (

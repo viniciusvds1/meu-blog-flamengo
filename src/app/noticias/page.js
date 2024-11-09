@@ -18,6 +18,7 @@ export default async function Noticias({ searchParams }) {
   });
 
   const noticias = response.results;
+  
   const totalPages = response.total_pages;
 
   return (
@@ -32,7 +33,7 @@ export default async function Noticias({ searchParams }) {
                 <div className="relative w-full h-48">
                   <Image
                     src={noticia.data.image.url}
-                    alt={noticia.data.image.alt || noticia.data.title}
+                    alt={noticia.data.image.alt || noticia.data.title[0].text}
                     fill
                     className="object-cover"
                   />
@@ -40,11 +41,8 @@ export default async function Noticias({ searchParams }) {
               )}
               <div className="p-4">
                 <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                  {noticia.data.title}
+                  {noticia.data.title[0].text}
                 </h2>
-                <p className="text-gray-600 mb-4 line-clamp-3">
-                  {noticia.data.description}
-                </p>
                 <Link href={`/noticias/${noticia.uid}`}>
                   <span className="text-red-600 hover:text-red-700">Leia mais</span>
                 </Link>
