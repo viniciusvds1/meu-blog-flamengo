@@ -1,9 +1,7 @@
-import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from '../components/NavBar';
 import Footer from "@/components/Footer";
-
-
+import { Analytics } from "@vercel/analytics/react"
 
 export const metadata = {
   title: 'Blog do Flamengo',
@@ -36,6 +34,7 @@ export default function RootLayout({ children }) {
     <html lang="pt-BR">
       <head />
       <body>
+      <Analytics/>
         <Navbar />
         {children}
         <Footer/>

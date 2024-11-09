@@ -1,56 +1,80 @@
+// components/NewCard.js
 'use client'
 
-import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { Share2 } from 'lucide-react';
+import { PrismicRichText } from '@prismicio/react';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 export default function NewsCard({ noticia }) {
-  const [isShareOpen, setIsShareOpen] = useState(false);
+  // Verifica se temos os dados necessários
+  if (!noticia?.data) {
+    return null;
+  }
+
+  const { title, content, date, image, category } = noticia.data;
+  // Função para formatar a data
+  const formatDate = (dateString) => {
+    try {
+      return format(new Date(dateString), "d 'de' MMMM 'de' yyyy", {
+        locale: ptBR,
+      });
+    } catch {
+      return dateString;
+    }
+  };
 
   return (
-    <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300">
-      <figure className="relative">
-        <Link href={`/noticias/${noticia.uid}`}>
-          {noticia.data.image && (
-            <Image
-              src={noticia.data.image.url}
-              alt={noticia.data.image.alt}
-              width={800}
-              height={600}
-              className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
-            />
-          )}
-        </Link>
-        <div className="absolute top-2 right-2">
-          <button 
-            onClick={() => setIsShareOpen(!isShareOpen)}
-            className="bg-white p-2 rounded-full shadow-md hover:bg-red-600 hover:text-white transition-colors"
-          >
-            <Share2 size={20} />
-          </button>
-        </div>
-      </figure>
+    <div className="card bg-base-200 shadow-xl">
+      {/* Imagem */}
+      {image?.url && (
+        <figure className="relative w-full h-48">
+          <Image
+            src={image.url}
+            alt={image.alt || 'Imagem da notícia'}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        </figure>
+      )}
+
       <div className="card-body">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="badge badge-primary">{noticia.data.category || 'Geral'}</span>
-          <span className="text-sm text-gray-500">
-            {new Date(noticia.first_publication_date).toLocaleDateString('pt-BR')}
-          </span>
-        </div>
-        <h2 className="card-title text-red-600 hover:text-red-700 transition-colors">
-          <Link href={`/noticias/${noticia.uid}`}>
-            {noticia.data.title}
-          </Link>
+        {/* Categoria */}
+        {category && (
+           
+          <div className="badge badge-primary">  {typeof category === 'string' ? title : <PrismicRichText field={category} />}</div>
+        )}
+
+        {/* Título */}
+        <h2 className="card-title">
+          {typeof title === 'string' ? title : <PrismicRichText field={title} />}
         </h2>
-        <p className="text-black line-clamp-3">{noticia.data.summary}</p>
-        <div className="card-actions justify-between items-center mt-4">
-          <Link 
-            href={`/noticias/${noticia.uid}`}
-            className="btn bg-black text-white hover:bg-red-600 hover:text-black transition-colors duration-300"
-          >
-            Leia mais
-          </Link>
+
+        {/* Data */}
+        {date && (
+          <p className="text-sm text-gray-500">
+            {formatDate(date)}
+          </p>
+        )}
+
+        {/* Conteúdo */}
+        <div className="mt-2 line-clamp-3">
+          <PrismicRichText 
+            field={content}
+            components={{
+              paragraph: ({ children }) => (
+                <p className="text-gray-600">{children}</p>
+              ),
+            }}
+          />
+        </div>
+
+        {/* Botão Ler Mais */}
+        <div className="card-actions justify-end mt-4">
+          <button className="btn btn-primary btn-sm">
+            Ler mais
+          </button>
         </div>
       </div>
     </div>
