@@ -16,7 +16,6 @@ export default function NoticiasSection({ initialNoticias }) {
   const fetchNoticias = async (pageNum = 1, cat = categoria) => {
     try {
       setLoading(true);
-  
       const queryOptions = {
         orderings: [
           { field: 'document.first_publication_date', direction: 'desc' },
