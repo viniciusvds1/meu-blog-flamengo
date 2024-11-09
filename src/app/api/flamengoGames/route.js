@@ -30,7 +30,6 @@ export async function GET(req) {
 async function fetchUltimosJogos(teamId, last = 1) {
   const API_KEY = process.env.RAPIDAPI_KEY;
   const url = `https://api-football-v1.p.rapidapi.com/v3/fixtures?team=${teamId}&last=${last}`;
-console.log(url)
   try {
     const res = await fetch(url, {
       method: 'GET',

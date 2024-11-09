@@ -27,14 +27,12 @@ export default function NoticiasSection({ initialNoticias }) {
   
       if (cat !== 'Todas as categorias') {
         queryOptions.filters = [
-          prismic.filter.at("my.nocitia", cat.toLowerCase())
+          prismic.filter.at("my.noticias.category", cat.toLocaleLowerCase() )
         ];
       }
   
-      const response = await client.getByType('noticia', queryOptions);
+      const response = await client.getByType('noticias', queryOptions);
 
-      console.log(response)
-  
       if (pageNum === 1) {
         setNoticias(response.results);
       } else {

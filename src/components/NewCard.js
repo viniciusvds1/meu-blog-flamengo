@@ -7,13 +7,11 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 export default function NewsCard({ noticia }) {
-  // Verifica se temos os dados necessários
   if (!noticia?.data) {
     return null;
   }
 
   const { title, content, date, image, category } = noticia.data;
-  // Função para formatar a data
   const formatDate = (dateString) => {
     try {
       return format(new Date(dateString), "d 'de' MMMM 'de' yyyy", {
@@ -43,19 +41,19 @@ export default function NewsCard({ noticia }) {
         {/* Categoria */}
         {category && (
            
-          <div className="badge badge-primary">  {typeof category === 'string' ? title : <PrismicRichText field={category} />}</div>
+          <div className="badge badge-primary">  {category}</div>
         )}
 
         {/* Título */}
-        <h2 className="card-title">
-          {typeof title === 'string' ? title : <PrismicRichText field={title} />}
-        </h2>
+        <h1 className="card-title">
+          {typeof title === 'string' ? title : title[0].text}
+        </h1>
 
         {/* Data */}
         {date && (
-          <p className="text-sm text-gray-500">
+          <div className="text-sm text-gray-500">
             {formatDate(date)}
-          </p>
+          </div>
         )}
 
         {/* Conteúdo */}

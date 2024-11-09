@@ -11,7 +11,7 @@ export default async function Noticias({ searchParams }) {
   const page = parseInt(searchParams.page) || 1;
   
   // Obtendo dados do Prismic ordenados pela data de publicação
-  const response = await client.getByType('noticia', {
+  const response = await client.getByType('noticias', {
     orderings: [{ field: 'document.first_publication_date', direction: 'desc' }],
     pageSize: ITEMS_PER_PAGE,
     page,

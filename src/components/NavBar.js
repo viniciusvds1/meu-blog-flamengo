@@ -3,7 +3,6 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { usePathname } from 'next/navigation';
 import { FiMenu, FiX } from 'react-icons/fi';
 
 export default function Navbar() {

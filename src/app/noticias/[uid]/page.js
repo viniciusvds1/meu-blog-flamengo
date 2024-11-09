@@ -123,7 +123,7 @@ export default async function Noticia({ params }) {
 }
 
 export async function generateStaticParams() {
-  const noticias = await client.getAllByType('noticia');
+  const noticias = await client.getAllByType('noticias');
   return noticias.map((noticia) => ({
     uid: noticia.uid,
   }));
@@ -131,7 +131,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { uid } = params;
-  const noticia = await client.getByUID('noticia', uid);
+  const noticia = await client.getByUID('noticias', uid);
 
   if (!noticia) {
     return {

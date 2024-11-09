@@ -8,7 +8,7 @@ import NoticiasSection from '@/components/NoticiasSection';
 
 export default async function Home() {
   // Buscar notícias iniciais no servidor
-  const noticiasResponse = await client.getByType('noticia', {
+  const noticiasResponse = await client.getByType('noticias', {
     orderings: [
       { field: 'document.first_publication_date', direction: 'desc' },
     ],
