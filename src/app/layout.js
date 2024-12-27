@@ -34,6 +34,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
       <head>
+      <meta name="google-adsense-account" content="ca-pub-2748482520534761"/>
         {/* Google AdSense Script */}
         <Script
           async
