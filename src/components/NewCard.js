@@ -12,8 +12,6 @@ export default function NewsCard({ noticia }) {
     return null;
   }
 
-  console.log(noticia)
-
   const { title, content, date, image, category, uid } = noticia.data;
   const formatDate = (dateString) => {
     try {
@@ -27,7 +25,6 @@ export default function NewsCard({ noticia }) {
 
   return (
     <div className="card bg-base-200 shadow-xl">
-      {/* Imagem */}
       {image?.url && (
         <figure className="relative w-full h-48">
           <Image
