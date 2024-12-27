@@ -5,13 +5,16 @@ import Image from 'next/image';
 import { PrismicRichText } from '@prismicio/react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import Link from 'next/link';
 
 export default function NewsCard({ noticia }) {
   if (!noticia?.data) {
     return null;
   }
 
-  const { title, content, date, image, category } = noticia.data;
+  console.log(noticia)
+
+  const { title, content, date, image, category, uid } = noticia.data;
   const formatDate = (dateString) => {
     try {
       return format(new Date(dateString), "d 'de' MMMM 'de' yyyy", {
@@ -70,9 +73,9 @@ export default function NewsCard({ noticia }) {
 
         {/* Botão Ler Mais */}
         <div className="card-actions justify-end mt-4">
-          <button className="btn btn-primary btn-sm">
-            Ler mais
-          </button>
+        <Link href={`/noticias/${noticia.uid}`} className="btn btn-primary btn-sm">
+            <p>Ler mais</p>
+          </Link>
         </div>
       </div>
     </div>
