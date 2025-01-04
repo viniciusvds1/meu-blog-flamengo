@@ -20,12 +20,6 @@ export default async function Home() {
     <div className="bg-base-100 min-h-screen">
       <div className="container mx-auto px-4">
         {/* Hero Banner */}
-        <AdBanner
-        data-ad-slot="slotnumber"
-        data-full-width-responsive="true"
-        data-ad-layout="in-article"
-        data-ad-format="fluid"
-        />
         <div className="relative my-8">
           <Image
             src="/assets/banner.jpeg"
