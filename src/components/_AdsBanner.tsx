@@ -1,3 +1,5 @@
+// src/components/Carousel.js
+"use client";
 import Router from "next/router";
 import React from "react";
 import { useEffect } from "react";
