@@ -36,6 +36,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
       <head>
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7296451974429760"
+     crossorigin="anonymous"></script>
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7296451974429760"
