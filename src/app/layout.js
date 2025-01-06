@@ -37,11 +37,13 @@ export default function RootLayout({ children }) {
     <html lang="pt-BR">
       <head>
       <meta name="google-adsense-account" content="ca-pub-2748482520534761"/>
-        {/* Google AdSense Script */}
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748482520534761"
-          crossOrigin="anonymous"
+    
+         <Script
+           id="Adsense-id"
+           data-ad-client="ca-pub-2748482520534761"
+           async="true"
+           strategy="beforeInteractive"
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
         />
       </head>
       <body className={inter.className}>
