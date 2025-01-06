@@ -36,18 +36,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
       <head>
-      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748482520534761"
-     crossorigin="anonymous" strategy="afterInteractive"></script>
-      <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-          data-ad-client="2748482520534761"
-        />
+      <meta name="google-adsense-account" content="ca-pub-2748482520534761"/>
+        {/* Google AdSense Script */}
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748482520534761"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
         />
       </head>
       <body className={inter.className}>
@@ -56,7 +50,7 @@ export default function RootLayout({ children }) {
         {children}
         <Footer />
       </body>
-       　<GoogleAdsense pId="2748482520534761" />
+      　<GoogleAdsense pId="2748482520534761" />
     </html>
   );
 }
