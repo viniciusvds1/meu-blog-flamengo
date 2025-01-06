@@ -35,24 +35,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
-      <head>
-      <meta name="google-adsense-account" content="ca-pub-2748482520534761"/>
-    
-         <Script
-           id="Adsense-id"
-           data-ad-client="ca-pub-2748482520534761"
-           async="true"
-           strategy="beforeInteractive"
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-        />
-      </head>
       <body className={inter.className}>
         <Analytics />
         <Navbar />
         {children}
         <Footer />
       </body>
-      　<GoogleAdsense pId="2748482520534761" />
+      <GoogleAdsense pId="2748482520534761" />
     </html>
   );
 }
