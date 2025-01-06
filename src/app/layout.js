@@ -3,7 +3,6 @@ import Navbar from "../components/NavBar";
 import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
-import Script from "next/script";
 import GoogleAdsense from "@/components/GoogleAdsense";
 const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
@@ -36,11 +35,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
        <head>
-        <Script
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-        ></Script>
-        <Script
+        ></script>
+        <script
           dangerouslySetInnerHTML={{
             __html: `
               (adsbygoogle = window.adsbygoogle || []).push({
