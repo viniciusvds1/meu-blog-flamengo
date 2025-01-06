@@ -35,12 +35,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
-       <Head>
-        <script
+       <head>
+        <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-        ></script>
-        <script
+        ></Script>
+        <Script
           dangerouslySetInnerHTML={{
             __html: `
               (adsbygoogle = window.adsbygoogle || []).push({
@@ -50,7 +50,7 @@ export default function RootLayout({ children }) {
             `,
           }}
         />
-      </Head>
+      </head>
       <body className={inter.className}>
         <Analytics />
         <Navbar />
