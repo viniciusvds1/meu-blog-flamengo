@@ -7,6 +7,7 @@ type Props = {
 
 const GoogleAdsense: React.FC<Props> = ({ pId }) => {
   if (process.env.NODE_ENV !== "production") {
+    console.log("caiu aqui")
     return null;
   }
   return (
@@ -14,7 +15,7 @@ const GoogleAdsense: React.FC<Props> = ({ pId }) => {
       async
       src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-${pId}`}
       crossOrigin="anonymous"
-      strategy="lazyOnload"
+      strategy="afterInteractive"
     />
   );
 };
