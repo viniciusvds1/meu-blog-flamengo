@@ -36,11 +36,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
       <head>
-      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7296451974429760"
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748482520534761"
      crossorigin="anonymous"></script>
         <Script
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7296451974429760"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748482520534761"
           crossOrigin="anonymous"
           strategy="lazyOnload"
         />
@@ -51,7 +51,7 @@ export default function RootLayout({ children }) {
         {children}
         <Footer />
       </body>
-       　<GoogleAdsense pId="7296451974429760" />
+       　<GoogleAdsense pId="2748482520534761" />
     </html>
   );
 }
