@@ -57,7 +57,14 @@ const InbendaScripts = () => {
           style={{ display: 'none', visibility: 'hidden' }}
         ></iframe>
       </noscript>
+      <Script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748482520534761"
+      crossorigin="anonymous"
+      strategy="afterInteractive"
+    />
     </>
+    
   );
 };
 
