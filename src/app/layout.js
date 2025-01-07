@@ -5,7 +5,9 @@ import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
 import GoogleAdsense from "@/components/GoogleAdsense";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import InbendaScripts from "@/components/InbedaScripts"
 const inter = Inter({ subsets: ["latin"] });
+
 export const metadata = {
   title: "Blog do Flamengo",
   description: "As últimas notícias e resultados do Flamengo",
@@ -41,6 +43,7 @@ export default function RootLayout({ children }) {
         {children}
         <Footer />
       </body>
+      <InbendaScripts/>
       <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} />
       <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GTM_ID}/>
     </html>
