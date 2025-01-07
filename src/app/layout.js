@@ -37,6 +37,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
+      <head>
+      <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} />
+      </head>
       <body className={inter.className}>
         <Analytics />
         <Navbar />
