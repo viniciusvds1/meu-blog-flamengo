@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
 import GoogleAdsense from "@/components/GoogleAdsense";
+import { GoogleAnalytics } from "@next/third-parties/google";
 const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "Blog do Flamengo",
@@ -34,29 +35,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
-       <head>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-        ></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (adsbygoogle = window.adsbygoogle || []).push({
-                google_ad_client: "ca-pub-2748482520534761",
-                enable_page_level_ads: true
-              });
-            `,
-          }}
-        />
-      </head>
       <body className={inter.className}>
         <Analytics />
         <Navbar />
         {children}
         <Footer />
       </body>
-      <GoogleAdsense pId="2748482520534761" />
+      <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} />
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GTM_ID}/>
     </html>
   );
 }
