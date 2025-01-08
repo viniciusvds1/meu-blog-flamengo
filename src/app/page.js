@@ -21,7 +21,6 @@ export default async function Home() {
     <div className="bg-base-100 min-h-screen">
       <div className="container mx-auto px-4">
         {/* Hero Banner */}
-        <AdSenseComponent />
         <div className="relative my-8">
           <Image
             src="/assets/banner.jpeg"
