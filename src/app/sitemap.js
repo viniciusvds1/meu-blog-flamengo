@@ -1,4 +1,3 @@
-// src/app/sitemap.js
 
 import { client } from '@/prismic';
 

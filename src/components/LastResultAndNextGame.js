@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-// Mapeamento de times para suas siglas
 const teamAbbreviations = {
   'Flamengo': 'FLA',
   'Atletico Mineiro': 'CAM',
@@ -34,7 +33,6 @@ const teamAbbreviations = {
   'Vitória': 'VIT',
 };
 
-// Função para converter nome do time para sigla
 const getTeamAbbreviation = (teamName) => {
   return teamAbbreviations[teamName] || teamName;
 };
@@ -78,17 +76,13 @@ const LastResultAndNextGame = () => {
 
   return (
     <div className="bg-base-100 shadow-xl p-4">
-      {/* Último Resultado */}
       <div className="mb-6">
         <h3 className="text-xl font-bold mb-2 text-center">Último Resultado</h3>
         <div className="flex flex-col items-center">
-          {/* Placar e Times com Logos */}
           <div className="flex items-center justify-center">
-            {/* Logo Flamengo */}
             <div className="w-6 h-6 relative">
               <Image src={lastResult.flamengoBadge} alt="Flamengo Logo" fill style={{ objectFit: 'contain' }} />
             </div>
-            {/* Sigla Flamengo */}
             <span className="font-semibold text-lg mx-1 w-16 text-center">
               {getTeamAbbreviation('Flamengo')}
             </span>
@@ -98,44 +92,34 @@ const LastResultAndNextGame = () => {
             <span className="font-semibold text-lg mx-1 w-16 text-center">
               {getTeamAbbreviation(lastResult.adversario)}
             </span>
-            {/* Logo Adversário */}
             <div className="w-6 h-6 relative">
               <Image src={lastResult.adversarioBadge} alt={`${lastResult.adversario} Logo`} fill style={{ objectFit: 'contain' }} />
             </div>
           </div>
-          {/* Data, Local e Campeonato */}
           <div className="text-sm text-gray-600 mt-1 text-center">
             {lastResult.data}, {lastResult.horario}, {lastResult.campeonato}
           </div>
         </div>
       </div>
 
-      {/* Próximo Jogo */}
       <div>
         <h3 className="text-xl font-bold mb-2 text-center">Próximo Jogo</h3>
         <div className="flex flex-col items-center">
-          {/* Placar e Times com Logos */}
           <div className="flex items-center justify-center">
-            {/* Logo Flamengo */}
             <div className="w-6 h-6 relative">
               <Image src={nextGame.flamengoBadge} alt="Flamengo Logo" fill style={{ objectFit: 'contain' }} />
             </div>
-            {/* Sigla Flamengo */}
             <span className="font-semibold text-lg mx-1 w-16 text-center">
               {getTeamAbbreviation('Flamengo')}
             </span>
-            {/* vs */}
             <span className="text-lg font-bold mx-1 w-10 text-center">vs</span>
-            {/* Sigla Adversário */}
             <span className="font-semibold text-lg mx-1 w-16 text-center">
               {getTeamAbbreviation(nextGame.adversario)}
             </span>
-            {/* Logo Adversário */}
             <div className="w-6 h-6 relative">
               <Image src={nextGame.adversarioBadge} alt={`${nextGame.adversario} Logo`} fill style={{ objectFit: 'contain' }} />
             </div>
           </div>
-          {/* Data, Local e Campeonato */}
           <div className="text-sm text-gray-600 mt-1 text-center">
             {nextGame.data}, {nextGame.horario}, {nextGame.campeonato}
           </div>

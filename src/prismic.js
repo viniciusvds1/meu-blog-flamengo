@@ -28,6 +28,5 @@ export const createClient = (config = {}) => {
 
   return client;
 };
-
-// Criar uma instância do cliente para uso geral
+l
 export const client = createClient();

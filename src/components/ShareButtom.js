@@ -1,5 +1,4 @@
-// ShareButton.js
-"use client"; // Isso define que esse componente é um Client Component
+"use client";
 
 import { Share2 } from "lucide-react";
 

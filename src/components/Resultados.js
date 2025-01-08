@@ -1,4 +1,3 @@
-// src/components/Resultados.jsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -9,7 +8,7 @@ export default function Resultados() {
   const [loading, setLoading] = useState(true);
 
   const fetchResultados = async () => {
-    const TEAM_ID = 127; // Substitua pelo ID correto do Flamengo
+    const TEAM_ID = 127;
     const API_KEY = process.env.NEXT_PUBLIC_RAPIDAPI_KEY;
     const url = `https://api-football-v1.p.rapidapi.com/v3/fixtures?team=${TEAM_ID}&last=5&next=5`;
 
@@ -33,7 +32,6 @@ export default function Resultados() {
         return;
       }
 
-      // Processar dados
       const ultimos5 = result.response.filter(fixture => fixture.fixture.status.short !== 'TBD' && fixture.fixture.status.short !== 'SUSP').slice(0,5);
       const proximos5 = result.response.filter(fixture => fixture.fixture.status.short === 'TBD').slice(0,5);
 
@@ -93,7 +91,6 @@ export default function Resultados() {
   };
 
   useEffect(() => {
-    // Verificar se os dados estão no localStorage
     const storedData = localStorage.getItem('flamengoResultados');
     if (storedData) {
       setData(JSON.parse(storedData));
@@ -121,7 +118,6 @@ export default function Resultados() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      {/* Últimos Jogos */}
       <h1 className="text-4xl font-bold mb-6 text-center">Últimos Resultados do Flamengo</h1>
       {data.ultimosJogos.length === 0 ? (
         <p className="text-center">Nenhum resultado disponível no momento.</p>
@@ -138,7 +134,6 @@ export default function Resultados() {
                   : 'bg-gray-100 border border-gray-400'
               }`}
             >
-              {/* Logo do Flamengo */}
               <div className="w-16 h-16 relative">
                 {resultado.flamengoBadge ? (
                   <Image
@@ -162,14 +157,8 @@ export default function Resultados() {
                   </div>
                 )}
               </div>
-
-              {/* Nome do Adversário */}
               <span className="font-semibold text-xl flex-1">{resultado.adversario}</span>
-
-              {/* Placar */}
               <span className="text-3xl font-bold">{resultado.placar}</span>
-
-              {/* Logo do Adversário */}
               <div className="w-16 h-16 relative">
                 {resultado.adversarioBadge ? (
                   <Image
@@ -197,7 +186,6 @@ export default function Resultados() {
         </div>
       )}
 
-      {/* Próximos Jogos */}
       <h2 className="text-3xl font-bold mt-12 mb-6 text-center">Próximos Jogos do Flamengo</h2>
       {data.proximosJogos.length === 0 ? (
         <p className="text-center">Nenhum próximo jogo disponível no momento.</p>
@@ -214,7 +202,6 @@ export default function Resultados() {
                   : 'bg-gray-100 border border-gray-400'
               }`}
             >
-              {/* Logo do Flamengo */}
               <div className="w-16 h-16 relative">
                 {jogo.flamengoBadge ? (
                   <Image
@@ -238,14 +225,8 @@ export default function Resultados() {
                   </div>
                 )}
               </div>
-
-              {/* Nome do Adversário */}
               <span className="font-semibold text-xl flex-1">{jogo.adversario}</span>
-
-              {/* Placar */}
               <span className="text-3xl font-bold">{jogo.placar}</span>
-
-              {/* Logo do Adversário */}
               <div className="w-16 h-16 relative">
                 {jogo.adversarioBadge ? (
                   <Image

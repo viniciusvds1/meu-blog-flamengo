@@ -33,7 +33,6 @@ const InbendaScripts = () => {
         charset="UTF-8"
         async
       />
- {/* Script do GTM */}
  <Script
         id="gtm-script"
         strategy="afterInteractive"
@@ -48,7 +47,6 @@ const InbendaScripts = () => {
         }}
       />
       
-      {/* Noscript do GTM */}
       <noscript>
         <iframe
           src={`https://www.googletagmanager.com/ns.html?id=GTM-TKDPTXNH`}

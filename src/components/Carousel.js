@@ -1,4 +1,3 @@
-// src/components/Carousel.js
 "use client";
 
 import Slider from "react-slick";
@@ -20,10 +19,7 @@ export default function Carousel() {
       src: "/assets/flamengo5.jpg",
       alt: "torcida",
     },
-    // Adicione mais imagens conforme necessário
   ];
-
-  // Componentes de Navegação Personalizados
   const CustomPrevArrow = (props) => {
     const { onClick } = props;
     return (
@@ -50,7 +46,6 @@ export default function Carousel() {
     );
   };
 
-  // Configurações do Slider
   const settings = {
     dots: true,
     infinite: true,
@@ -90,7 +85,7 @@ export default function Carousel() {
                 src={image.src}
                 alt={image.alt}
                 layout="fill"
-                objectFit="cover" // Usando object-cover
+                objectFit="cover"
                 className="rounded-lg"
                 priority={index === 0}
               />
@@ -98,8 +93,6 @@ export default function Carousel() {
           </div>
         ))}
       </Slider>
-      {/* Dots de Navegação */}
-      {/* O appendDots já está manipulando a posição dos dots */}
     </div>
   );
 }

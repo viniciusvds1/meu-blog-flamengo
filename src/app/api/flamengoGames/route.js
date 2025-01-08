@@ -1,5 +1,3 @@
-// src/app/api/flamengoGames/route.js
-
 import { NextResponse } from 'next/server';
 import { getFlamengoTeamId } from '@/utils/getFlamengoTeamId';
 
@@ -26,7 +24,6 @@ export async function GET(req) {
   return NextResponse.json({ resultados, proximosJogos }, { status: 200 });
 }
 
-// Funções auxiliares (ajustadas para retornar múltiplos jogos)
 async function fetchUltimosJogos(teamId, last = 1) {
   const API_KEY = process.env.RAPIDAPI_KEY;
   const url = `https://api-football-v1.p.rapidapi.com/v3/fixtures?team=${teamId}&last=${last}`;
