@@ -4,9 +4,7 @@ import Image from 'next/image';
 import LastResultAndNextGame from '@/components/LastResultAndNextGame';
 import NewsletterSignup from '@/components/NewsletterSignup';
 import SearchBar from '@/components/SearchBar';
-import AdBanner from '@/components/_AdsBanner';
 import NoticiasSection from '@/components/NoticiasSection';
-import AdSenseComponent from '@/components/AdSenseComponent';
 
 export default async function Home() {
   // Buscar notícias iniciais no servidor
@@ -21,7 +19,6 @@ export default async function Home() {
     <div className="bg-base-100 min-h-screen">
       <div className="container mx-auto px-4">
         {/* Hero Banner */}
-        <AdSenseComponent />
         <div className="relative my-8">
           <Image
             src="/assets/banner.jpeg"

@@ -6,7 +6,7 @@ import { Inter } from "next/font/google";
 import GoogleAdsense from "@/components/GoogleAdsense";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import InbendaScripts from "@/components/InbedaScripts"
-import AdSenseIntegration from "@/components/AdSenseIntegration"
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -45,7 +45,6 @@ export default function RootLayout({ children }) {
         <Footer />
       </body>
       <InbendaScripts/>
-      <AdSenseIntegration />
       <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} />
       <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GTM_ID}/>
     </html>
