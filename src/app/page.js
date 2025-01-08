@@ -4,9 +4,7 @@ import Image from 'next/image';
 import LastResultAndNextGame from '@/components/LastResultAndNextGame';
 import NewsletterSignup from '@/components/NewsletterSignup';
 import SearchBar from '@/components/SearchBar';
-import AdBanner from '@/components/_AdsBanner';
 import NoticiasSection from '@/components/NoticiasSection';
-import AdSenseComponent from '@/components/AdSenseComponent';
 
 export default async function Home() {
   // Buscar notícias iniciais no servidor
