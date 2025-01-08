@@ -1,4 +1,3 @@
-// src/utils/getFlamengoTeamId.js
 export async function getFlamengoTeamId() {
     const API_KEY = process.env.RAPIDAPI_KEY;
     const searchTeamUrl = `https://api-football-v1.p.rapidapi.com/v3/teams?search=Flamengo`;
@@ -21,7 +20,6 @@ export async function getFlamengoTeamId() {
         throw new Error('Time não encontrado');
       }
   
-      // Encontrar o time exato "Flamengo"
       const fluminenseTeam = data.response.find(team => team.team.name.toLowerCase() === 'flamengo');
   
       if (!fluminenseTeam) {

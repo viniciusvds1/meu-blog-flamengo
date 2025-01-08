@@ -1,4 +1,3 @@
-// components/NewCard.js
 'use client'
 
 import Image from 'next/image';
@@ -38,25 +37,19 @@ export default function NewsCard({ noticia }) {
       )}
 
       <div className="card-body">
-        {/* Categoria */}
         {category && (
            
           <div className="badge badge-primary">  {category}</div>
         )}
 
-        {/* Título */}
         <h1 className="card-title">
           {typeof title === 'string' ? title : title[0].text}
         </h1>
-
-        {/* Data */}
         {date && (
           <div className="text-sm text-gray-500">
             {formatDate(date)}
           </div>
         )}
-
-        {/* Conteúdo */}
         <div className="mt-2 line-clamp-3">
           <PrismicRichText 
             field={content}
@@ -67,8 +60,6 @@ export default function NewsCard({ noticia }) {
             }}
           />
         </div>
-
-        {/* Botão Ler Mais */}
         <div className="card-actions justify-end mt-4">
         <Link href={`/noticias/${noticia.uid}`} className="btn btn-primary btn-sm">
             <p>Ler mais</p>

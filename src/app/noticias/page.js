@@ -1,4 +1,3 @@
-// src/app/noticias/page.js
 import React from 'react';
 import { client } from '@/prismic';
 import Link from 'next/link';
@@ -10,7 +9,6 @@ const ITEMS_PER_PAGE = 6;
 export default async function Noticias({ searchParams }) {
   const page = parseInt(searchParams.page) || 1;
   
-  // Obtendo dados do Prismic ordenados pela data de publicação
   const response = await client.getByType('noticias', {
     orderings: [{ field: 'document.first_publication_date', direction: 'desc' }],
     pageSize: ITEMS_PER_PAGE,
@@ -51,7 +49,6 @@ export default async function Noticias({ searchParams }) {
           ))}
         </div>
 
-        {/* Paginação */}
         <div className="flex justify-center items-center gap-4 mt-8">
           {page > 1 && (
             <Link href={`/noticias?page=${page - 1}`}>

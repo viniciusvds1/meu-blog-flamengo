@@ -1,4 +1,3 @@
-// app/page.js
 import { client } from '../prismic';
 import Image from 'next/image';
 import LastResultAndNextGame from '@/components/LastResultAndNextGame';
@@ -7,7 +6,6 @@ import SearchBar from '@/components/SearchBar';
 import NoticiasSection from '@/components/NoticiasSection';
 
 export default async function Home() {
-  // Buscar notícias iniciais no servidor
   const noticiasResponse = await client.getByType('noticias', {
     orderings: [
       { field: 'document.first_publication_date', direction: 'desc' },
@@ -18,7 +16,6 @@ export default async function Home() {
   return (
     <div className="bg-base-100 min-h-screen">
       <div className="container mx-auto px-4">
-        {/* Hero Banner */}
         <div className="relative my-8">
           <Image
             src="/assets/banner.jpeg"
@@ -38,7 +35,6 @@ export default async function Home() {
         <SearchBar />
 
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Sidebar */}
           <div className="w-full md:w-1/4">
             <div className="sticky top-4">
               <LastResultAndNextGame />
@@ -46,7 +42,6 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Main Content */}
           <div className="w-full md:w-3/4">
             <NoticiasSection initialNoticias={noticiasResponse.results} />
           </div>

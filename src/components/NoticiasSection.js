@@ -56,7 +56,7 @@ export default function NoticiasSection({ initialNoticias }) {
   const handleLoadMore = () => {
     const nextPage = page + 1;
     setPage(nextPage);
-    fetchNoticias(nextPage, categoria); // Passa a categoria atual
+    fetchNoticias(nextPage, categoria); 
   };
 
   return (

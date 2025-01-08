@@ -43,7 +43,6 @@ export default function Resultados() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      {/* Últimos Jogos */}
       <h1 className="text-4xl font-bold mb-6 text-center">Últimos Resultados do Flamengo</h1>
       {resultados.length === 0 ? (
         <p className="text-center">Nenhum resultado disponível no momento.</p>
@@ -60,9 +59,7 @@ export default function Resultados() {
                   : 'bg-gray-100 border border-gray-400'
               }`}
             >
-              {/* Placar e Times com Logos */}
               <div className="flex justify-center items-center">
-                {/* Logo Flamengo */}
                 <div className="w-8 h-8 relative">
                   <Image
                     src={resultado.flamengoBadge}
@@ -71,17 +68,13 @@ export default function Resultados() {
                     style={{ objectFit: 'contain' }}
                   />
                 </div>
-                {/* Nome Flamengo */}
                 <span className="font-semibold text-lg mx-2 w-28 text-center">
                   Flamengo
                 </span>
-                {/* Placar */}
                 <span className="text-3xl font-bold">{resultado.placar}</span>
-                {/* Nome Adversário */}
                 <span className="font-semibold text-lg mx-2 w-28 text-center">
                   {resultado.adversario}
                 </span>
-                {/* Logo Adversário */}
                 <div className="w-8 h-8 relative">
                   <Image
                     src={resultado.adversarioBadge}
@@ -91,7 +84,6 @@ export default function Resultados() {
                   />
                 </div>
               </div>
-              {/* Data, Local e Campeonato */}
               <div className="text-sm text-gray-600 mt-1 text-center">
                 {resultado.data}, {resultado.local}, {resultado.campeonato}
               </div>
@@ -100,7 +92,6 @@ export default function Resultados() {
         </div>
       )}
 
-      {/* Próximos Jogos */}
       <h2 className="text-3xl font-bold mt-12 mb-6 text-center">Próximos Jogos do Flamengo</h2>
       {proximosJogos.length === 0 ? (
         <p className="text-center">Nenhum próximo jogo disponível no momento.</p>
@@ -111,9 +102,7 @@ export default function Resultados() {
               key={jogo.id}
               className="p-4 rounded shadow bg-gray-100 border border-gray-400"
             >
-              {/* Placar e Times com Logos */}
               <div className="flex justify-center items-center">
-                {/* Logo Flamengo */}
                 <div className="w-8 h-8 relative">
                   <Image
                     src={jogo.flamengoBadge}
@@ -122,17 +111,13 @@ export default function Resultados() {
                     style={{ objectFit: 'contain' }}
                   />
                 </div>
-                {/* Nome Flamengo */}
                 <span className="font-semibold text-lg mx-2 w-28 text-center">
                   Flamengo
                 </span>
-                {/* vs */}
                 <span className="text-lg font-bold mx-2 w-12 text-center">vs</span>
-                {/* Nome Adversário */}
                 <span className="font-semibold text-lg mx-2 w-28 text-center">
                   {jogo.adversario}
                 </span>
-                {/* Logo Adversário */}
                 <div className="w-8 h-8 relative">
                   <Image
                     src={jogo.adversarioBadge}
@@ -142,7 +127,6 @@ export default function Resultados() {
                   />
                 </div>
               </div>
-              {/* Data, Local e Campeonato */}
               <div className="text-sm text-gray-600 mt-1 text-center">
                 {jogo.data}, {jogo.horario}, {jogo.campeonato}
               </div>
