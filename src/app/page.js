@@ -4,7 +4,7 @@ import LastResultAndNextGame from '@/components/LastResultAndNextGame';
 import NewsletterSignup from '@/components/NewsletterSignup';
 import SearchBar from '@/components/SearchBar';
 import NoticiasSection from '@/components/NoticiasSection';
-
+import AddBanner from '@/components/AddBanner'
 export default async function Home() {
   const noticiasResponse = await client.getByType('noticias', {
     orderings: [
@@ -12,7 +12,6 @@ export default async function Home() {
     ],
     pageSize: 6,
   });
-
   return (
     <div className="bg-base-100 min-h-screen">
       <div className="container mx-auto px-4">
@@ -39,6 +38,9 @@ export default async function Home() {
             <div className="sticky top-4">
               <LastResultAndNextGame />
               <NewsletterSignup />
+              <AddBanner 
+                adClient={`ca-pub-${process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID}`}
+        adSlot="0987654321" />
             </div>
           </div>
 
