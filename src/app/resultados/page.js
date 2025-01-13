@@ -8,31 +8,38 @@ export default function Resultados() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch('/api/flamengoGames?last=5&next=5');
+        if (!res.ok) {
+          throw new Error('Falha ao buscar dados da API');
+        }
+        const fetchedData = await res.json();
+
+        setData(fetchedData);
+        localStorage.setItem('flamengoGamesData', JSON.stringify(fetchedData));
+        setLoading(false);
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+        setLoading(false);
+      }
+    };
+
     const storedData = localStorage.getItem('flamengoGamesData');
 
     if (storedData) {
       setData(JSON.parse(storedData));
       setLoading(false);
     } else {
-      const fetchData = async () => {
-        try {
-          const res = await fetch('/api/flamengoGames?last=5&next=5');
-          if (!res.ok) {
-            throw new Error('Falha ao buscar dados da API');
-          }
-          const fetchedData = await res.json();
-
-          setData(fetchedData);
-          localStorage.setItem('flamengoGamesData', JSON.stringify(fetchedData));
-          setLoading(false);
-        } catch (error) {
-          console.error('Erro ao buscar dados:', error);
-          setLoading(false);
-        }
-      };
-
       fetchData();
     }
+
+    
+    const interval = setInterval(() => {
+      fetchData();
+    }, 8 * 60 * 60 * 1000); 
+
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) {
