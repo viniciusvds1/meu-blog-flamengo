@@ -139,8 +139,7 @@ export async function generateMetadata({ params }) {
       description: 'A notícia que você está procurando não foi encontrada.',
     };
   }
-
-  const titulo = noticia.data.title;
+  const titulo = noticia.data.title[0].text;
   const descricao = noticia.data.description || 'Leia mais sobre esta notícia.';
   const imagem = noticia.data.image?.url;
 
