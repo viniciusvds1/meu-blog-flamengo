@@ -40,29 +40,31 @@ const getTeamAbbreviation = (teamName) => {
 const LastResultAndNextGame = () => {
   const [data, setData] = useState(null);
 
+  const fetchData = async () => {
+    try {
+      const res = await fetch('/api/flamengoGames?last=1&next=5');
+      if (!res.ok) {
+        throw new Error('Falha ao buscar dados da API');
+      }
+      const fetchedData = await res.json();
+
+      setData(fetchedData);
+      localStorage.setItem('flamengoGamesData', JSON.stringify(fetchedData));
+    } catch (error) {
+      console.error('Erro ao buscar dados:', error);
+    }
+  };
+
   useEffect(() => {
     const storedData = localStorage.getItem('flamengoGamesData');
-
     if (storedData) {
       setData(JSON.parse(storedData));
-    } else {
-      const fetchData = async () => {
-        try {
-          const res = await fetch('/api/flamengoGames?last=1&next=1');
-          if (!res.ok) {
-            throw new Error('Falha ao buscar dados da API');
-          }
-          const fetchedData = await res.json();
-
-          setData(fetchedData);
-          localStorage.setItem('flamengoGamesData', JSON.stringify(fetchedData));
-        } catch (error) {
-          console.error('Erro ao buscar dados:', error);
-        }
-      };
-
-      fetchData();
     }
+
+    fetchData();
+    const interval = setInterval(fetchData, 36000000); 
+
+    return () => clearInterval(interval);
   }, []);
 
   if (!data) {

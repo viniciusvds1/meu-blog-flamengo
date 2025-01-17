@@ -34,12 +34,9 @@ export default function Resultados() {
       fetchData();
     }
 
-    
-    const interval = setInterval(() => {
-      fetchData();
-    }, 8 * 60 * 60 * 1000); 
-
-    return () => clearInterval(interval);
+        const interval = setInterval(fetchData, 36000000); 
+   
+       return () => clearInterval(interval);
   }, []);
 
   if (loading) {
