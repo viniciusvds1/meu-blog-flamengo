@@ -74,6 +74,8 @@ export default function NoticiasSection({ initialNoticias }) {
           <option>Jogos</option>
           <option>Contratações</option>
           <option>Bastidores</option>
+          <option>Departamento Medico</option>
+          <option>Coletivas</option>
         </select>
       </div>
 
