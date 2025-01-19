@@ -1,4 +1,5 @@
-"use client"
+// components/InbedaScripts.js
+'use client';
 import Script from 'next/script';
 
 const InbendaScripts = () => {
@@ -6,7 +7,7 @@ const InbendaScripts = () => {
     <>
       <Script
         id="iubenda-config"
-        strategy="beforeInteractive"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
             var _iub = _iub || [];
@@ -21,19 +22,21 @@ const InbendaScripts = () => {
       />
       <Script
         src="https://cs.iubenda.com/autoblocking/3887130.js"
-        strategy="beforeInteractive"
+        strategy="afterInteractive"
+        id="iubenda-cs"
       />
       <Script
         src="//cdn.iubenda.com/cs/gpp/stub.js"
         strategy="lazyOnload"
+        id="iubenda-stub"
       />
       <Script
         src="//cdn.iubenda.com/cs/iubenda_cs.js"
         strategy="lazyOnload"
-        charset="UTF-8"
+        id="iubenda-main"
         async
       />
- <Script
+      <Script
         id="gtm-script"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
@@ -46,17 +49,15 @@ const InbendaScripts = () => {
           `,
         }}
       />
-      
       <noscript>
         <iframe
-          src={`https://www.googletagmanager.com/ns.html?id=GTM-TKDPTXNH`}
+          src="https://www.googletagmanager.com/ns.html?id=GTM-TKDPTXNH"
           height="0"
           width="0"
           style={{ display: 'none', visibility: 'hidden' }}
-        ></iframe>
+        />
       </noscript>
     </>
-    
   );
 };
 
