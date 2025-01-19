@@ -31,7 +31,7 @@ export default async function Home() {
         <section className="relative mb-12">
           <div className="relative aspect-[21/9] md:aspect-[3/1] w-full overflow-hidden rounded-xl">
             <Image
-              src="/assets/banner.jpeg"
+              src="/assets/bannerubro.png"
               alt="Banner do Flamengo"
               fill
               className="object-cover"
