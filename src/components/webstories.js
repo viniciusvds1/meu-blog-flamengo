@@ -4,12 +4,12 @@ import React from 'react';
 
 const WebStory = ({ embedURL }) => {
   return (
-    <div className="web-story-container w-full max-w-md mx-auto h-[600px]">
+    <div className="web-story-container w-full max-w-md mx-auto">
       <amp-story-player 
         className="w-full h-full"
         layout="responsive"
         width="360"
-        height="600">
+        height="0">
         <a href={embedURL}></a>
       </amp-story-player>
     </div>
