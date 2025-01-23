@@ -108,7 +108,7 @@ export default function ResultadosFlamengo() {
           </span>
         </div>
         <div className="flex flex-row items-center">
-          <span className="text-xl w-[46px] w-auto font-black text-gray-900 ">
+          <span className="text-xl w-[46px]  font-black text-gray-900">
             {resultado.placar}
           </span>
         </div>
