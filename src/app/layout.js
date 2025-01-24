@@ -39,16 +39,17 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
-      <div id="fb-root"></div>
       <body className={inter.className}>
         <Analytics />
         <Navbar />
         {children}
+        <div id="fb-root"></div>
         <Footer />
-      </body>
+        
       <WebStory 
         embedURL="https://www.orubronegronews.com/"
       />
+      </body>
       <InbendaScripts/>
       <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} />
       <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GTM_ID}/>
