@@ -1,8 +1,10 @@
+
 import React from 'react';
 import { client } from '@/prismic';
 import { PrismicRichText } from '@prismicio/react';
 import Image from 'next/image';
 import { Calendar, Share2, ChevronLeft } from 'lucide-react';
+import { YouTubeEmbed } from '@next/third-parties/google';
 import ShareButton from '@/components/ShareButtom';
 import Link from 'next/link';
 
@@ -23,27 +25,16 @@ const VideoEmbed = ({ embed }) => {
   };
 
   const youtubeId = extractYouTubeId(embed.embed_url);
-  
   if (youtubeId) {
+    
     return (
       <div className="w-full max-w-full overflow-hidden mb-6">
-        <div className="relative w-full aspect-video">
-          <iframe
-            width="100%"
-            height="100%"
-            src={`https://www.youtube.com/embed/${youtubeId}`}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-            className="absolute inset-0"
-          />
-        </div>
-      </div>
-    );
+    <div className="relative w-full aspect-video">
+      <YouTubeEmbed videoId={youtubeId} opts={{ playerVars: { autoplay: 1 } }} />  
+    </div>
+  </div>
+    )
   }
-
-  // Fallback to original embed method
   return (
     <div className="w-full max-w-full overflow-hidden mb-6">
       <div 
