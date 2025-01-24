@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Calendar, Share2, ChevronLeft } from 'lucide-react';
 import { YouTubeEmbed } from '@next/third-parties/google';
 import ShareButton from '@/components/ShareButtom';
+import FacebookComments from '@/components/FacebookComments';
 import Link from 'next/link';
 
 const VideoEmbed = ({ embed }) => {
@@ -171,14 +172,7 @@ export default async function Noticia({ params }) {
           </div>
         </article>
       </div>
-      <div className="mt-8 pt-6 border-t border-gray-200">
-        <div 
-          className="fb-comments" 
-          data-href={typeof window !== 'undefined' ? window.location.href : ''} 
-          data-width="100%" 
-          data-numposts="5"
-        ></div>
-      </div>
+      <FacebookComments />
     </div>
   );
 }
