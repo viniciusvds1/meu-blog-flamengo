@@ -6,6 +6,57 @@ import { Calendar, Share2, ChevronLeft } from 'lucide-react';
 import ShareButton from '@/components/ShareButtom';
 import Link from 'next/link';
 
+const VideoEmbed = ({ embed }) => {
+  if (!embed) {
+    console.error('No embed object provided');
+    return null;
+  }
+
+  if (!embed.html) {
+    console.error('No HTML found in embed object', embed);
+    return null;
+  }
+
+  const extractYouTubeId = (url) => {
+    const match = url.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    return match ? match[1] : null;
+  };
+
+  const youtubeId = extractYouTubeId(embed.embed_url);
+  
+  if (youtubeId) {
+    return (
+      <div className="w-full max-w-full overflow-hidden mb-6">
+        <div className="relative w-full aspect-video">
+          <iframe
+            width="100%"
+            height="100%"
+            src={`https://www.youtube.com/embed/${youtubeId}`}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            className="absolute inset-0"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // Fallback to original embed method
+  return (
+    <div className="w-full max-w-full overflow-hidden mb-6">
+      <div 
+        className="relative w-full aspect-video"
+        dangerouslySetInnerHTML={{ 
+          __html: embed.html.replace(/width="\d+"/, 'width="100%"')
+                             .replace(/height="\d+"/, 'height="100%"')
+        }}
+      />
+    </div>
+  );
+};
+
 const richTextComponents = {
   heading1: ({ children }) => (
     <h1 className="text-4xl font-bold text-red-600 mb-6 leading-tight">{children}</h1>
@@ -30,6 +81,13 @@ const richTextComponents = {
       {children}
     </blockquote>
   ),
+  // Add a custom embed component
+  embed: ({ node }) => {
+    if (node.oembed && node.oembed.type === 'video') {
+      return <VideoEmbed embed={node.oembed} />;
+    }
+    return null;
+  }
 };
 
 export default async function Noticia({ params }) {
@@ -122,15 +180,14 @@ export default async function Noticia({ params }) {
           </div>
         </article>
       </div>
-      <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-width="" data-numposts="5"></div>
       <div className="mt-8 pt-6 border-t border-gray-200">
-  <div 
-    className="fb-comments" 
-    data-href={typeof window !== 'undefined' ? window.location.href : ''} 
-    data-width="100%" 
-    data-numposts="5"
-  ></div>
-</div>
+        <div 
+          className="fb-comments" 
+          data-href={typeof window !== 'undefined' ? window.location.href : ''} 
+          data-width="100%" 
+          data-numposts="5"
+        ></div>
+      </div>
     </div>
   );
 }
