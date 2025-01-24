@@ -122,6 +122,15 @@ export default async function Noticia({ params }) {
           </div>
         </article>
       </div>
+      <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-width="" data-numposts="5"></div>
+      <div className="mt-8 pt-6 border-t border-gray-200">
+  <div 
+    className="fb-comments" 
+    data-href={typeof window !== 'undefined' ? window.location.href : ''} 
+    data-width="100%" 
+    data-numposts="5"
+  ></div>
+</div>
     </div>
   );
 }

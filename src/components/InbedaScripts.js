@@ -1,10 +1,22 @@
 // components/InbedaScripts.js
 'use client';
 import Script from 'next/script';
+import { useEffect } from 'react';
 
 const InbendaScripts = () => {
+  useEffect(() => {
+    // Load Facebook SDK
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v12.0&appId=1277752713485967";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  }, []);
   return (
     <>
+    <Script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v22.0&appId=1277752713485967"></Script>
       <Script
         id="iubenda-config"
         strategy="afterInteractive"
