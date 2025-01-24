@@ -39,6 +39,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
+      <div id="fb-root"></div>
       <body className={inter.className}>
         <Analytics />
         <Navbar />
