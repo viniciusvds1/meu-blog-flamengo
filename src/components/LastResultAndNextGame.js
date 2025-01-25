@@ -144,7 +144,7 @@ const LastResultAndNextGame = () => {
       setIsLoading(false);
     }
   };
-
+  
   useEffect(() => {
     const storedData = localStorage.getItem('flamengoGamesData');
     if (storedData) {
@@ -200,10 +200,10 @@ const LastResultAndNextGame = () => {
         </div>
 
         <div className="flex flex-wrap justify-center gap-4">
-          <GameInfo icon={Calendar} text={lastResult.data} />
-          <GameInfo icon={Clock} text={lastResult.horario} />
-          <GameInfo icon={Trophy} text={lastResult.campeonato} />
-        </div>
+      <GameInfo icon={Calendar} text={lastResult.data} />
+      {lastResult.horario && <GameInfo icon={Clock} text={lastResult.horario} />}
+      <GameInfo icon={Trophy} text={lastResult.campeonato} />
+    </div>
       </GameSection>
 
       {/* Divisor */}
