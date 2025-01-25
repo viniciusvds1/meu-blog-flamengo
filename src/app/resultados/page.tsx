@@ -1,11 +1,11 @@
-'use client';
+'use client'; 
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { RefreshCw, Calendar, Trophy } from 'lucide-react';
+import FlamengoStatsDashboard from '@/components/FlamengoStatsDashboard';
 
-// Define TypeScript interfaces for better type safety
 interface Resultado {
   id: string;
   resultado: 'V' | 'D' | 'E';
@@ -28,11 +28,42 @@ interface ProximoJogo {
   campeonato: string;
 }
 
+interface Tabela {
+  nome: string;
+  tabela: {
+    posicao: number;
+    time: string;
+    pontos: number;
+    jogos: number;
+    vitorias: number;
+    empates: number;
+    derrotas: number;
+    logo: string;
+  }[];
+}
+
+interface Estatisticas {
+  golsMarcados: number;
+  golsSofridos: number;
+  cleanSheets: number;
+  mediaGolsPorJogo: string;
+}
+
 export default function ResultadosFlamengo() {
   const [data, setData] = useState<{
     resultados: Resultado[];
     proximosJogos: ProximoJogo[];
-  }>({ resultados: [], proximosJogos: [] });
+    tabelaBrasileiro: Tabela | null;
+    tabelaCarioca: Tabela | null;
+    estatisticasTime: Estatisticas | null;
+  }>({
+    resultados: [],
+    proximosJogos: [],
+    tabelaBrasileiro: null,
+    tabelaCarioca: null,
+    estatisticasTime: null,
+  });
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -42,11 +73,11 @@ export default function ResultadosFlamengo() {
         const res = await fetch('/api/flamengoGames?last=5&next=5', {
           cache: 'no-store', // Ensures fresh data on each fetch
         });
-        
+
         if (!res.ok) {
           throw new Error('Falha ao buscar dados da API');
         }
-        
+
         const fetchedData = await res.json();
         setData(fetchedData);
         localStorage.setItem('flamengoGamesData', JSON.stringify(fetchedData));
@@ -180,6 +211,7 @@ export default function ResultadosFlamengo() {
       </div>
     </motion.div>
   );
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -233,6 +265,7 @@ export default function ResultadosFlamengo() {
           </div>
         )}
       </section>
+        <FlamengoStatsDashboard />
     </div>
   );
 }
