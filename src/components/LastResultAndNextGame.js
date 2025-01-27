@@ -187,7 +187,7 @@ const LastResultAndNextGame = () => {
       <GameSection title="Último Resultado">
         <div className="flex items-center justify-center gap-6">
           <TeamDisplay 
-            badge={lastResult.flamengoBadge}
+            badge={lastResult.flamengoBadge ?? '/assets/flamengo.png'}
             name="Flamengo"
             abbreviation={getTeamAbbreviation('Flamengo')}
           />
@@ -213,7 +213,7 @@ const LastResultAndNextGame = () => {
       <GameSection title="Próximo Jogo">
         <div className="flex items-center justify-center gap-6">
           <TeamDisplay 
-            badge={nextGame.flamengoBadge}
+            badge={nextGame.flamengoBadge ?? '/assets/flamengo.png'}
             name="Flamengo"
             abbreviation={getTeamAbbreviation('Flamengo')}
           />

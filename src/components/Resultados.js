@@ -137,7 +137,7 @@ export default function Resultados() {
               <div className="w-16 h-16 relative">
                 {resultado.flamengoBadge ? (
                   <Image
-                    src={resultado.flamengoBadge}
+                    src={resultado?.flamengoBadge ?? '/assets/flamengo.png'}
                     alt="Flamengo Logo"
                     fill
                     style={{ objectFit: 'contain' }}
@@ -203,9 +203,9 @@ export default function Resultados() {
               }`}
             >
               <div className="w-16 h-16 relative">
-                {jogo.flamengoBadge ? (
+                {jogo?.flamengoBadge ? (
                   <Image
-                    src={jogo.flamengoBadge}
+                    src={jogo?.flamengoBadge ?? '/assets/flamengo.png'}
                     alt="Flamengo Logo"
                     fill
                     style={{ objectFit: 'contain' }}
