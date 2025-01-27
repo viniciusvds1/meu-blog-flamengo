@@ -31,8 +31,17 @@ const FacebookComments = () => {
   }, []);
 
   return (
-    <div className="fb-comments" data-href={currentUrl} data-width="100%" data-numposts="5"></div>
-
+    <div className="container mx-auto px-4 max-w-4xl mt-8">
+      <div className="bg-white shadow-lg rounded-xl overflow-hidden p-6 md:p-8">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-6">Comentários</h2>
+        <div 
+          className="fb-comments" 
+          data-href={currentUrl} 
+          data-width="100%" 
+          data-numposts="5"
+        ></div>
+      </div>
+    </div>
   );
 };
 
