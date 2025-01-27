@@ -127,7 +127,7 @@ export default function ResultadosFlamengo() {
       <div className="flex justify-center items-center space-x-2">
         <div className="w-10 h-10 relative flex-shrink-0">
           <Image
-            src={resultado.flamengoBadge}
+            src={resultado.flamengoBadge ?? '/assets/flamengo.png'}
             alt="Flamengo Logo"
             fill
             className="object-contain"
@@ -177,7 +177,7 @@ export default function ResultadosFlamengo() {
       <div className="flex justify-center items-center space-x-2">
         <div className="w-10 h-10 relative flex-shrink-0">
           <Image
-            src={jogo.flamengoBadge}
+            src={jogo.flamengoBadge ?? '/assets/flamengo.png'}
             alt="Flamengo Logo"
             fill
             className="object-contain"
