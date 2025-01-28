@@ -20,7 +20,7 @@ export const metadata = {
     siteName: "Blog do Flamengo",
     images: [
       {
-        url: "https://www.ogubronegronews.com/og-image.jpg",
+        url: "assets/logooficialrubronews.png",
         width: 800,
         height: 600,
       },
@@ -30,9 +30,11 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Meu Blog de Notícias",
+    title: "Blog de notícias do Flamengo",
     description: "As últimas notícias e atualizações.",
-    images: ["https://www.ogubronegronews.com/twitter-image.jpg"],
+    images: [{
+      url: "assets/logooficialrubronews.png"
+    }],
   },
 };
 
