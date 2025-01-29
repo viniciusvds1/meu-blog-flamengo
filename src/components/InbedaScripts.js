@@ -8,7 +8,7 @@ const InbendaScripts = () => {
     <>
       <Script
         id="iubenda-config"
-        strategy="afterInteractive"
+         strategy="lazyOnload"
         dangerouslySetInnerHTML={{
           __html: `
             var _iub = _iub || [];
@@ -24,7 +24,7 @@ const InbendaScripts = () => {
       <Script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v22.0&appId=1277752713485967"/>
       <Script
         src="https://cs.iubenda.com/autoblocking/3887130.js"
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         id="iubenda-cs"
       />
       <Script
@@ -33,14 +33,8 @@ const InbendaScripts = () => {
         id="iubenda-stub"
       />
       <Script
-        src="//cdn.iubenda.com/cs/iubenda_cs.js"
-        strategy="lazyOnload"
-        id="iubenda-main"
-        async
-      />
-      <Script
         id="gtm-script"
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         dangerouslySetInnerHTML={{
           __html: `
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

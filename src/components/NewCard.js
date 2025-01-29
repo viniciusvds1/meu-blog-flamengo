@@ -5,6 +5,7 @@ import { PrismicRichText } from '@prismicio/react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import Link from 'next/link';
+import OptimizedImage from './OptimizedImage';
 
 export default function NewsCard({ noticia }) {
   if (!noticia?.data) {
@@ -23,34 +24,44 @@ export default function NewsCard({ noticia }) {
   };
 
   return (
-    <div className="card bg-base-200 shadow-xl">
+    <article className="card bg-base-200 shadow-xl h-full flex flex-col">
       {image?.url && (
-        <figure className="relative w-full h-48">
-          <Image
-            src={image.url}
-            alt={image.alt || 'Imagem da notícia'}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        <figure className="relative w-full aspect-video">
+          <OptimizedImage 
+            src={image.url} 
+            alt={image.alt || `Imagem da notícia: ${typeof title === 'string' ? title : title[0]?.text}`} 
+            priority={false}
           />
         </figure>
       )}
 
-      <div className="card-body">
+      <div className="card-body flex-grow">
         {category && (
-           
-          <div className="badge badge-primary">  {category}</div>
-        )}
-
-        <h1 className="card-title">
-          {typeof title === 'string' ? title : title[0].text}
-        </h1>
-        {date && (
-          <div className="text-sm text-gray-500">
-            {formatDate(date)}
+          <div className="flex gap-2">
+            <span 
+              className="badge badge-primary"
+              role="status" 
+              aria-label={`Categoria: ${category}`}
+            >
+              {category}
+            </span>
           </div>
         )}
-        <div className="mt-2 line-clamp-3">
+
+        <h2 className="card-title line-clamp-2">
+          {typeof title === 'string' ? title : title?.[0]?.text || 'Título não disponível'}
+        </h2>
+        
+        {date && (
+          <time 
+            dateTime={new Date(date).toISOString()} 
+            className="text-sm text-gray-500"
+          >
+            {formatDate(date)}
+          </time>
+        )}
+
+        <div className="mt-2 line-clamp-3 flex-grow">
           <PrismicRichText 
             field={content}
             components={{
@@ -60,12 +71,17 @@ export default function NewsCard({ noticia }) {
             }}
           />
         </div>
+
         <div className="card-actions justify-end mt-4">
-        <Link href={`/noticias/${noticia.uid}`} className="btn btn-primary btn-sm">
-            <p>Ler mais</p>
+          <Link 
+            href={`/noticias/${noticia.uid}`} 
+            className="btn btn-primary btn-sm"
+            aria-label={`Ler mais sobre ${typeof title === 'string' ? title : title?.[0]?.text}`}
+          >
+            Ler mais
           </Link>
         </div>
       </div>
-    </div>
+    </article>
   );
 }

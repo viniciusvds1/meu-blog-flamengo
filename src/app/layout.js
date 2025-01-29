@@ -44,17 +44,18 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <Analytics />
         <Navbar />
-        {children}
+        <main className="min-h-screen">
+          {children}
+        </main>
         <div id="fb-root"></div>
         <Footer />
-        
-      <WebStory 
-        embedURL="https://www.orubronegronews.com/"
-      />
+        <WebStory 
+          embedURL="https://www.orubronegronews.com/"
+        />
+        <InbendaScripts/>
+        <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} />
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GTM_ID}/>
       </body>
-      <InbendaScripts/>
-      <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} />
-      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GTM_ID}/>
     </html>
   );
 }

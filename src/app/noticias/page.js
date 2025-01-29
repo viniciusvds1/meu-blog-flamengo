@@ -1,7 +1,7 @@
 import React from 'react';
 import { client } from '@/prismic';
 import Link from 'next/link';
-import Image from 'next/image';
+import OptimizedImage from '@/components/OptimizedImage';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const ITEMS_PER_PAGE = 6;
@@ -16,7 +16,6 @@ export default async function Noticias({ searchParams }) {
   });
 
   const noticias = response.results;
-  
   const totalPages = response.total_pages;
 
   return (
@@ -26,36 +25,41 @@ export default async function Noticias({ searchParams }) {
         
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {noticias.map((noticia) => (
-            <div key={noticia.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
+            <article key={noticia.id} className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full">
               {noticia.data.image && (
-                <div className="relative w-full h-48">
-                  <Image
+                <div className="mb-4">
+                  <OptimizedImage
                     src={noticia.data.image.url}
                     alt={noticia.data.image.alt || noticia.data.title[0].text}
-                    fill
-                    className="object-cover"
+                    priority={false}
                   />
                 </div>
               )}
-              <div className="p-4">
-                <h2 className="text-xl font-semibold text-gray-800 mb-2">
+              <div className="p-4 flex flex-col flex-grow">
+                <h2 className="text-xl font-semibold text-gray-800 mb-4 line-clamp-2">
                   {noticia.data.title[0].text}
                 </h2>
-                <Link href={`/noticias/${noticia.uid}`}>
-                  <span className="text-red-600 hover:text-red-700">Leia mais</span>
-                </Link>
+                <div className="mt-auto">
+                  <Link 
+                    href={`/noticias/${noticia.uid}`}
+                    className="inline-flex items-center text-red-600 hover:text-red-700 transition-colors"
+                  >
+                    Leia mais
+                  </Link>
+                </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
 
         <div className="flex justify-center items-center gap-4 mt-8">
           {page > 1 && (
-            <Link href={`/noticias?page=${page - 1}`}>
-              <button className="flex items-center text-gray-600 hover:text-red-600 transition-colors">
-                <ChevronLeft size={20} />
-                <span>Anterior</span>
-              </button>
+            <Link 
+              href={`/noticias?page=${page - 1}`}
+              className="flex items-center text-gray-600 hover:text-red-600 transition-colors"
+            >
+              <ChevronLeft size={20} className="mr-1" />
+              <span>Anterior</span>
             </Link>
           )}
 
@@ -64,11 +68,12 @@ export default async function Noticias({ searchParams }) {
           </span>
 
           {page < totalPages && (
-            <Link href={`/noticias?page=${page + 1}`}>
-              <button className="flex items-center text-gray-600 hover:text-red-600 transition-colors">
-                <span>Próxima</span>
-                <ChevronRight size={20} />
-              </button>
+            <Link 
+              href={`/noticias?page=${page + 1}`}
+              className="flex items-center text-gray-600 hover:text-red-600 transition-colors"
+            >
+              <span>Próxima</span>
+              <ChevronRight size={20} className="ml-1" />
             </Link>
           )}
         </div>
