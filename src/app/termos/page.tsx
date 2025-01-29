@@ -22,42 +22,75 @@ export default function Termos() {
 
             <div className="prose prose-lg max-w-none">
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Bem-vindo ao Blog do Flamengo. Ao acessar e utilizar este site, você concorda com os seguintes termos e condições:
+                Bem-vindo ao Blog do Flamengo. Este documento estabelece os termos e condições para o uso do nosso site e serviços relacionados, incluindo a exibição de anúncios através do Google AdSense.
               </p>
 
               <h2 className="text-3xl font-semibold text-gray-800 my-6 leading-tight">
-                1. Uso do Conteúdo
+                1. Uso do Site e Conteúdo
               </h2>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Todo o conteúdo publicado no Blog do Flamengo está protegido por direitos autorais. A reprodução de material deste site é permitida apenas com autorização prévia e citação da fonte.
+                Todo o conteúdo publicado no Blog do Flamengo está protegido por direitos autorais. A reprodução de material deste site é permitida apenas com autorização prévia e citação da fonte. Nos reservamos o direito de modificar ou remover qualquer conteúdo sem aviso prévio.
               </p>
 
               <h2 className="text-3xl font-semibold text-gray-800 my-6 leading-tight">
-                2. Comentários e Interações
+                2. Política de Anúncios
               </h2>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Ao comentar em nosso site, você concorda em não publicar conteúdo ofensivo, ilegal ou que viole direitos de terceiros. Reservamo-nos o direito de moderar ou remover comentários inadequados.
+                Utilizamos o Google AdSense para exibir anúncios em nosso site. Ao utilizar nosso site, você concorda que:
+              </p>
+              <ul className="list-disc pl-6 mb-6 text-lg text-gray-700">
+                <li className="mb-2">O Google e seus parceiros podem coletar e usar dados para personalizar anúncios</li>
+                <li className="mb-2">Cookies podem ser utilizados para exibição de anúncios relevantes</li>
+                <li className="mb-2">Não nos responsabilizamos pelo conteúdo dos anúncios exibidos</li>
+                <li className="mb-2">É proibido clicar nos anúncios de forma fraudulenta ou usar ferramentas automatizadas</li>
+              </ul>
+
+              <h2 className="text-3xl font-semibold text-gray-800 my-6 leading-tight">
+                3. Privacidade e Cookies
+              </h2>
+              <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                Utilizamos cookies e tecnologias similares para melhorar sua experiência e permitir o funcionamento dos serviços de publicidade. Ao utilizar nosso site, você concorda com o uso de cookies conforme descrito em nossa Política de Privacidade.
               </p>
 
               <h2 className="text-3xl font-semibold text-gray-800 my-6 leading-tight">
-                3. Privacidade
+                4. Conteúdo Proibido
               </h2>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Respeitamos sua privacidade. Para mais informações sobre como coletamos e utilizamos seus dados, consulte nossa Política de Privacidade.
+                Não é permitido em nosso site:
+              </p>
+              <ul className="list-disc pl-6 mb-6 text-lg text-gray-700">
+                <li className="mb-2">Conteúdo adulto ou pornográfico</li>
+                <li className="mb-2">Incitação à violência ou discriminação</li>
+                <li className="mb-2">Conteúdo que viole direitos autorais</li>
+                <li className="mb-2">Spam ou conteúdo malicioso</li>
+                <li className="mb-2">Venda de produtos ilegais ou restritos</li>
+              </ul>
+
+              <h2 className="text-3xl font-semibold text-gray-800 my-6 leading-tight">
+                5. Responsabilidade do Usuário
+              </h2>
+              <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                Ao utilizar nosso site, você concorda em:
+              </p>
+              <ul className="list-disc pl-6 mb-6 text-lg text-gray-700">
+                <li className="mb-2">Não interferir com a exibição de anúncios</li>
+                <li className="mb-2">Não utilizar bloqueadores de anúncios</li>
+                <li className="mb-2">Não gerar tráfego artificial ou fraudulento</li>
+                <li className="mb-2">Respeitar os direitos de propriedade intelectual</li>
+              </ul>
+
+              <h2 className="text-3xl font-semibold text-gray-800 my-6 leading-tight">
+                6. Modificações nos Termos
+              </h2>
+              <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                Reservamo-nos o direito de modificar estes termos a qualquer momento. As alterações entrarão em vigor imediatamente após sua publicação. O uso continuado do site após as alterações implica na aceitação dos novos termos.
               </p>
 
               <h2 className="text-3xl font-semibold text-gray-800 my-6 leading-tight">
-                4. Isenção de Responsabilidade
+                7. Contato
               </h2>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                As informações contidas neste site são fornecidas sem garantia de qualquer tipo. Não nos responsabilizamos por eventuais erros ou omissões no conteúdo.
-              </p>
-
-              <h2 className="text-3xl font-semibold text-gray-800 my-6 leading-tight">
-                5. Modificações
-              </h2>
-              <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Reservamo-nos o direito de modificar estes termos a qualquer momento. As alterações entrarão em vigor imediatamente após sua publicação no site.
+                Para questões relacionadas a estes termos ou ao uso de anúncios em nosso site, entre em contato conosco através dos canais disponíveis em nossa página de contato.
               </p>
             </div>
           </div>
@@ -70,6 +103,6 @@ export default function Termos() {
 export function generateMetadata() {
   return {
     title: 'Termos e Condições | Blog do Flamengo',
-    description: 'Termos e condições de uso do Blog do Flamengo.',
+    description: 'Termos e condições de uso do Blog do Flamengo, incluindo políticas de privacidade e publicidade.',
   };
 }
