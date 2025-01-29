@@ -1,13 +1,17 @@
 'use client'
 
-import Image from 'next/image';
+import { memo } from 'react';
 import { PrismicRichText } from '@prismicio/react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import Link from 'next/link';
-import OptimizedImage from './OptimizedImage';
+import dynamic from 'next/dynamic';
 
-export default function NewsCard({ noticia }) {
+const OptimizedImage = dynamic(() => import('./OptimizedImage'), {
+  loading: () => <div className="animate-pulse bg-gray-200 w-full h-full rounded-t-xl" />
+});
+
+const NewsCard = memo(function NewsCard({ noticia, priority = false }) {
   if (!noticia?.data) {
     return null;
   }
@@ -23,19 +27,24 @@ export default function NewsCard({ noticia }) {
     }
   };
 
+  const titleText = typeof title === 'string' ? title : title[0]?.text;
+
   return (
     <article className="card bg-base-200 shadow-xl h-full flex flex-col">
       {image?.url && (
         <figure className="relative w-full aspect-video">
           <OptimizedImage 
             src={image.url} 
-            alt={image.alt || `Imagem da notícia: ${typeof title === 'string' ? title : title[0]?.text}`} 
-            priority={false}
+            alt={image.alt || `Imagem da notícia: ${titleText}`}
+            quality={75}
+            loading={priority ? "eager" : "lazy"}
+            priority={priority}
+            className="rounded-t-xl"
           />
         </figure>
       )}
 
-      <div className="card-body flex-grow">
+      <div className="card-body flex-grow p-4">
         {category && (
           <div className="flex gap-2">
             <span 
@@ -48,35 +57,30 @@ export default function NewsCard({ noticia }) {
           </div>
         )}
 
-        <h2 className="card-title line-clamp-2">
-          {typeof title === 'string' ? title : title?.[0]?.text || 'Título não disponível'}
-        </h2>
-        
-        {date && (
-          <time 
-            dateTime={new Date(date).toISOString()} 
-            className="text-sm text-gray-500"
-          >
-            {formatDate(date)}
-          </time>
-        )}
+        <Link 
+          href={`/noticias/${uid}`} 
+          className="hover:opacity-80 transition-opacity"
+          prefetch={false}
+        >
+          <h2 className="card-title line-clamp-2 text-lg font-bold mb-2">
+            {titleText}
+          </h2>
+        </Link>
 
-        <div className="mt-2 line-clamp-3 flex-grow">
-          <PrismicRichText 
-            field={content}
-            components={{
-              paragraph: ({ children }) => (
-                <p className="text-gray-600">{children}</p>
-              ),
-            }}
-          />
+        <div className="text-sm text-gray-500 mb-3">
+          {date && formatDate(date)}
         </div>
 
-        <div className="card-actions justify-end mt-4">
-          <Link 
-            href={`/noticias/${noticia.uid}`} 
+        <div className="line-clamp-3 text-sm text-gray-600 mb-4">
+          <PrismicRichText field={content} />
+        </div>
+
+        <div className="card-actions justify-end mt-auto">
+          <Link
+            href={`/noticias/${uid}`}
             className="btn btn-primary btn-sm"
-            aria-label={`Ler mais sobre ${typeof title === 'string' ? title : title?.[0]?.text}`}
+            aria-label={`Ler mais sobre: ${titleText}`}
+            prefetch={false}
           >
             Ler mais
           </Link>
@@ -84,4 +88,6 @@ export default function NewsCard({ noticia }) {
       </div>
     </article>
   );
-}
+});
+
+export default NewsCard;

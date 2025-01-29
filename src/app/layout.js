@@ -8,25 +8,31 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import InbendaScripts from "@/components/InbedaScripts"
 import WebStory from "@/components/webstories";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  display: 'swap',
+  preload: true,
+});
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#000000',
+};
 
 export const metadata = {
-  title: "Blog do Flamengo",
-  description: "As últimas notícias e resultados do Flamengo",
+  title: {
+    template: '%s | Blog do Flamengo',
+    default: 'Blog do Flamengo - Notícias e Atualizações do Mengão',
+  },
+  description: 'Acompanhe as últimas notícias, resultados e informações sobre o Clube de Regatas do Flamengo.',
+  metadataBase: new URL('https://www.orubronegronews.com'),
   openGraph: {
-    title: "Blog do Flamengo",
-    description: "As últimas notícias e atualizações.",
-    url: "https://www.ogubronegronews.com",
-    siteName: "Blog do Flamengo",
-    images: [
-      {
-        url: "assets/logooficialrubronews.png",
-        width: 800,
-        height: 600,
-      },
-    ],
-    locale: "pt_BR",
-    type: "website",
+    type: 'website',
+    locale: 'pt_BR',
+    url: 'https://www.orubronegronews.com',
+    siteName: 'Blog do Flamengo',
   },
   twitter: {
     card: "summary_large_image",
@@ -36,11 +42,32 @@ export const metadata = {
       url: "assets/logooficialrubronews.png"
     }],
   },
+  verification: {
+    google: 'your-google-verification',
+  },
+  other: {
+    'apple-mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-status-bar-style': 'black',
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
+      <head>
+        <link
+          rel="preconnect"
+          href="https://images.prismic.io"
+          crossOrigin="anonymous"
+        />
+        <link 
+          rel="dns-prefetch" 
+          href="https://images.prismic.io"
+        />
+        <meta name="theme-color" content="#000000" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+      </head>
       <body className={inter.className}>
         <Analytics />
         <Navbar />
