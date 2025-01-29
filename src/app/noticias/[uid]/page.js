@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { client } from '@/prismic';
 import { PrismicRichText } from '@prismicio/react';
-import Image from 'next/image';
+import OptimizedImage from '@/components/OptimizedImage';
 import { Calendar, Share2, ChevronLeft } from 'lucide-react';
 import { YouTubeEmbed } from '@next/third-parties/google';
 import ShareButton from '@/components/ShareButtom';
@@ -120,14 +119,11 @@ export default async function Noticia({ params }) {
 
         <article className="bg-white shadow-lg rounded-xl overflow-hidden">
           {noticia.data.image && (
-            <div className="relative w-full aspect-video mb-6">
-              <Image
+            <div className="mb-6">
+              <OptimizedImage
                 src={noticia.data.image.url}
                 alt={noticia.data.image.alt || noticia.data.title[0].text}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px"
-                priority
+                priority={true}
               />
             </div>
           )}
