@@ -16,7 +16,7 @@ const NewsCard = memo(function NewsCard({ noticia, priority = false }) {
     return null;
   }
 
-  const { title, content, date, image, category, uid } = noticia.data;
+  const { title, content, date, image, category } = noticia.data;
   const formatDate = (dateString) => {
     try {
       return format(new Date(dateString), "d 'de' MMMM 'de' yyyy", {
@@ -58,7 +58,7 @@ const NewsCard = memo(function NewsCard({ noticia, priority = false }) {
         )}
 
         <Link 
-          href={`/noticias/${uid}`} 
+          href={`/noticias/${noticia.uid}`} 
           className="hover:opacity-80 transition-opacity"
           prefetch={false}
         >
@@ -77,7 +77,7 @@ const NewsCard = memo(function NewsCard({ noticia, priority = false }) {
 
         <div className="card-actions justify-end mt-auto">
           <Link
-            href={`/noticias/${uid}`}
+            href={`/noticias/${noticia.uid}`}
             className="btn btn-primary btn-sm"
             aria-label={`Ler mais sobre: ${titleText}`}
             prefetch={false}
