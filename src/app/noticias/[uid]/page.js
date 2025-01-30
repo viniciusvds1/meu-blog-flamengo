@@ -123,7 +123,6 @@ export default async function Noticia({ params }) {
               <OptimizedImage
                 src={noticia.data.image.url}
                 alt={noticia.data.image.alt || noticia.data.title[0].text}
-                priority={true}
               />
             </div>
           )}
