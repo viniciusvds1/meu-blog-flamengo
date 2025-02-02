@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 export default function NewsletterSignup() {
   const [email, setEmail] = useState('');
@@ -30,14 +31,21 @@ export default function NewsletterSignup() {
     setStatus('loading');
     
     try {
-      // Simulated API call - replace with your actual API endpoint
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { data, error } = await supabase
+        .from('newsletter_subscribers')
+        .insert([
+          { email: email, subscribed_at: new Date().toISOString() }
+        ])
+        .select();
+
+      if (error) throw error;
       
       setStatus('success');
       setEmail('');
     } catch (error) {
+      console.error('Error:', error);
       setStatus('error');
-      setErrorMessage('Ocorreu um erro. Tente novamente mais tarde.');
+      setErrorMessage('Ocorreu um erro ao salvar seu e-mail. Tente novamente mais tarde.');
     }
   };
 
