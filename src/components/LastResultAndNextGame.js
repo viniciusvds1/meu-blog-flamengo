@@ -129,9 +129,7 @@ const LastResultAndNextGame = () => {
     try {
       setIsLoading(true);
       setError(null);
-      const res = await fetch('/api/flamengoGames?last=5&next=5', {
-        cache: 'no-store', 
-      });
+      const res = await fetch('/api/flamengoGames?last=5&next=5')
 
       if (!res.ok) {
         throw new Error('Falha ao buscar dados da API');
