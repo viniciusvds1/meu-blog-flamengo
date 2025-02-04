@@ -29,7 +29,6 @@ interface ProximoJogo {
 }
 
 interface Tabela {
-  nome: string;
   tabela: {
     posicao: number;
     time: string;
@@ -55,47 +54,44 @@ export default function ResultadosFlamengo() {
     proximosJogos: ProximoJogo[];
     tabelaBrasileiro: Tabela | null;
     tabelaCarioca: Tabela | null;
-    estatisticasTime: Estatisticas | null;
+    estatisticasBrasileiro: Estatisticas | null;
+    estatisticasCarioca: Estatisticas | null;
   }>({
     resultados: [],
     proximosJogos: [],
     tabelaBrasileiro: null,
     tabelaCarioca: null,
-    estatisticasTime: null,
+    estatisticasBrasileiro: null,
+    estatisticasCarioca: null,
   });
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch('/api/flamengoGames?last=5&next=5', {
-          cache: 'no-store', // Ensures fresh data on each fetch
-        });
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const res = await fetch('/api/flamengoGames?last=5&next=5', {
+        cache: 'no-store', // Ensures fresh data on each fetch
+      });
 
-        if (!res.ok) {
-          throw new Error('Falha ao buscar dados da API');
-        }
-
-        const fetchedData = await res.json();
-        setData(fetchedData);
-        localStorage.setItem('flamengoGamesData', JSON.stringify(fetchedData));
-        setLoading(false);
-      } catch (error) {
-        console.error('Erro ao buscar dados:', error);
-        setError('Não foi possível carregar os dados. Tente novamente mais tarde.');
-        setLoading(false);
+      if (!res.ok) {
+        throw new Error('Falha ao buscar dados da API');
       }
-    };
 
-    const storedData = localStorage.getItem('flamengoGamesData');
-
-    if (storedData) {
-      setData(JSON.parse(storedData));
+      const fetchedData = await res.json();
+      setData(fetchedData);
+    } catch (error) {
+      console.error('Erro ao buscar dados:', error);
+      setError('Não foi possível carregar os dados. Tente novamente mais tarde.');
+    } finally {
       setLoading(false);
     }
+  };
 
+  useEffect(() => {
     fetchData();
     const interval = setInterval(fetchData, 36000000); // 10 hours
     return () => clearInterval(interval);
@@ -302,7 +298,7 @@ export default function ResultadosFlamengo() {
       </section>
 
       {/* Próximos Jogos */}
-      <section>
+      <section className="mb-6 sm:mb-12">
         <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-center text-gray-800">
           Próximos Jogos
         </h2>

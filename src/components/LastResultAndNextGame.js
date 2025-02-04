@@ -129,31 +129,25 @@ const LastResultAndNextGame = () => {
     try {
       setIsLoading(true);
       setError(null);
-      const res = await fetch('/api/flamengoGames?last=1&next=5');
+      const res = await fetch('/api/flamengoGames?last=5&next=5', {
+        cache: 'no-store', 
+      });
+
       if (!res.ok) {
         throw new Error('Falha ao buscar dados da API');
       }
       const fetchedData = await res.json();
-
       setData(fetchedData);
-      localStorage.setItem('flamengoGamesData', JSON.stringify(fetchedData));
     } catch (error) {
       setError(error.message);
-      console.error('Erro ao buscar dados:', error);
     } finally {
       setIsLoading(false);
     }
   };
   
   useEffect(() => {
-    const storedData = localStorage.getItem('flamengoGamesData');
-    if (storedData) {
-      setData(JSON.parse(storedData));
-      setIsLoading(false);
-    }
-
     fetchData();
-    const interval = setInterval(fetchData, 36000000); // 10 hours
+    const interval = setInterval(fetchData, 36000000); 
 
     return () => clearInterval(interval);
   }, []);
@@ -183,7 +177,6 @@ const LastResultAndNextGame = () => {
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-6 space-y-8">
-      {/* Último Resultado */}
       <GameSection title="Último Resultado">
         <div className="flex items-center justify-center gap-6">
           <TeamDisplay 
@@ -200,16 +193,14 @@ const LastResultAndNextGame = () => {
         </div>
 
         <div className="flex flex-wrap justify-center gap-4">
-      <GameInfo icon={Calendar} text={lastResult.data} />
-      {lastResult.horario && <GameInfo icon={Clock} text={lastResult.horario} />}
-      <GameInfo icon={Trophy} text={lastResult.campeonato} />
-    </div>
+          <GameInfo icon={Calendar} text={lastResult.data} />
+          {lastResult.horario && <GameInfo icon={Clock} text={lastResult.horario} />}
+          <GameInfo icon={Trophy} text={lastResult.campeonato} />
+        </div>
       </GameSection>
 
-      {/* Divisor */}
       <div className="border-t border-gray-100" />
 
-      {/* Próximo Jogo */}
       <GameSection title="Próximo Jogo">
         <div className="flex items-center justify-center gap-6">
           <TeamDisplay 
