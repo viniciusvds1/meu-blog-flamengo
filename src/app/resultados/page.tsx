@@ -167,6 +167,8 @@ export default function ResultadosFlamengo() {
             aspectRatio="aspect-square"
             objectFit="contain"
             priority={false}
+            width={40}
+            height={40}
           />
         </div>
         <div className="flex items-center w-10 sm:w-12 justify-end">
@@ -191,6 +193,8 @@ export default function ResultadosFlamengo() {
             aspectRatio="aspect-square"
             objectFit="contain"
             priority={false}
+            width={40}
+            height={40}
           />
         </div>
       </div>
@@ -223,6 +227,8 @@ export default function ResultadosFlamengo() {
             aspectRatio="aspect-square"
             objectFit="contain"
             priority={false}
+            width={40}
+            height={40}
           />
         </div>
         <div className="flex items-center w-12 sm:w-16 justify-end">
@@ -243,6 +249,8 @@ export default function ResultadosFlamengo() {
             aspectRatio="aspect-square"
             objectFit="contain"
             priority={false}
+            width={40}
+            height={40}
           />
         </div>
       </div>
