@@ -1,17 +1,18 @@
-import * as prismic from '@prismicio/client';
 import { supabase } from './supabase.js';
+import OpenAI from 'openai';
+import dotenv from 'dotenv';
 
-// Inicializar cliente Prismic
-const endpoint = 'https://blog-mengo.cdn.prismic.io/api/v2';
+dotenv.config();
 
-const client = prismic.createClient(endpoint, {
-  accessToken: process.env.PRISMIC_ACCESS_TOKEN
+
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
 });
 
 export class NewsService {
   async fetchNews() {
     const API_KEY = process.env.NEWS_API_KEY;
-    console.log('API_KEY:', API_KEY);
 
     try {
       const response = await fetch(`https://newsapi.org/v2/everything?q=Flamengo&language=pt&sortBy=publishedAt&apiKey=${API_KEY}`);
@@ -29,50 +30,79 @@ export class NewsService {
     }
   }
 
+  async rewriteContent(content) {
+    if (!content) {
+      return 'Conteúdo não disponível';
+    }
+
+    try {
+      const completion = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [{
+          role: "system",
+          content: "Você é um jornalista esportivo especializado em Flamengo. Reescreva a notícia mantendo as informações principais mas com um estilo mais envolvente e profissional."
+        }, {
+          role: "user",
+          content: content
+        }],
+        temperature: 0.7,
+        max_tokens: 500
+      });
+
+      return completion.choices[0].message.content;
+    } catch (error) {
+      console.warn('Error rewriting content:', error);
+      return content || 'Conteúdo não disponível';
+    }
+  }
+
   async saveToSupabase(article) {
     try {
-      // Gerar um slug único baseado no título
-      const slug = article.title
+      const uid = article.title
         .toLowerCase()
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-+|-+$/g, '');
 
-      // Verificar se a notícia já existe
-      const { data: existingNews } = await supabase
+      const { data: existingNews, error: checkError } = await supabase
         .from('news')
         .select('id')
-        .eq('slug', slug)
+        .eq('uid', uid)
         .single();
 
-      if (existingNews) {
-        console.log(`Article already exists: ${article.title}`);
+      if (checkError && checkError.code !== 'PGRST116') {
         return false;
       }
 
-      // Inserir nova notícia
-      const { data, error } = await supabase
+      if (existingNews) {
+        return false;
+      }
+
+      const rewrittenContent = await this.rewriteContent(article.description || article.content || '');
+
+      const newsData = {
+        uid: uid,
+        title: article.title,
+        content: rewrittenContent,
+        date: article.publishedAt || new Date().toISOString(),
+        image: article.urlToImage || '',
+        category: 'futebol'
+      };
+
+      const { error } = await supabase
         .from('news')
-        .insert([{
-          title: article.title,
-          description: article.description || '',
-          source_name: article.source?.name || '',
-          source_url: article.url || '',
-          image_url: article.urlToImage || '',
-          published_at: article.publishedAt || new Date().toISOString(),
-          slug: slug,
-          is_published: false // Será true quando for publicado no Prismic
-        }])
+        .insert([newsData])
         .select()
         .single();
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
-      console.log(`Successfully saved article: ${article.title}`);
       return true;
     } catch (error) {
-      console.error(`Error saving article to Supabase: ${article.title}`, error);
+      console.error('Error saving article:', error);
       return false;
     }
   }
@@ -82,10 +112,12 @@ const newsService = new NewsService();
 
 export async function fetchAndCreateFlamengoNews() {
   try {
-    // Buscar notícias do Flamengo
     const articles = await newsService.fetchNews();
 
-    // Filtrar notícias relevantes
+    if (articles.length === 0) {
+      return { success: false, error: 'No articles found' };
+    }
+
     const relevantNews = articles.filter(article => {
       if (!article || !article.title) return false;
       
@@ -96,9 +128,8 @@ export async function fetchAndCreateFlamengoNews() {
     });
 
     const recentNews = relevantNews.slice(0, 5);
-
-    // Salvar cada notícia no Supabase
     const savedArticles = [];
+
     for (const article of recentNews) {
       const saved = await newsService.saveToSupabase(article);
       if (saved) {
@@ -112,7 +143,6 @@ export async function fetchAndCreateFlamengoNews() {
       message: `Successfully saved ${savedArticles.length} new articles to Supabase`
     };
   } catch (error) {
-    console.error('Error fetching and saving news:', error);
     return { success: false, error: error.message };
   }
 }
