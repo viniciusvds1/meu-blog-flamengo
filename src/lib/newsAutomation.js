@@ -8,9 +8,16 @@ const openai = new OpenAI({
 export class NewsService {
   async fetchNews() {
     const API_KEY = process.env.NEWS_API_KEY;
+    const params = new URLSearchParams({
+      q: 'Flamengo',
+      language: 'pt',
+      sortBy: 'publishedAt',
+      pageSize: '10', // Limitar a 10 artigos por vez
+      apiKey: API_KEY
+    });
 
     try {
-      const response = await fetch(`https://newsapi.org/v2/everything?q=Flamengo&language=pt&sortBy=publishedAt&apiKey=${API_KEY}`);
+      const response = await fetch(`https://newsapi.org/v2/everything?${params}`);
       const data = await response.json();
       
       if (data.status === 'ok' && Array.isArray(data.articles)) {
@@ -35,13 +42,13 @@ export class NewsService {
         model: "gpt-3.5-turbo",
         messages: [{
           role: "system",
-          content: "Você é um jornalista esportivo especializado em Flamengo. Reescreva a notícia mantendo as informações principais mas com um estilo mais envolvente e profissional."
+          content: "Você é um jornalista esportivo especializado em Flamengo. Reescreva a notícia de forma concisa mantendo as informações principais."
         }, {
           role: "user",
           content: content
         }],
         temperature: 0.7,
-        max_tokens: 500
+        max_tokens: 250 // Reduzir o tamanho do texto gerado
       });
 
       return completion.choices[0].message.content;
@@ -60,15 +67,11 @@ export class NewsService {
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-+|-+$/g, '');
 
-      const { data: existingNews, error: checkError } = await supabase
+      const { data: existingNews } = await supabase
         .from('news')
         .select('id')
         .eq('uid', uid)
         .single();
-
-      if (checkError && checkError.code !== 'PGRST116') {
-        return false;
-      }
 
       if (existingNews) {
         return false;
@@ -87,9 +90,7 @@ export class NewsService {
 
       const { error } = await supabase
         .from('news')
-        .insert([newsData])
-        .select()
-        .single();
+        .insert([newsData]);
 
       if (error) {
         throw error;
@@ -113,19 +114,16 @@ export async function fetchAndCreateFlamengoNews() {
       return { success: false, error: 'No articles found' };
     }
 
-    const relevantNews = articles.filter(article => {
-      if (!article || !article.title) return false;
-      
-      const titleMatch = article.title.toLowerCase().includes('flamengo');
-      const descriptionMatch = article.description?.toLowerCase()?.includes('flamengo') || false;
-      
-      return titleMatch || descriptionMatch;
-    });
+    const relevantNews = articles
+      .filter(article => {
+        if (!article?.title) return false;
+        return article.title.toLowerCase().includes('flamengo') ||
+               article.description?.toLowerCase()?.includes('flamengo');
+      })
+      .slice(0, 3); // Processar apenas os 3 artigos mais recentes
 
-    const recentNews = relevantNews.slice(0, 5);
     const savedArticles = [];
-
-    for (const article of recentNews) {
+    for (const article of relevantNews) {
       const saved = await newsService.saveToSupabase(article);
       if (saved) {
         savedArticles.push(article);

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { fetchAndCreateFlamengoNews } from '@/lib/newsAutomation';
 
 export const runtime = 'nodejs';
+export const maxDuration = 60; // 60 segundos (limite do plano hobby da Vercel)
 
 export async function GET(request) {
   // Verificar header de segurança
@@ -21,6 +22,3 @@ export async function GET(request) {
     );
   }
 }
-
-// Configurar para executar a cada 30 minutos
-export const maxDuration = 300; // 5 minutos
