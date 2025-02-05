@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { fetchAndCreateFlamengoNews } from '@/lib/newsAutomation';
 
+export const runtime = 'nodejs';
+
 export async function GET(request) {
   // Verificar header de segurança
   const authHeader = request.headers.get('authorization');
@@ -21,5 +23,4 @@ export async function GET(request) {
 }
 
 // Configurar para executar a cada 30 minutos
-export const runtime = 'edge';
 export const maxDuration = 300; // 5 minutos
