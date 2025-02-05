@@ -1,9 +1,30 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { PrismicRichText } from '@prismicio/react';
 import OptimizedImage from '@/components/OptimizedImage';
-import { Calendar, Share2, ChevronLeft } from 'lucide-react';
+import { Calendar, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { getNewsByUID } from '@/lib/getNews';
+import ShareButton from '@/components/ShareButton';
+
+function LoadingImage() {
+  return (
+    <div className="relative aspect-[16/9] md:aspect-[21/9] animate-pulse bg-gray-200" />
+  );
+}
+
+function LoadingContent() {
+  return (
+    <div className="p-6 md:p-8 space-y-4">
+      <div className="h-8 bg-gray-200 rounded animate-pulse w-3/4" />
+      <div className="h-4 bg-gray-200 rounded animate-pulse w-1/4" />
+      <div className="space-y-2">
+        <div className="h-4 bg-gray-200 rounded animate-pulse" />
+        <div className="h-4 bg-gray-200 rounded animate-pulse w-5/6" />
+        <div className="h-4 bg-gray-200 rounded animate-pulse w-4/6" />
+      </div>
+    </div>
+  );
+}
 
 const richTextComponents = {
   paragraph: ({ children }) => (
@@ -92,90 +113,89 @@ export default async function Noticia({ params }) {
       );
     }
 
-    const formattedDate = new Date(noticia.date).toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric'
-    });
-
     return (
-      <div className="min-h-screen bg-gray-50 py-8 md:py-12">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
+      <div className="min-h-screen bg-gray-50">
+        <div className="container mx-auto px-4 py-8">
+          <div className="mb-8">
             <Link
               href="/noticias"
-              className="inline-flex items-center text-gray-600 hover:text-red-600 mb-8"
+              className="inline-flex items-center text-gray-600 hover:text-red-600"
             >
               <ChevronLeft size={20} className="mr-2" />
               Voltar para notícias
             </Link>
+          </div>
 
-            <article className="bg-white rounded-xl shadow-lg overflow-hidden">
-              {noticia.image?.url && (
-                <div className="aspect-video relative">
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden max-w-4xl mx-auto">
+            {noticia.image && (
+              <Suspense fallback={<LoadingImage />}>
+                <div className="relative aspect-[16/9] md:aspect-[21/9]">
                   <OptimizedImage
-                    src={noticia.image.url}
-                    alt={noticia.image.alt || noticia.title}
+                    src={noticia.image}
+                    alt={noticia.title}
+                    fill
+                    className="object-cover"
                     priority
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1024px"
                   />
                 </div>
-              )}
+              </Suspense>
+            )}
 
-              <div className="p-6 md:p-8">
-                <div className="flex items-center text-gray-600 text-sm mb-4">
-                  <Calendar size={16} className="mr-2" />
-                  {formattedDate}
-                </div>
-
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
-                  {noticia.title}
-                </h1>
-
+            <article className="p-6 md:p-8">
+              <Suspense fallback={<LoadingContent />}>
                 <div className="prose prose-lg max-w-none">
-                  {Array.isArray(noticia.content) && noticia.content.length > 1 ? (
-                    <PrismicRichText
-                      field={noticia.content}
-                      components={richTextComponents}
-                    />
-                  ) : (
-                    <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                      {typeof noticia.content === 'string' ? noticia.content : 'Conteúdo não disponível'}
-                    </p>
-                  )}
-                </div>
+                  <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    {noticia.title}
+                  </h1>
 
-                {Array.isArray(noticia.tags) && (
-                  <div className="mt-8 pt-6 border-t border-gray-200">
-                    <div className="flex flex-wrap gap-2">
-                      {noticia.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                  <div className="flex items-center text-gray-600 mb-8">
+                    <Calendar size={20} className="mr-2" />
+                    <time dateTime={noticia.date}>
+                      {new Date(noticia.date).toLocaleDateString('pt-BR', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      })}
+                    </time>
                   </div>
-                )}
 
-                <div className="mt-8 pt-6 border-t border-gray-200">
-                  <button
-                    onClick={() => {
-                      if (navigator.share) {
-                        navigator.share({
-                          title: noticia.title,
-                          url: window.location.href,
-                        });
-                      }
-                    }}
-                    className="inline-flex items-center text-gray-600 hover:text-red-600"
-                  >
-                    <Share2 size={20} className="mr-2" />
-                    Compartilhar
-                  </button>
+                  <div className="text-lg text-gray-700 leading-relaxed mb-8">
+                    {Array.isArray(noticia.content) && noticia.content.length > 1 ? (
+                      <PrismicRichText
+                        field={noticia.content}
+                        components={richTextComponents}
+                      />
+                    ) : (
+                      <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                          <PrismicRichText
+                        field={noticia.content.text}
+                        components={richTextComponents}
+                      />
+                      </p>
+                    )}
+                  </div>
+
+                  {Array.isArray(noticia.tags) && (
+                    <div className="mt-8 pt-6 border-t border-gray-200">
+                      <div className="flex flex-wrap gap-2">
+                        {noticia.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="mt-8 pt-6 border-t border-gray-200">
+                    <ShareButton title={noticia.title} />
+                  </div>
                 </div>
-              </div>
+              </Suspense>
             </article>
           </div>
         </div>
@@ -231,7 +251,7 @@ export async function generateMetadata({ params }) {
           : typeof noticia.content === 'string'
             ? noticia.content.slice(0, 160)
             : 'Leia mais sobre o Flamengo',
-        images: noticia.image?.url ? [{ url: noticia.image.url }] : [],
+        images: noticia.image ? [{ url: noticia.image }] : [],
       },
     };
   } catch (error) {
