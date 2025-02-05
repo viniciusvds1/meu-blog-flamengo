@@ -3,12 +3,11 @@ import { supabase } from './supabase.js';
 import { normalizeNewsCollection, normalizeNewsData } from './newsAdapter';
 
 export const NEWS_CATEGORIES = {
-  GERAL: 'geral',
-  FUTEBOL: 'futebol',
-  BASQUETE: 'basquete',
-  ESPORTES_OLIMPICOS: 'esportes-olimpicos',
-  SOCIO_TORCEDOR: 'socio-torcedor',
-  NACAO_RUBRO_NEGRA: 'nacao-rubro-negra'
+  NOTICIAS: 'noticias',
+  CONTRATACOES: 'contratacoes',
+  BASTIDORES: 'bastidores',
+  COLETIVAS: 'coletivas',
+  JOGOS: 'jogos'
 };
 
 export async function getAllNews({ pageSize = 6, page = 1, category = null } = {}) {

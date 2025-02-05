@@ -30,10 +30,7 @@ export function normalizeNewsData(news, source) {
       title: data.title?.[0]?.text || '',
       content: normalizeContent(data.content),
       date: news.first_publication_date || data.date || new Date().toISOString(),
-      image: data.image?.url ? {
-        url: data.image.url,
-        alt: data.image.alt || data.title?.[0]?.text || ''
-      } : null,
+      image: data.image?.url || null,
       tags: Array.isArray(news.tags) ? news.tags.filter(Boolean) : [],
       category: data.category || 'geral',
       source: 'prismic'
@@ -45,10 +42,7 @@ export function normalizeNewsData(news, source) {
       title: news.title || '',
       content: normalizeContent(news.content),
       date: news.date || new Date().toISOString(),
-      image: news.image ? {
-        url: news.image,
-        alt: news.title || ''
-      } : null,
+      image: news.image || null,
       tags: Array.isArray(news.tags) ? news.tags.filter(Boolean) : [],
       category: news.category || 'geral',
       source: 'supabase'
@@ -59,7 +53,5 @@ export function normalizeNewsData(news, source) {
 
 export function normalizeNewsCollection(newsArray, source) {
   if (!Array.isArray(newsArray)) return [];
-  return newsArray
-    .map(news => normalizeNewsData(news, source))
-    .filter(Boolean);
+  return newsArray.map(news => normalizeNewsData(news, source)).filter(Boolean);
 }

@@ -39,7 +39,7 @@ export class NewsService {
 
     try {
       const completion = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4o-mini",
         messages: [{
           role: "system",
           content: "Você é um jornalista esportivo especializado em Flamengo. Reescreva a notícia de forma concisa mantendo as informações principais."
@@ -47,8 +47,7 @@ export class NewsService {
           role: "user",
           content: content
         }],
-        temperature: 0.7,
-        max_tokens: 250 // Reduzir o tamanho do texto gerado
+        temperature: 0.7
       });
 
       return completion.choices[0].message.content;
