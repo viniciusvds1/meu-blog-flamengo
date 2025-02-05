@@ -1,10 +1,11 @@
 import React, { Suspense } from 'react';
-import { PrismicRichText } from '@prismicio/react';
 import OptimizedImage from '@/components/OptimizedImage';
 import { Calendar, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { getNewsByUID } from '@/lib/getNews';
 import ShareButton from '@/components/ShareButton';
+import FacebookComments from '@/components/FacebookComments';
+import { PrismicRichText } from '@prismicio/react';
 
 function LoadingImage() {
   return (
@@ -112,11 +113,10 @@ export default async function Noticia({ params }) {
         </div>
       );
     }
-
     return (
       <div className="min-h-screen bg-gray-50">
         <div className="container mx-auto px-4 py-8">
-          <div className="mb-8">
+          <div className="mb-8 flex justify-between items-center">
             <Link
               href="/noticias"
               className="inline-flex items-center text-gray-600 hover:text-red-600"
@@ -124,8 +124,9 @@ export default async function Noticia({ params }) {
               <ChevronLeft size={20} className="mr-2" />
               Voltar para notícias
             </Link>
+            <ShareButton title={noticia.title} />
           </div>
-
+          
           <div className="bg-white rounded-lg shadow-lg overflow-hidden max-w-4xl mx-auto">
             {noticia.image && (
               <Suspense fallback={<LoadingImage />}>
@@ -162,27 +163,46 @@ export default async function Noticia({ params }) {
 
                   <div className="text-lg text-gray-700 leading-relaxed mb-8">
                     {Array.isArray(noticia.content) && noticia.content.length > 1 ? (
-                      <PrismicRichText
-                        field={noticia.content}
-                        components={richTextComponents}
-                      />
+                      <div className="card bg-base-100 shadow-xl p-8">
+                        <PrismicRichText
+                          field={noticia.content}
+                          components={richTextComponents}
+                        />
+                      </div>
+                    ) : noticia.content?.richText || noticia.content?.text ? (
+                      <div className="card bg-base-100 shadow-xl p-8">
+                        <PrismicRichText
+                          field={noticia.content.richText || noticia.content.text}
+                          components={richTextComponents}
+                        />
+                      </div>
                     ) : (
-                      <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                          <PrismicRichText
-                        field={noticia.content.text}
-                        components={richTextComponents}
-                      />
-                      </p>
+                      <div className="card bg-base-100 shadow-xl p-8">
+                        {Array.isArray(noticia.content) ? (
+                          noticia.content.map((block, index) => {
+                            const paragraphs = block.text.split('\n').filter(p => p.trim());
+                            return paragraphs.map((paragraph, pIndex) => (
+                              <p key={`${index}-${pIndex}`} className="mb-6 text-lg leading-relaxed text-base-content/80 text-justify">
+                                {paragraph.trim()}
+                              </p>
+                            ));
+                          })
+                        ) : (
+                          <p className="text-lg leading-relaxed text-base-content/80 text-justify">
+                            {noticia.content || ''}
+                          </p>
+                        )}
+                      </div>
                     )}
                   </div>
 
                   {Array.isArray(noticia.tags) && (
                     <div className="mt-8 pt-6 border-t border-gray-200">
                       <div className="flex flex-wrap gap-2">
-                        {noticia.tags.map((tag) => (
+                        {noticia.tags.map((tag, index) => (
                           <span
-                            key={tag}
-                            className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm"
+                            key={index}
+                            className="px-3 py-1 bg-red-100 text-red-600 rounded-full text-sm"
                           >
                             {tag}
                           </span>
@@ -191,9 +211,13 @@ export default async function Noticia({ params }) {
                     </div>
                   )}
 
-                  <div className="mt-8 pt-6 border-t border-gray-200">
-                    <ShareButton title={noticia.title} />
+                  <div className="mt-8">
+                    <Suspense fallback={<div>Carregando comentários...</div>}>
+                      <FacebookComments url={`${process.env.NEXT_PUBLIC_SITE_URL}/noticias/${noticia.uid}`} />
+                    </Suspense>
                   </div>
+
+                 
                 </div>
               </Suspense>
             </article>
