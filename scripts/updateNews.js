@@ -5,23 +5,21 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Carregar e validar variáveis de ambiente
 config({
-  path: path.resolve(__dirname, '../.env.local'),
+  path: path.resolve(__dirname, '../.env'),
   example: path.resolve(__dirname, '../.env.example'),
   allowEmptyValues: false
 });
 
-// Importar depois de carregar as variáveis de ambiente
 import { fetchAndCreateFlamengoNews } from '../src/lib/newsAutomation.js';
 
 async function runNewsUpdate() {
-  
   try {
     const result = await fetchAndCreateFlamengoNews();
-    console.log('Resultado:', result);
+    console.log('Resultado:', JSON.stringify(result, null, 2));
+    process.exit(0);
   } catch (error) {
-    console.error('Erro ao atualizar notícias:', error);
+    console.error('Erro:', error);
     process.exit(1);
   }
 }
