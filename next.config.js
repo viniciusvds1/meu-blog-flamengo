@@ -5,23 +5,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.prismic.io',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.thesportsdb.com',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'cdn.sportmonks.com',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'media.api-sports.io',
-        pathname: '/**',
+        hostname: '**',
       },
     ],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],

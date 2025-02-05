@@ -18,7 +18,7 @@ interface OptimizedImageProps {
 const OptimizedImage: FC<OptimizedImageProps> = ({ 
   src, 
   alt, 
-  className, 
+  className = '', 
   priority = false,
   aspectRatio = 'aspect-video',
   objectFit = 'object-contain',
@@ -27,16 +27,19 @@ const OptimizedImage: FC<OptimizedImageProps> = ({
   quality = 75,
   loading = "lazy"
 }) => {
+  // Ensure src is a string and not undefined
+  const imageSrc = src || '/placeholder.jpg';
+
   if (width && height) {
     return (
       <Image
-        src={src}
+        src={imageSrc}
         alt={alt}
         width={width}
         height={height}
         quality={quality}
         loading={loading}
-        className={`${className || ''} ${objectFit}`}
+        className={`${className} ${objectFit}`}
         priority={priority}
       />
     );
@@ -45,14 +48,12 @@ const OptimizedImage: FC<OptimizedImageProps> = ({
   return (
     <div className={`relative ${aspectRatio}`} style={{ width: '100%', height: '100%' }}>
       <Image
-        src={src}
+        src={imageSrc}
         alt={alt}
         fill
         quality={quality}
         loading={loading}
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        style={{ objectFit: objectFit === 'object-contain' ? 'contain' : 'cover' }}
-        className={className || ''}
+        className={`${className} ${objectFit}`}
         priority={priority}
       />
     </div>

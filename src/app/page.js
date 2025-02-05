@@ -1,4 +1,3 @@
-import { client } from '../prismic';
 import Image from 'next/image';
 import { Suspense } from 'react';
 import LastResultAndNextGame from '@/components/LastResultAndNextGame';
@@ -6,6 +5,8 @@ import NewsletterSignup from '@/components/NewsletterSignup';
 import SearchBar from '@/components/SearchBar';
 import NoticiasSection from '@/components/NoticiasSection';
 import AddBanner from '@/components/AddBanner';
+import StoreSection from '@/components/StoreSection';
+import { getAllNews } from '@/lib/getNews';
 
 // Loading components for better UX
 const SidebarSkeleton = () => (
@@ -17,12 +18,7 @@ const SidebarSkeleton = () => (
 );
 
 export default async function Home() {
-  const noticiasResponse = await client.getByType('noticias', {
-    orderings: [
-      { field: 'document.first_publication_date', direction: 'desc' },
-    ],
-    pageSize: 6,
-  });
+  const { news: initialNoticias } = await getAllNews({ pageSize: 6 });
 
   return (
     <main className="bg-base-100 min-h-screen">
@@ -95,7 +91,7 @@ export default async function Home() {
               }
             >
               <NoticiasSection 
-                initialNoticias={noticiasResponse.results}
+                initialNoticias={initialNoticias}
                 className="bg-white rounded-xl shadow-sm p-4" 
               />
             </Suspense>

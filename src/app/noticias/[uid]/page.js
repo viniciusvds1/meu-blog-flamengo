@@ -1,214 +1,243 @@
 import React from 'react';
-import { client } from '@/prismic';
 import { PrismicRichText } from '@prismicio/react';
 import OptimizedImage from '@/components/OptimizedImage';
 import { Calendar, Share2, ChevronLeft } from 'lucide-react';
-import { YouTubeEmbed } from '@next/third-parties/google';
-import ShareButton from '@/components/ShareButtom';
-import FacebookComments from '@/components/FacebookComments';
 import Link from 'next/link';
-
-const VideoEmbed = ({ embed }) => {
-  if (!embed) {
-    console.error('No embed object provided');
-    return null;
-  }
-
-  if (!embed.html) {
-    console.error('No HTML found in embed object', embed);
-    return null;
-  }
-
-  const extractYouTubeId = (url) => {
-    const match = url.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-    return match ? match[1] : null;
-  };
-
-  const youtubeId = extractYouTubeId(embed.embed_url);
-  if (youtubeId) {
-    
-    return (
-      <div className="w-full max-w-full overflow-hidden mb-6">
-    <div className="relative w-full aspect-video">
-      <YouTubeEmbed videoId={youtubeId} opts={{ playerVars: { autoplay: 1 } }} />  
-    </div>
-  </div>
-    )
-  }
-  return (
-    <div className="w-full max-w-full overflow-hidden mb-6">
-      <div 
-        className="relative w-full aspect-video"
-        dangerouslySetInnerHTML={{ 
-          __html: embed.html.replace(/width="\d+"/, 'width="100%"')
-                             .replace(/height="\d+"/, 'height="100%"')
-        }}
-      />
-    </div>
-  );
-};
+import { getNewsByUID } from '@/lib/getNews';
 
 const richTextComponents = {
-  heading1: ({ children }) => (
-    <h1 className="text-4xl font-bold text-red-600 mb-6 leading-tight">{children}</h1>
-  ),
-  heading2: ({ children }) => (
-    <h2 className="text-3xl font-semibold text-gray-800 my-6 leading-tight">{children}</h2>
-  ),
-  heading3: ({ children }) => (
-    <h3 className="text-2xl font-semibold text-gray-700 my-4 leading-tight">{children}</h3>
-  ),
   paragraph: ({ children }) => (
     <p className="text-lg text-gray-700 leading-relaxed mb-6">{children}</p>
   ),
-  list: ({ children }) => (
-    <ul className="list-disc list-inside space-y-3 mb-6 ml-4">{children}</ul>
+  heading1: ({ children }) => (
+    <h1 className="text-4xl font-bold text-gray-900 mb-8">{children}</h1>
+  ),
+  heading2: ({ children }) => (
+    <h2 className="text-3xl font-bold text-gray-900 mb-6">{children}</h2>
+  ),
+  heading3: ({ children }) => (
+    <h3 className="text-2xl font-bold text-gray-900 mb-4">{children}</h3>
+  ),
+  heading4: ({ children }) => (
+    <h4 className="text-xl font-bold text-gray-900 mb-4">{children}</h4>
+  ),
+  heading5: ({ children }) => (
+    <h5 className="text-lg font-bold text-gray-900 mb-4">{children}</h5>
+  ),
+  heading6: ({ children }) => (
+    <h6 className="text-base font-bold text-gray-900 mb-4">{children}</h6>
+  ),
+  strong: ({ children }) => (
+    <strong className="font-bold">{children}</strong>
+  ),
+  em: ({ children }) => (
+    <em className="italic">{children}</em>
   ),
   listItem: ({ children }) => (
-    <li className="text-gray-700 leading-relaxed">{children}</li>
+    <li className="text-lg text-gray-700 mb-2">{children}</li>
   ),
-  quote: ({ children }) => (
-    <blockquote className="border-l-4 border-red-600 pl-6 my-8 italic text-gray-600 text-lg">
-      {children}
-    </blockquote>
+  oListItem: ({ children }) => (
+    <li className="text-lg text-gray-700 mb-2">{children}</li>
   ),
-  // Add a custom embed component
-  embed: ({ node }) => {
-    if (node.oembed && node.oembed.type === 'video') {
-      return <VideoEmbed embed={node.oembed} />;
-    }
-    return null;
-  }
+  list: ({ children }) => (
+    <ul className="list-disc pl-6 mb-6">{children}</ul>
+  ),
+  oList: ({ children }) => (
+    <ol className="list-decimal pl-6 mb-6">{children}</ol>
+  ),
+  preformatted: ({ children }) => (
+    <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto mb-6">
+      <code>{children}</code>
+    </pre>
+  ),
+  image: ({ node }) => (
+    <div className="mb-6">
+      <OptimizedImage
+        src={node.url}
+        alt={node.alt || ''}
+        className="rounded-lg"
+      />
+      {node.alt && (
+        <p className="text-sm text-gray-500 mt-2">{node.alt}</p>
+      )}
+    </div>
+  ),
 };
 
 export default async function Noticia({ params }) {
   const { uid } = params;
-  const noticia = await client.getByUID('noticias', uid);
+  
+  try {
+    const noticia = await getNewsByUID(uid);
 
-  if (!noticia) {
+    if (!noticia) {
+      return (
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-gray-800 mb-4">
+              Notícia não encontrada
+            </h1>
+            <p className="text-gray-600 mb-8">
+              A notícia que você está procurando não existe ou foi removida.
+            </p>
+            <Link
+              href="/noticias"
+              className="inline-flex items-center text-red-600 hover:text-red-700"
+            >
+              <ChevronLeft size={20} className="mr-2" />
+              Voltar para notícias
+            </Link>
+          </div>
+        </div>
+      );
+    }
+
+    const formattedDate = new Date(noticia.date).toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    });
+
     return (
-      <div className="container mx-auto px-4 py-16 text-center">
-        <h1 className="text-2xl text-gray-800 mb-6">Notícia não encontrada</h1>
-        <Link 
-          href="/noticias" 
-          className="inline-flex items-center text-red-600 hover:text-red-700 transition-colors"
-        >
-          <ChevronLeft className="mr-2" size={20} />
-          Voltar para todas as notícias
-        </Link>
+      <div className="min-h-screen bg-gray-50 py-8 md:py-12">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <Link
+              href="/noticias"
+              className="inline-flex items-center text-gray-600 hover:text-red-600 mb-8"
+            >
+              <ChevronLeft size={20} className="mr-2" />
+              Voltar para notícias
+            </Link>
+
+            <article className="bg-white rounded-xl shadow-lg overflow-hidden">
+              {noticia.image?.url && (
+                <div className="aspect-video relative">
+                  <OptimizedImage
+                    src={noticia.image.url}
+                    alt={noticia.image.alt || noticia.title}
+                    priority
+                  />
+                </div>
+              )}
+
+              <div className="p-6 md:p-8">
+                <div className="flex items-center text-gray-600 text-sm mb-4">
+                  <Calendar size={16} className="mr-2" />
+                  {formattedDate}
+                </div>
+
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
+                  {noticia.title}
+                </h1>
+
+                <div className="prose prose-lg max-w-none">
+                  {Array.isArray(noticia.content) && noticia.content.length > 1 ? (
+                    <PrismicRichText
+                      field={noticia.content}
+                      components={richTextComponents}
+                    />
+                  ) : (
+                    <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                      {typeof noticia.content === 'string' ? noticia.content : 'Conteúdo não disponível'}
+                    </p>
+                  )}
+                </div>
+
+                {Array.isArray(noticia.tags) && (
+                  <div className="mt-8 pt-6 border-t border-gray-200">
+                    <div className="flex flex-wrap gap-2">
+                      {noticia.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div className="mt-8 pt-6 border-t border-gray-200">
+                  <button
+                    onClick={() => {
+                      if (navigator.share) {
+                        navigator.share({
+                          title: noticia.title,
+                          url: window.location.href,
+                        });
+                      }
+                    }}
+                    className="inline-flex items-center text-gray-600 hover:text-red-600"
+                  >
+                    <Share2 size={20} className="mr-2" />
+                    Compartilhar
+                  </button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    );
+  } catch (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">
+            Erro ao carregar notícia
+          </h1>
+          <p className="text-gray-600 mb-8">
+            Ocorreu um erro ao tentar carregar a notícia. Por favor, tente novamente.
+          </p>
+          <Link
+            href="/noticias"
+            className="inline-flex items-center text-red-600 hover:text-red-700"
+          >
+            <ChevronLeft size={20} className="mr-2" />
+            Voltar para notícias
+          </Link>
+        </div>
       </div>
     );
   }
-
-  const formattedDate = new Date(noticia.first_publication_date).toLocaleDateString('pt-BR', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric'
-  });
-
-  return (
-    <div className="min-h-screen bg-gray-50 py-8 md:py-12">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <Link 
-          href="/noticias" 
-          className="inline-flex items-center text-gray-600 hover:text-red-600 mb-8 transition-colors"
-        >
-          <ChevronLeft size={20} className="mr-1" />
-          <span>Voltar para as notícias</span>
-        </Link>
-
-        <article className="bg-white shadow-lg rounded-xl overflow-hidden">
-          {noticia.data.image && (
-            <div className="mb-6">
-              <OptimizedImage
-                src={noticia.data.image.url}
-                alt={noticia.data.image.alt || noticia.data.title[0].text}
-              />
-            </div>
-          )}
-
-          <div className="p-6 md:p-8">
-            <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-6">
-              <div className="flex items-center gap-2">
-                <Calendar size={18} />
-                <time dateTime={noticia.first_publication_date}>{formattedDate}</time>
-              </div>
-              <ShareButton 
-                url={typeof window !== 'undefined' ? window.location.href : ''} 
-                title={noticia.data.title[0].text}
-              />
-            </div>
-
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 leading-tight">
-              {noticia.data.title[0].text}
-            </h1>
-
-            <div className="prose prose-lg max-w-none">
-              <PrismicRichText
-                field={noticia.data.content}
-                components={richTextComponents}
-              />
-            </div>
-
-            {noticia.tags?.length > 0 && (
-              <div className="mt-8 pt-6 border-t border-gray-200">
-                <div className="flex flex-wrap gap-2">
-                  {noticia.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-4 py-1.5 bg-red-50 text-red-600 rounded-full text-sm font-medium hover:bg-red-100 transition-colors"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </article>
-      </div>
-      <FacebookComments />
-    </div>
-  );
-}
-
-export async function generateStaticParams() {
-  const noticias = await client.getAllByType('noticias');
-  return noticias.map((noticia) => ({
-    uid: noticia.uid,
-  }));
 }
 
 export async function generateMetadata({ params }) {
   const { uid } = params;
-  const noticia = await client.getByUID('noticias', uid);
+  
+  try {
+    const noticia = await getNewsByUID(uid);
 
-  if (!noticia) {
+    if (!noticia) {
+      return {
+        title: 'Notícia não encontrada | Blog do Flamengo',
+        description: 'A notícia que você está procurando não existe ou foi removida.'
+      };
+    }
+
     return {
-      title: 'Notícia não encontrada',
-      description: 'A notícia que você está procurando não foi encontrada.',
+      title: `${noticia.title} | Blog do Flamengo`,
+      description: Array.isArray(noticia.content) 
+        ? noticia.content[0]?.text || 'Leia mais sobre o Flamengo'
+        : typeof noticia.content === 'string' 
+          ? noticia.content.slice(0, 160)
+          : 'Leia mais sobre o Flamengo',
+      openGraph: {
+        title: noticia.title,
+        description: Array.isArray(noticia.content)
+          ? noticia.content[0]?.text || 'Leia mais sobre o Flamengo'
+          : typeof noticia.content === 'string'
+            ? noticia.content.slice(0, 160)
+            : 'Leia mais sobre o Flamengo',
+        images: noticia.image?.url ? [{ url: noticia.image.url }] : [],
+      },
+    };
+  } catch (error) {
+    return {
+      title: 'Erro | Blog do Flamengo',
+      description: 'Ocorreu um erro ao carregar a notícia.'
     };
   }
-
-  const titulo = noticia.data.title[0].text;
-  const descricao = noticia.data.description || 'Leia mais sobre esta notícia.';
-  const imagem = noticia.data.image?.url;
-
-  return {
-    title: `${titulo} | Blog do Flamengo`,
-    description: descricao,
-    openGraph: {
-      title: titulo,
-      description: descricao,
-      images: imagem ? [{ url: imagem }] : [],
-      type: 'article',
-      site_name: 'Blog do Flamengo',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: titulo,
-      description: descricao,
-      images: imagem ? [imagem] : [],
-    },
-  };
 }
