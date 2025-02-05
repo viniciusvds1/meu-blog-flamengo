@@ -1,46 +1,32 @@
 'use client';
-import { useEffect, useState } from 'react';
 
-const FacebookComments = () => {
-  const [currentUrl, setCurrentUrl] = useState('');
+import { useEffect } from 'react';
 
+const FacebookComments = ({ url }) => {
   useEffect(() => {
-    setCurrentUrl(window.location.href);
-    if (!document.getElementById('facebook-jssdk')) {
-      let script = document.createElement('script');
-      script.id = 'facebook-jssdk';
-      script.src = 'https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v17.0&appId=1277752713485967&autoLogAppEvents=1';
-      document.body.appendChild(script);
-
-      script.onload = () => {
-        if (window.FB) {
-          window.FB.init({
-            appId: '1277752713485967',
-            autoLogAppEvents: true,
-            xfbml: true,
-            version: 'v17.0',
-          });
-          window.FB.XFBML.parse();
-        }
-      };
+    // Load Facebook SDK
+    if (window.FB) {
+      window.FB.XFBML.parse();
     } else {
-      if (window.FB) {
-        window.FB.XFBML.parse();
-      }
+      const script = document.createElement('script');
+      script.src = 'https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v18.0';
+      script.async = true;
+      script.defer = true;
+      script.crossOrigin = 'anonymous';
+      document.body.appendChild(script);
     }
-  }, []);
+  }, [url]);
 
   return (
-    <div className="container mx-auto px-4 max-w-4xl mt-8">
-      <div className="bg-white shadow-lg rounded-xl overflow-hidden p-6 md:p-8">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6">Comentários</h2>
-        <div 
-          className="fb-comments" 
-          data-href={currentUrl} 
-          data-width="100%" 
-          data-numposts="5"
-        ></div>
-      </div>
+    <div className="fb-comments-container card bg-base-100 shadow-xl p-8 mt-8">
+      <h3 className="text-xl font-semibold mb-4">Comentários</h3>
+      <div
+        className="fb-comments"
+        data-href={url}
+        data-width="100%"
+        data-numposts="5"
+        data-order-by="reverse_time"
+      />
     </div>
   );
 };

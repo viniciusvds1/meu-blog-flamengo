@@ -1,9 +1,6 @@
 import { supabase } from './supabase.js';
 import OpenAI from 'openai';
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
+import { JSDOM } from 'jsdom';
 
 export class NewsService {
   async fetchNews() {
@@ -12,12 +9,13 @@ export class NewsService {
       q: 'Flamengo',
       language: 'pt',
       sortBy: 'publishedAt',
-      pageSize: '10', // Limitar a 10 artigos por vez
+      pageSize: '10',
       apiKey: API_KEY
     });
 
     try {
       const response = await fetch(`https://newsapi.org/v2/everything?${params}`);
+      
       const data = await response.json();
       
       if (data.status === 'ok' && Array.isArray(data.articles)) {
@@ -32,22 +30,64 @@ export class NewsService {
     }
   }
 
+  async fetchFullArticleContent(url) {
+    try {
+      const response = await fetch(url);
+      const html = await response.text();
+      
+      const dom = new JSDOM(html);
+      const document = dom.window.document;
+      
+      const contentSelectors = [
+        'article',
+        '.article-content',
+        '.post-content',
+        'main',
+        '.content',
+        '.article-body'
+      ];
+      
+      let content = '';
+      for (const selector of contentSelectors) {
+        const element = document.querySelector(selector);
+        if (element) {
+          content = element.textContent.trim();
+          if (content) break;
+        }
+      }
+      
+      content = content
+        .replace(/\s+/g, ' ')
+        .replace(/\[\+\d+ chars\]/g, '')
+        .trim();
+      
+      return content || null;
+    } catch (error) {
+      console.error('Error fetching full article:', error);
+      return null;
+    }
+  }
+
   async rewriteContent(content) {
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY
+    });
     if (!content) {
       return 'Conteúdo não disponível';
     }
 
     try {
       const completion = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
+        model: "gpt-4",
         messages: [{
           role: "system",
-          content: "Você é um jornalista esportivo especializado em Flamengo. Reescreva a notícia de forma concisa mantendo as informações principais."
+          content: "Você é um jornalista esportivo especializado em Flamengo. Reescreva a notícia mantendo todas as informações importantes e o contexto completo da matéria. Mantenha a estrutura em parágrafos para melhor legibilidade."
         }, {
           role: "user",
           content: content
         }],
-        temperature: 0.7
+        temperature: 0.7,
+        max_tokens: 2000
       });
 
       return completion.choices[0].message.content;
@@ -76,7 +116,14 @@ export class NewsService {
         return false;
       }
 
-      const rewrittenContent = await this.rewriteContent(article.description || article.content || '');
+      let fullContent = null;
+      if (article.url) {
+        console.log('Fetching full content from:', article.url);
+        fullContent = await this.fetchFullArticleContent(article.url);
+      }
+
+      const contentToProcess = fullContent || article.content || article.description || '';
+      const rewrittenContent = await this.rewriteContent(contentToProcess);
 
       const newsData = {
         uid: uid,
@@ -84,7 +131,7 @@ export class NewsService {
         content: rewrittenContent,
         date: article.publishedAt || new Date().toISOString(),
         image: article.urlToImage || '',
-        category: 'futebol'
+        category: 'noticias'
       };
 
       const { error } = await supabase
