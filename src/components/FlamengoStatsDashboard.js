@@ -18,9 +18,7 @@ export default function FlamengoStatsDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('/api/flamengoGames?last=5&next=5', {
-          cache: 'no-store',
-        });
+        const res = await fetch('/api/flamengoGames?last=5&next=5');
 
         if (!res.ok) {
           throw new Error('Falha ao buscar dados da API');
@@ -48,6 +46,13 @@ export default function FlamengoStatsDashboard() {
       return <div className="text-center text-gray-500">Tabela não disponível</div>;
     }
 
+    // Handle both data structures - direct array or nested in tabela property
+    const tabelaData = Array.isArray(tabela) ? tabela : (tabela.tabela || []);
+    
+    if (!Array.isArray(tabelaData) || tabelaData.length === 0) {
+      return <div className="text-center text-gray-500">Tabela não disponível</div>;
+    }
+
     return (
       <div className="overflow-x-auto">
         <table className="table table-zebra w-full">
@@ -63,7 +68,7 @@ export default function FlamengoStatsDashboard() {
             </tr>
           </thead>
           <tbody>
-            {tabela.tabela.map((time) => (
+            {tabelaData.map((time) => (
               <tr
                 key={time.posicao}
                 className={
