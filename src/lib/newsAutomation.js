@@ -159,6 +159,51 @@ class MetaSocialService {
       .digest('hex');
   }
 
+  async generateFacebookPost(article) {
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY
+    });
+
+    try {
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4",
+        messages: [{
+          role: "system",
+          content: "Você é um social media especializado em Flamengo. Crie uma postagem envolvente para o Facebook sobre a notícia fornecida. Use emojis relevantes e hashtags. Mantenha o tom animado e profissional."
+        }, {
+          role: "user",
+          content: `Título: ${article.title}\nConteúdo: ${article.content || article.description}`
+        }],
+        temperature: 0.7,
+        max_tokens: 500
+      });
+
+      const postContent = completion.choices[0].message.content;
+      const uid = article.title
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+
+      return `${postContent}\n\n📱 Leia a matéria completa: ${process.env.SITE_URL}/noticias/${uid}\n\n#Flamengo #CRF #FLA #NaçãoRubroNegra`;
+    } catch (error) {
+      console.warn('Error generating Facebook post:', error);
+      // Fallback to default message if OpenAI fails
+      const uid = article.title
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+
+      return `🔴⚫ ÚLTIMA HORA: ${article.title} 🚨\n\n` +
+        `Clique no link e confira todos os detalhes dessa notícia! 👉 ${process.env.SITE_URL}/noticias/${uid}\n\n` +
+        `📱 Siga @orubronegronews e fique por dentro de tudo sobre o Mengão!\n\n` +
+        `#Flamengo #CRF #FLA #NaçãoRubroNegra #MaiorDoRio #MengãoNews 🦅`;
+    }
+  }
+
   async postToFacebook(article) {
     const access_token = process.env.META_ACCESS_TOKEN;
     const page_id = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID;
@@ -176,10 +221,7 @@ class MetaSocialService {
       }
 
       const appsecret_proof = this.generateAppSecretProof(access_token, app_secret);
-      const message = `🔴⚫ ÚLTIMA HORA: ${article.title} 🚨\n\n` +
-        `Clique no link e confira todos os detalhes dessa notícia! 👉 ${process.env.SITE_URL}/noticias/${uid}\n\n` +
-        `📱 Siga @orubronegronews e fique por dentro de tudo sobre o Mengão!\n\n` +
-        `#Flamengo #CRF #FLA #NaçãoRubroNegra #MaiorDoRio #MengãoNews 🦅`;
+      const message = await this.generateFacebookPost(article);
 
       const url = `https://graph.facebook.com/v18.0/${page_id}/feed`;
       const body = new URLSearchParams({
@@ -213,67 +255,6 @@ class MetaSocialService {
       return false;
     }
   }
-
-  async postToInstagram(article) {
-    const access_token = process.env.META_ACCESS_TOKEN
-    const instagram_account_id = process.env.META_INSTAGRAM_ACCOUNT_ID
-    try {
-      const caption = `${article.title}\n\nLeia mais através do link na bio! 📰⚽️\n\n#Flamengo #CRF #FLA`;
-      
-      const containerUrl = `https://graph.facebook.com/v18.0/${instagram_account_id}/media`;
-      const containerBody = new URLSearchParams({
-        image_url: article.image,
-        caption: caption,
-        access_token: access_token
-      });
-
-      const containerResponse = await fetch(containerUrl, {
-        method: 'POST',
-        body: containerBody
-      });
-
-      const containerData = await containerResponse.json();
-      if (containerData.error) {
-        console.error('Erro ao criar container de mídia:', {
-          code: containerData.error.code,
-          message: containerData.error.message,
-          type: containerData.error.type
-        });
-        throw new Error(containerData.error.message);
-      }
-
-      const publishUrl = `https://graph.facebook.com/v18.0/${instagram_account_id}/media_publish`;
-      const publishBody = new URLSearchParams({
-        creation_id: containerData.id,
-        access_token: access_token
-      });
-
-      const publishResponse = await fetch(publishUrl, {
-        method: 'POST',
-        body: publishBody
-      });
-
-      const publishData = await publishResponse.json();
-      if (publishData.error) {
-        console.error('Erro ao publicar no Instagram:', {
-          code: publishData.error.code,
-          message: publishData.error.message,
-          type: publishData.error.type
-        });
-        throw new Error(publishData.error.message);
-      }
-
-      return true;
-    } catch (error) {
-      console.error('Erro ao postar no Instagram:', {
-        error: error.message,
-        articleTitle: article.title,
-        errorStack: error.stack,
-        step: error.step || 'unknown'
-      });
-      return false;
-    }
-  }
 }
 
 const newsService = new NewsService();
@@ -303,16 +284,12 @@ export async function fetchAndCreateFlamengoNews() {
       if (saved) {
         savedArticles.push(article);
         
-        // Post to social media
-        const [facebookPosted, instagramPosted] = await Promise.all([
-          metaSocialService.postToFacebook(article),
-          article.image ? metaSocialService.postToInstagram(article) : false
-        ]);
+        // Post to Facebook only
+        const facebookPosted = await metaSocialService.postToFacebook(article);
         
         socialMediaPosts.push({
           article: article.title,
-          facebook: facebookPosted,
-          instagram: instagramPosted
+          facebook: facebookPosted
         });
       }
     }
@@ -321,7 +298,7 @@ export async function fetchAndCreateFlamengoNews() {
       success: true, 
       savedCount: savedArticles.length,
       socialMediaPosts,
-      message: `Successfully saved ${savedArticles.length} new articles to Supabase and posted to social media`
+      message: `Successfully saved ${savedArticles.length} new articles to Supabase and posted to Facebook`
     };
   } catch (error) {
     return { success: false, error: error.message };
