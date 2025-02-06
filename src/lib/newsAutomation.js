@@ -1,6 +1,7 @@
 import { supabase } from './supabase.js';
 import OpenAI from 'openai';
 import { JSDOM } from 'jsdom';
+import crypto from 'crypto';
 
 export class NewsService {
   async fetchNews() {
@@ -118,7 +119,6 @@ export class NewsService {
 
       let fullContent = null;
       if (article.url) {
-        console.log('Fetching full content from:', article.url);
         fullContent = await this.fetchFullArticleContent(article.url);
       }
 
@@ -150,11 +150,138 @@ export class NewsService {
   }
 }
 
+class MetaSocialService {
+
+  generateAppSecretProof(access_token, app_secret) {
+    return crypto
+      .createHmac('sha256', app_secret)
+      .update(access_token)
+      .digest('hex');
+  }
+
+  async postToFacebook(article) {
+    const access_token = process.env.META_ACCESS_TOKEN;
+    const page_id = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID;
+    const app_secret = process.env.FACEBOOK_APP_SECRET;
+    const uid = article.title
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
+    try {
+      if (!app_secret) {
+        throw new Error('FACEBOOK_APP_SECRET não está configurado no arquivo .env');
+      }
+
+      const appsecret_proof = this.generateAppSecretProof(access_token, app_secret);
+      const message = `🔴⚫ ÚLTIMA HORA: ${article.title} 🚨\n\n` +
+        `Clique no link e confira todos os detalhes dessa notícia! 👉 ${process.env.SITE_URL}/noticias/${uid}\n\n` +
+        `📱 Siga @orubronegronews e fique por dentro de tudo sobre o Mengão!\n\n` +
+        `#Flamengo #CRF #FLA #NaçãoRubroNegra #MaiorDoRio #MengãoNews 🦅`;
+
+      const url = `https://graph.facebook.com/v18.0/${page_id}/feed`;
+      const body = new URLSearchParams({
+        message: message,
+        link: `${process.env.SITE_URL}/noticias/${uid}`,
+        access_token: access_token,
+        appsecret_proof: appsecret_proof
+      });
+
+      const response = await fetch(url, {
+        method: 'POST',
+        body: body
+      });
+
+      const data = await response.json();
+      if (data.error) {
+        console.error('Erro ao postar no Facebook:', {
+          code: data.error.code,
+          message: data.error.message,
+          type: data.error.type
+        });
+        throw new Error(data.error.message);
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Erro ao postar no Facebook:', {
+        error: error.message,
+        articleTitle: article.title
+      });
+      return false;
+    }
+  }
+
+  async postToInstagram(article) {
+    const access_token = process.env.META_ACCESS_TOKEN
+    const instagram_account_id = process.env.META_INSTAGRAM_ACCOUNT_ID
+    try {
+      const caption = `${article.title}\n\nLeia mais através do link na bio! 📰⚽️\n\n#Flamengo #CRF #FLA`;
+      
+      const containerUrl = `https://graph.facebook.com/v18.0/${instagram_account_id}/media`;
+      const containerBody = new URLSearchParams({
+        image_url: article.image,
+        caption: caption,
+        access_token: access_token
+      });
+
+      const containerResponse = await fetch(containerUrl, {
+        method: 'POST',
+        body: containerBody
+      });
+
+      const containerData = await containerResponse.json();
+      if (containerData.error) {
+        console.error('Erro ao criar container de mídia:', {
+          code: containerData.error.code,
+          message: containerData.error.message,
+          type: containerData.error.type
+        });
+        throw new Error(containerData.error.message);
+      }
+
+      const publishUrl = `https://graph.facebook.com/v18.0/${instagram_account_id}/media_publish`;
+      const publishBody = new URLSearchParams({
+        creation_id: containerData.id,
+        access_token: access_token
+      });
+
+      const publishResponse = await fetch(publishUrl, {
+        method: 'POST',
+        body: publishBody
+      });
+
+      const publishData = await publishResponse.json();
+      if (publishData.error) {
+        console.error('Erro ao publicar no Instagram:', {
+          code: publishData.error.code,
+          message: publishData.error.message,
+          type: publishData.error.type
+        });
+        throw new Error(publishData.error.message);
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Erro ao postar no Instagram:', {
+        error: error.message,
+        articleTitle: article.title,
+        errorStack: error.stack,
+        step: error.step || 'unknown'
+      });
+      return false;
+    }
+  }
+}
+
 const newsService = new NewsService();
 
 export async function fetchAndCreateFlamengoNews() {
   try {
     const articles = await newsService.fetchNews();
+    const metaSocialService = new MetaSocialService();
 
     if (articles.length === 0) {
       return { success: false, error: 'No articles found' };
@@ -166,20 +293,35 @@ export async function fetchAndCreateFlamengoNews() {
         return article.title.toLowerCase().includes('flamengo') ||
                article.description?.toLowerCase()?.includes('flamengo');
       })
-      .slice(0, 3); // Processar apenas os 3 artigos mais recentes
+      .slice(0, 3);
 
     const savedArticles = [];
+    const socialMediaPosts = [];
+    
     for (const article of relevantNews) {
       const saved = await newsService.saveToSupabase(article);
       if (saved) {
         savedArticles.push(article);
+        
+        // Post to social media
+        const [facebookPosted, instagramPosted] = await Promise.all([
+          metaSocialService.postToFacebook(article),
+          article.image ? metaSocialService.postToInstagram(article) : false
+        ]);
+        
+        socialMediaPosts.push({
+          article: article.title,
+          facebook: facebookPosted,
+          instagram: instagramPosted
+        });
       }
     }
 
     return { 
       success: true, 
       savedCount: savedArticles.length,
-      message: `Successfully saved ${savedArticles.length} new articles to Supabase`
+      socialMediaPosts,
+      message: `Successfully saved ${savedArticles.length} new articles to Supabase and posted to social media`
     };
   } catch (error) {
     return { success: false, error: error.message };
