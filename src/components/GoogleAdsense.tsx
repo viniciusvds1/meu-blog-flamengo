@@ -7,10 +7,17 @@ type Props = {
   pId: string;
 };
 
+declare global {
+  interface Window {
+    adsbygoogle: any[];
+  }
+}
+
 export default function GoogleAdsense({ pId }: Props) {
   useEffect(() => {
     try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      const adsbygoogle = window.adsbygoogle || [];
+      adsbygoogle.push({});
     } catch (err) {
       console.error('AdSense error:', err);
     }
@@ -31,7 +38,7 @@ export default function GoogleAdsense({ pId }: Props) {
       <ins
         className="adsbygoogle"
         style={{ display: 'block' }}
-        data-ad-client={pId}
+        data-ad-client={`ca-pub-${pId}`}
         data-ad-slot="AUTO"
         data-ad-format="auto"
         data-full-width-responsive="true"
