@@ -7,29 +7,58 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-  --foreground-rgb: 0, 0, 0;
+  --foreground: #000000;
+  --text-primary: #1a1a1a;
+  --text-secondary: #333333;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
 
 body {
   font-family: 'Roboto', sans-serif;
-  color: var(--foreground);
+  color: var(--text-primary);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif ,'Roboto';
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #121212;
+    --foreground: #ffffff;
+    --text-primary: #ffffff;
+    --text-secondary: #e0e0e0;
   }
 }
 
 /* Remove padding since navbar is not fixed anymore */
 main {
   padding-top: 0;
+}
+
+/* Melhorar contraste para tabelas e estatísticas */
+.table-row {
+  color: var(--text-primary);
+  background: var(--background);
+}
+
+.table-row:nth-child(even) {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+@media (prefers-color-scheme: dark) {
+  .table-row:nth-child(even) {
+    background: rgba(255, 255, 255, 0.03);
+  }
+}
+
+/* Melhorar contraste para textos */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+p, span, div {
+  color: var(--text-secondary);
 }
 
 @layer utilities {

@@ -32,34 +32,34 @@ export default function Navbar() {
   }, [menuOpen]);
 
   return (
-    <nav className="bg-red-600 text-white">
+    <nav className="bg-red-700 text-white shadow-lg">
       <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link href="/">
-            <p className="text-2xl font-bold">Blog do Flamengo</p>
+            <p className="text-2xl font-bold text-white hover:text-gray-100">Blog do Flamengo</p>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <ul className="flex items-center space-x-12">
               <li>
-                <Link href="/" className="hover:text-gray-200 transition-colors">
+                <Link href="/" className="text-white hover:text-gray-200 transition-colors font-medium">
                   Início
                 </Link>
               </li>
               <li>
-                <Link href="/noticias" className="hover:text-gray-200 transition-colors">
+                <Link href="/noticias" className="text-white hover:text-gray-200 transition-colors font-medium">
                   Notícias
                 </Link>
               </li>
               <li>
-                <Link href="/galeria" className="hover:text-gray-200 transition-colors">
+                <Link href="/galeria" className="text-white hover:text-gray-200 transition-colors font-medium">
                   Galeria
                 </Link>
               </li>
               <li>
-                <Link href="/resultados" className="hover:text-gray-200 transition-colors">
+                <Link href="/resultados" className="text-white hover:text-gray-200 transition-colors font-medium">
                   Resultados
                 </Link>
               </li>
@@ -69,7 +69,7 @@ export default function Navbar() {
           {/* Mobile menu button */}
           <button
             id="menu-button"
-            className="md:hidden p-2 hover:bg-red-700 rounded-md z-50"
+            className="md:hidden p-2 hover:bg-red-800 rounded-md z-50"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Menu principal"
           >
@@ -89,7 +89,7 @@ export default function Navbar() {
       {/* Mobile Navigation */}
       <div
         id="mobile-menu"
-        className={`fixed top-0 right-0 h-full w-64 bg-red-600 z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
+        className={`fixed top-0 right-0 h-full w-64 bg-red-700 z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
           menuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -98,7 +98,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/"
-                className="block text-right hover:text-gray-200 transition-colors"
+                className="block text-right text-white hover:text-gray-200 transition-colors"
                 onClick={() => setMenuOpen(false)}
               >
                 Início
@@ -107,7 +107,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/noticias"
-                className="block text-right hover:text-gray-200 transition-colors"
+                className="block text-right text-white hover:text-gray-200 transition-colors"
                 onClick={() => setMenuOpen(false)}
               >
                 Notícias
@@ -116,7 +116,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/galeria"
-                className="block text-right hover:text-gray-200 transition-colors"
+                className="block text-right text-white hover:text-gray-200 transition-colors"
                 onClick={() => setMenuOpen(false)}
               >
                 Galeria
@@ -125,7 +125,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/resultados"
-                className="block text-right hover:text-gray-200 transition-colors"
+                className="block text-right text-white hover:text-gray-200 transition-colors"
                 onClick={() => setMenuOpen(false)}
               >
                 Resultados
