@@ -287,39 +287,42 @@ export async function fetchAndCreateFlamengoNews() {
       }
     }
 
-    try {
-      const client = prismic.createClient(process.env.PRISMIC_ENDPOINT, {
-        accessToken: process.env.PRISMIC_ACCESS_TOKEN,
-      });
+    // Só posta o produto se houver novas notícias salvas
+    if (savedArticles.length > 0) {
+      try {
+        const client = prismic.createClient(process.env.PRISMIC_ENDPOINT, {
+          accessToken: process.env.PRISMIC_ACCESS_TOKEN,
+        });
 
-      const products = await client.getAllByType('produtos', {
-        orderings: {
-          field: 'document.first_publication_date',
-          direction: 'desc'
-        },
-        pageSize: 1
-      });
+        const products = await client.getAllByType('produtos', {
+          orderings: {
+            field: 'document.first_publication_date',
+            direction: 'desc'
+          },
+          pageSize: 1
+        });
 
-      if (products && products.length > 0) {
-        const latestProduct = products[0];
-        const productPosted = await metaSocialService.postToFacebook(latestProduct, true);
-        
-        if (productPosted) {
-          socialMediaPosts.push({
-            product: latestProduct.data.title[0].text,
-            facebook: true
-          });
+        if (products && products.length > 0) {
+          const latestProduct = products[0];
+          const productPosted = await metaSocialService.postToFacebook(latestProduct, true);
+          
+          if (productPosted) {
+            socialMediaPosts.push({
+              product: latestProduct.data.title[0].text,
+              facebook: true
+            });
+          }
         }
+      } catch (error) {
+        // Silently fail product posting
       }
-    } catch (error) {
-      // Silently fail product posting
     }
 
     return { 
       success: true, 
       savedCount: savedArticles.length,
       socialMediaPosts,
-      message: `Successfully saved ${savedArticles.length} new articles and posted content to Facebook`
+      message: `Successfully saved ${savedArticles.length} new articles and posted content to Facebook${savedArticles.length > 0 ? ' along with the latest product' : ''}`
     };
   } catch (error) {
     return { success: false, error: error.message };
