@@ -3,7 +3,11 @@ import OpenAI from 'openai';
 import { JSDOM } from 'jsdom';
 import crypto from 'crypto';
 import * as prismic from '@prismicio/client';
+import dotenv from 'dotenv';
+import fs from 'fs';
 
+// Carrega as variáveis de ambiente do .env.local
+dotenv.config({ path: '.env.local' });
 export class NewsService {
   async fetchNews() {
     const API_KEY = process.env.NEWS_API_KEY;
@@ -18,12 +22,15 @@ export class NewsService {
     try {
       const response = await fetch(`https://newsapi.org/v2/everything?${params}`);
       const data = await response.json();
-      
-      if (data.status === 'ok' && Array.isArray(data.articles)) {
+
+      if (response.ok) {
         return data.articles;
+      } else {
+        console.error('Erro na resposta da API:', data);
+        return [];
       }
-      return [];
     } catch (error) {
+      console.error('Erro ao buscar notícias:', error);
       return [];
     }
   }
@@ -32,58 +39,68 @@ export class NewsService {
     try {
       const response = await fetch(url);
       const html = await response.text();
-      
       const dom = new JSDOM(html);
       const document = dom.window.document;
+
+      // Tenta diferentes seletores comuns para conteúdo de artigos
+      const selectors = ['article', '.article-content', '.post-content', '.entry-content'];
       
-      const contentSelectors = [
-        'article',
-        '.article-content',
-        '.post-content',
-        'main',
-        '.content',
-        '.article-body'
-      ];
-      
-      let content = '';
-      for (const selector of contentSelectors) {
+      for (const selector of selectors) {
         const element = document.querySelector(selector);
         if (element) {
-          content = element.textContent.trim();
-          break;
+          console.log(`Conteúdo encontrado usando seletor: ${selector}`);
+          return element.textContent.trim();
         }
       }
-      
-      return content;
+
+      return null;
     } catch (error) {
-      return '';
+      console.error('Erro ao buscar conteúdo completo:', error);
+      return null;
     }
   }
 
   async saveToSupabase(article) {
     try {
-      const { data: existingArticles } = await supabase
-        .from('noticias')
-        .select('url')
-        .eq('url', article.url);
+      // Verifica se o artigo já existe pelo título
+      const { data: existingArticles, error: checkError } = await supabase
+        .from('news')
+        .select('title')
+        .eq('title', article.title);
 
-      if (existingArticles && existingArticles.length > 0) {
+      if (checkError) {
+        console.error('Erro ao verificar artigo existente:', checkError);
         return false;
       }
 
+      // Se o artigo já existe, não insere
+      if (existingArticles && existingArticles.length > 0) {
+        console.log('Artigo já existe no banco:', article.title);
+        return false;
+      }
+
+      // Se chegou aqui, o artigo não existe, então insere
       const content = await this.fetchFullArticleContent(article.url);
 
-      const { error } = await supabase.from('noticias').insert([{
+      const { error: insertError } = await supabase.from('news').insert([{
         title: article.title,
-        description: article.description,
-        url: article.url,
-        image_url: article.urlToImage,
         content: content || article.description,
-        published_at: article.publishedAt
+        image: article.urlToImage,
+        date: article.publishedAt,
+        is_published: true,
+        category: 'noticias',
+        uid: article.url
       }]);
 
-      return !error;
+      if (insertError) {
+        console.error('Erro ao salvar no Supabase:', insertError);
+        return false;
+      }
+
+      console.log('Artigo salvo com sucesso!');
+      return true;
     } catch (error) {
+      console.error('Erro ao processar salvamento:', error);
       return false;
     }
   }
@@ -256,30 +273,47 @@ export class MetaSocialService {
 const newsService = new NewsService();
 
 export async function fetchAndCreateFlamengoNews() {
-  try {
-    const articles = await newsService.fetchNews();
-    const metaSocialService = new MetaSocialService();
+  console.log('\n=== Iniciando automação de notícias do Flamengo ===');
+  const savedArticles = [];
+  const socialMediaPosts = [];
+  const metaSocialService = new MetaSocialService();
 
-    if (articles.length === 0) {
-      return { success: false, error: 'No articles found' };
+  try {
+    console.log('Buscando artigos...');
+    const articles = await newsService.fetchNews();
+
+    if (!articles || articles.length === 0) {
+      console.log('Nenhum artigo encontrado');
+      return {
+        success: false,
+        savedArticles: [],
+        socialMediaPosts: [],
+        message: 'No articles found'
+      };
     }
 
-    const relevantNews = articles
-      .filter(article => {
-        if (!article?.title) return false;
-        return article.title.toLowerCase().includes('flamengo') ||
-               article.description?.toLowerCase()?.includes('flamengo');
-      })
-      .slice(0, 3);
+    console.log(`Total de artigos encontrados: ${articles.length}`);
 
-    const savedArticles = [];
-    const socialMediaPosts = [];
-    
-    for (const article of relevantNews) {
+    // Filtra artigos relevantes
+    const relevantArticles = articles.filter(article => {
+      if (!article?.title) return false;
+      const title = article.title.toLowerCase();
+      return title.includes('flamengo') && !title.includes('flamenguista');
+    });
+
+    console.log(`Artigos relevantes filtrados: ${relevantArticles.length}\n`);
+
+    // Processa cada artigo
+    for (const article of relevantArticles) {
+      console.log(`\nProcessando artigo: "${article.title}"`);
+
       const saved = await newsService.saveToSupabase(article);
       if (saved) {
+        console.log('Artigo salvo com sucesso no Supabase');
         savedArticles.push(article);
+        console.log('Tentando postar no Facebook...');
         const facebookPosted = await metaSocialService.postToFacebook(article);
+        console.log(`Post no Facebook: ${facebookPosted ? 'Sucesso' : 'Falha'}`);
         socialMediaPosts.push({
           article: article.title,
           facebook: facebookPosted
@@ -289,6 +323,7 @@ export async function fetchAndCreateFlamengoNews() {
 
     // Só posta o produto se houver novas notícias salvas
     if (savedArticles.length > 0) {
+      console.log('\nBuscando produto mais recente do Prismic...');
       try {
         const client = prismic.createClient(process.env.PRISMIC_ENDPOINT, {
           accessToken: process.env.PRISMIC_ACCESS_TOKEN,
@@ -304,27 +339,42 @@ export async function fetchAndCreateFlamengoNews() {
 
         if (products && products.length > 0) {
           const latestProduct = products[0];
+          console.log(`Produto encontrado: "${latestProduct.data.title[0].text}"`);
+          console.log('Tentando postar produto no Facebook...');
           const productPosted = await metaSocialService.postToFacebook(latestProduct, true);
           
           if (productPosted) {
+            console.log('Produto postado com sucesso no Facebook');
             socialMediaPosts.push({
               product: latestProduct.data.title[0].text,
               facebook: true
             });
           }
+        } else {
+          console.log('Nenhum produto encontrado no Prismic');
         }
       } catch (error) {
-        // Silently fail product posting
+        console.error('Erro ao processar produto:', error);
       }
     }
 
-    return { 
-      success: true, 
-      savedCount: savedArticles.length,
+    console.log('\n=== Resumo da execução ===');
+    console.log(`Artigos salvos: ${savedArticles.length}`);
+    console.log(`Posts nas redes sociais: ${socialMediaPosts.length}`);
+
+    return {
+      success: true,
+      savedArticles,
       socialMediaPosts,
       message: `Successfully saved ${savedArticles.length} new articles and posted content to Facebook${savedArticles.length > 0 ? ' along with the latest product' : ''}`
     };
   } catch (error) {
-    return { success: false, error: error.message };
+    console.error('Erro na execução principal:', error);
+    return {
+      success: false,
+      savedArticles,
+      socialMediaPosts,
+      message: error.message
+    };
   }
 }
