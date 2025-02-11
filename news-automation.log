@@ -1,0 +1,1151 @@
+2025-02-11T15:05:21.484Z - Variáveis de ambiente carregadas: {
+  "PRISMIC_ENDPOINT": "https://blog-mengo.cdn.prismic.io/api/v2",
+  "NEWS_API_KEY": "be640ddc30904e129e65b46c7b180803"
+}
+2025-02-11T15:05:21.487Z - === Iniciando automação de notícias do Flamengo ===
+2025-02-11T15:05:21.488Z - Buscando artigos...
+2025-02-11T15:05:21.488Z - API_KEY: be640ddc30904e129e65b46c7b180803
+2025-02-11T15:05:21.488Z - Fazendo requisição para NewsAPI...
+2025-02-11T15:05:22.060Z - Status da resposta: 200
+2025-02-11T15:05:22.065Z - Resposta completa da API: {
+  "status": "ok",
+  "totalResults": 1296,
+  "articles": [
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Botafogo trabalha para o retorno do volante Allan, após problemas físicos",
+      "description": "Atleta, que teve um desgaste físico e atuou por apenas três minutos na temporada até aqui, pode reaparecer no clássicos segundo Carlos Leiria",
+      "url": "https://www.terra.com.br/esportes/botafogo/botafogo-trabalha-para-o-retorno-do-volante-allan-apos-problemas-fisicos,502f680c3bec27c7c0f6f4afa4ff5e8fkerzoi9t.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/1375139930-54120292291554c2deb4fceasy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T14:44:00Z",
+      "content": "Reforço do Botafogo para a temporada de 2024, Allan ainda não conseguiu se firmar entre os titulares, visto que Gregore e Marlon Freitas tiveram grandes fases na ocasião. Agora, em 2025, o volante te… [+1322 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Abril.com.br"
+      },
+      "author": "Pedro Gil",
+      "title": "Com bancos e bets, clubes do Brasileirão exibiram 132 marcas em 2024",
+      "description": "Estudo identificou crescimento de 13% em relação ao ano anterior",
+      "url": "https://veja.abril.com.br/coluna/radar-economico/com-bancos-e-bets-clubes-do-brasileirao-exibiram-132-marcas-em-2024",
+      "urlToImage": "https://veja.abril.com.br/wp-content/uploads/2023/07/GettyImages-1460331654.jpg?quality=70&strip=info&crop=1&resize=1080,565",
+      "publishedAt": "2025-02-10T14:04:26Z",
+      "content": "Verão: 4 Revistas em casa a partir de 29,90/mês\r\nRivais nas principais disputas dos últimos anos, Palmeiras e Flamengo jogam no Allianz Parque, neste sábado -  (Buda Mendes/Getty Images)\r\nContinua ap… [+1608 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Flamengo não tem pressa por novos reforços e buscará apenas oportunidades de mercado",
+      "description": "Filipe Luís se diz satisfeito com o elenco rubro-negro, e o intuito é trazer novas peças apenas no meio do ano visando a disputa do Mundial",
+      "url": "https://www.terra.com.br/esportes/flamengo/flamengo-nao-tem-pressa-por-novos-reforcos-e-buscara-apenas-oportunidades-de-mercado,759a46d2aff99535f2166da954a1f7f52kpgw4fw.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/366170611-flamengo-02easy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T13:41:50Z",
+      "content": "Com a reta final da janela de transferências, que fecha no dia 28 de fevereiro, os clubes ainda terão tempo para se movimentarem no mercado. O Flamengo, até o momento, contratou o zagueiro Danilo e o… [+1504 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Com saída de Kauã Elias, Mano fala sobre busca do Fluminense por outro atacante",
+      "description": "Após o empate no Fla-Flu, técnico fala sobre a saída do jovem para o Shakhtar e necessidade de um atleta com características diferentes",
+      "url": "https://www.terra.com.br/esportes/fluminense/com-saida-de-kaua-elias-mano-fala-sobre-busca-do-fluminense-por-outro-atacante,4603337233e9efd98c42a2963e9ecb19awo3okej.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/1779704895-54315145788883211be85heasy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T13:14:47Z",
+      "content": "Na montagem do elenco para 2025, o Fluminense confirmou a venda de Kauã Elias para o Shakhtar Donetsk, da Ucrânia. Assim, o clube carioca segue ativo no mercado na busca por uma peça de reposição par… [+2294 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Rivais em campo, dupla de Flamengo e Vasco divide a mesma paixão por NFL",
+      "description": "Rubro-negro e cruz-maltino relacionam suas carreiras com a admiração pela liga de futebol americano, que tem os Eagles como atuais campeões",
+      "url": "https://www.terra.com.br/esportes/flamengo/rivais-em-campo-dupla-de-flamengo-e-vasco-divide-a-mesma-paixao-por-nfl,ea37b1a2d3b0afc271be563ae6342f77t73ngahf.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/695659169-super-bowl-lix-kansas-city-chiefs-v-philadelphia-eagles-1-610x400.jpg",
+      "publishedAt": "2025-02-10T12:35:47Z",
+      "content": "Um veste rubro-negro, o outro cruz-maltino. Um é zagueiro, o outro meio-campista. De um lado, Flamengo. Do outro, Vasco. Mas o que Léo Ortiz e Tchê Tchê têm em comum? A paixão avassaladora por NFL (l… [+3374 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Uol.com.br"
+      },
+      "author": "Luiza Sá",
+      "title": null,
+      "description": "A lesão de Alex Sandro dará uma responsabilidade extra ao lateral-esquerdo Ayrton Lucas. Em baixa desde o ano passado, o jogador pode aproveitar a oportunidade pelo menos pelos próximos jogos para reconquistar a torcida e dar um recado ao técnico Filip",
+      "url": "https://www.uol.com.br/esporte/futebol/ultimas-noticias/2025/02/10/ayrton-lucas-tera-chance-nos-classicos-para-reconquistar-torcida-do-fla.htm",
+      "urlToImage": "https://conteudo.imguol.com.br/c/esporte/c0/2024/09/29/ayrton-lucas-em-acao-durante-jogo-entre-flamengo-e-athletico-pelo-brasileirao-1727656943731_v2_615x300.jpg",
+      "publishedAt": "2025-02-10T10:55:38Z",
+      "content": "Fato é que Filipe Luís não vai forçar o elenco mesmo tendo todos à disposição. Assim como aconteceu na última temporada, o treinador deve fazer um controle de carga com Alex Sandro para tê-lo nas par… [+2111 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Olhardigital.com.br"
+      },
+      "author": "Vitoria Lopes Gomez",
+      "title": "Sampaio Corrêa x Vasco: onde assistir, horário e escalação do Campeonato Carioca",
+      "description": "Próximos na tabela, equipes podem ficar mais próximas da liderança\nO post Sampaio Corrêa x Vasco: onde assistir, horário e escalação do Campeonato Carioca apareceu primeiro em Olhar Digital.",
+      "url": "https://olhardigital.com.br/2025/02/10/internet-e-redes-sociais/sampaio-correa-x-vasco-onde-assistir-horario-e-escalacao-do-campeonato-carioca/",
+      "urlToImage": "https://img.odcdn.com.br/wp-content/uploads/2025/02/sampaio-correa-x-vasco.png",
+      "publishedAt": "2025-02-10T09:30:00Z",
+      "content": "Nesta segunda-feira (10), Sampaio Corrêa e Vasco se enfrentam pela 9ª rodada do Campeonato Carioca2025. As equipes estão com apenas 1 ponto de diferença na tabela. A bola rola às 20h (horário de Bras… [+1456 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Metropoles.com"
+      },
+      "author": "Raphael Costa",
+      "title": "É hoje! São Paulo e Inter de Limeira se enfrentam em Brasília",
+      "description": "São Paulo e Inter de Limeira se enfrentam nesta segunda-feira (9/2), em jogo atrasado pela 1ª rodada do Campeonato Paulista",
+      "url": "https://www.metropoles.com/esportes/e-hoje-sao-paulo-e-inter-de-limeira-se-enfrentam-em-brasilia",
+      "urlToImage": "https://uploads.metroimg.com/wp-content/uploads/2025/02/05112850/spfc-inter-limeira-df.jpeg",
+      "publishedAt": "2025-02-10T05:00:35Z",
+      "content": "Chegou o grande dia para a torcida Tricolor. Nesta segunda-feira (10/2), o São Paulo joga em Brasília contra a Inter de Limeira, às 21h30, na Arena BRB Mané Garrincha. O compromisso é um jogo atrasad… [+2298 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Metropoles.com"
+      },
+      "author": "Pedro Santana",
+      "title": "Abel Ferreira sobre Palmeiras em Brasília: “Merecemos o empate”. Vídeo",
+      "description": "Treinador lamentou empate com Água Santa, mas foi sincero sobre resultado de jogo no DF. Partida foi uma realização Metrópoles Sports",
+      "url": "https://www.metropoles.com/esportes/abel-ferreira-sobre-palmeiras-em-brasilia-merecemos-o-empate-video",
+      "urlToImage": "https://uploads.metroimg.com/wp-content/uploads/2048/01/09202508/A%CC%81gua-Santa-e-Palmeiras-pela-oitava-rodada-do-Campeonato-Paulista-Metro%CC%81poles-Sports-4-3-1133x800.jpeg",
+      "publishedAt": "2025-02-10T00:56:40Z",
+      "content": "Em jogo muito disputado em Brasília, o Água Santa segurou o ímpeto e a pressão do Palmeiras e garantiu o empate por 1 x 1 na Arena BRB Mané Garrincha, neste domingo (9/2), em jogo da 8ª rodada do Cam… [+2307 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Esporte News Mundo",
+      "title": "Botafogo perde para o Madureira e técnico interino explica decisão de poupar titulares",
+      "description": "Com a equipe formada por reservas, o técnico interino Carlos Leiria justificou as escolhas feitas na escalação",
+      "url": "https://www.terra.com.br/esportes/botafogo/botafogo-perde-para-o-madureira-e-tecnico-interino-explica-decisao-de-poupar-titulares,c2251a2ec47620310b00315bbefc59be77ho6pe8.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/09/107074075-carlos-leiria-foto-vitor-silvabotafogo.jpg",
+      "publishedAt": "2025-02-09T23:46:00Z",
+      "content": "O Botafogo foi derrotado pelo Madureira por 2 a 0 neste domingo, em jogo válido pela 9ª rodada do Campeonato Carioca, disputado em Cariacica, no Espírito Santo. Com a equipe formada por reservas, o t… [+2114 chars]"
+    }
+  ]
+}
+2025-02-11T15:05:22.066Z - Sucesso! Encontradas 10 notícias
+2025-02-11T15:05:22.066Z - Total de artigos encontrados: 10
+2025-02-11T15:05:22.067Z - Artigos relevantes filtrados: 2
+2025-02-11T15:05:22.067Z - 
+Processando artigo: "Flamengo não tem pressa por novos reforços e buscará apenas oportunidades de mercado"
+2025-02-11T15:05:22.068Z - Tentando salvar artigo: Flamengo não tem pressa por novos reforços e buscará apenas oportunidades de mercado
+2025-02-11T15:05:22.559Z - Erro ao processar salvamento: {}
+2025-02-11T15:05:22.560Z - 
+Processando artigo: "Rivais em campo, dupla de Flamengo e Vasco divide a mesma paixão por NFL"
+2025-02-11T15:05:22.560Z - Tentando salvar artigo: Rivais em campo, dupla de Flamengo e Vasco divide a mesma paixão por NFL
+2025-02-11T15:05:22.804Z - Erro ao processar salvamento: {}
+2025-02-11T15:05:22.805Z - 
+=== Resumo da execução ===
+2025-02-11T15:05:22.805Z - Artigos salvos: 0
+2025-02-11T15:05:22.805Z - Posts nas redes sociais: 0
+2025-02-11T15:06:54.663Z - Variáveis de ambiente carregadas: {
+  "PRISMIC_ENDPOINT": "https://blog-mengo.cdn.prismic.io/api/v2",
+  "NEWS_API_KEY": "be640ddc30904e129e65b46c7b180803"
+}
+2025-02-11T15:06:54.667Z - === Iniciando automação de notícias do Flamengo ===
+2025-02-11T15:06:54.667Z - Buscando artigos...
+2025-02-11T15:06:54.667Z - API_KEY: be640ddc30904e129e65b46c7b180803
+2025-02-11T15:06:54.668Z - Fazendo requisição para NewsAPI...
+2025-02-11T15:06:55.273Z - Status da resposta: 200
+2025-02-11T15:06:55.278Z - Resposta completa da API: {
+  "status": "ok",
+  "totalResults": 1296,
+  "articles": [
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Botafogo trabalha para o retorno do volante Allan, após problemas físicos",
+      "description": "Atleta, que teve um desgaste físico e atuou por apenas três minutos na temporada até aqui, pode reaparecer no clássicos segundo Carlos Leiria",
+      "url": "https://www.terra.com.br/esportes/botafogo/botafogo-trabalha-para-o-retorno-do-volante-allan-apos-problemas-fisicos,502f680c3bec27c7c0f6f4afa4ff5e8fkerzoi9t.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/1375139930-54120292291554c2deb4fceasy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T14:44:00Z",
+      "content": "Reforço do Botafogo para a temporada de 2024, Allan ainda não conseguiu se firmar entre os titulares, visto que Gregore e Marlon Freitas tiveram grandes fases na ocasião. Agora, em 2025, o volante te… [+1322 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Abril.com.br"
+      },
+      "author": "Pedro Gil",
+      "title": "Com bancos e bets, clubes do Brasileirão exibiram 132 marcas em 2024",
+      "description": "Estudo identificou crescimento de 13% em relação ao ano anterior",
+      "url": "https://veja.abril.com.br/coluna/radar-economico/com-bancos-e-bets-clubes-do-brasileirao-exibiram-132-marcas-em-2024",
+      "urlToImage": "https://veja.abril.com.br/wp-content/uploads/2023/07/GettyImages-1460331654.jpg?quality=70&strip=info&crop=1&resize=1080,565",
+      "publishedAt": "2025-02-10T14:04:26Z",
+      "content": "Verão: 4 Revistas em casa a partir de 29,90/mês\r\nRivais nas principais disputas dos últimos anos, Palmeiras e Flamengo jogam no Allianz Parque, neste sábado -  (Buda Mendes/Getty Images)\r\nContinua ap… [+1608 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Flamengo não tem pressa por novos reforços e buscará apenas oportunidades de mercado",
+      "description": "Filipe Luís se diz satisfeito com o elenco rubro-negro, e o intuito é trazer novas peças apenas no meio do ano visando a disputa do Mundial",
+      "url": "https://www.terra.com.br/esportes/flamengo/flamengo-nao-tem-pressa-por-novos-reforcos-e-buscara-apenas-oportunidades-de-mercado,759a46d2aff99535f2166da954a1f7f52kpgw4fw.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/366170611-flamengo-02easy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T13:41:50Z",
+      "content": "Com a reta final da janela de transferências, que fecha no dia 28 de fevereiro, os clubes ainda terão tempo para se movimentarem no mercado. O Flamengo, até o momento, contratou o zagueiro Danilo e o… [+1504 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Com saída de Kauã Elias, Mano fala sobre busca do Fluminense por outro atacante",
+      "description": "Após o empate no Fla-Flu, técnico fala sobre a saída do jovem para o Shakhtar e necessidade de um atleta com características diferentes",
+      "url": "https://www.terra.com.br/esportes/fluminense/com-saida-de-kaua-elias-mano-fala-sobre-busca-do-fluminense-por-outro-atacante,4603337233e9efd98c42a2963e9ecb19awo3okej.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/1779704895-54315145788883211be85heasy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T13:14:47Z",
+      "content": "Na montagem do elenco para 2025, o Fluminense confirmou a venda de Kauã Elias para o Shakhtar Donetsk, da Ucrânia. Assim, o clube carioca segue ativo no mercado na busca por uma peça de reposição par… [+2294 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Rivais em campo, dupla de Flamengo e Vasco divide a mesma paixão por NFL",
+      "description": "Rubro-negro e cruz-maltino relacionam suas carreiras com a admiração pela liga de futebol americano, que tem os Eagles como atuais campeões",
+      "url": "https://www.terra.com.br/esportes/flamengo/rivais-em-campo-dupla-de-flamengo-e-vasco-divide-a-mesma-paixao-por-nfl,ea37b1a2d3b0afc271be563ae6342f77t73ngahf.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/695659169-super-bowl-lix-kansas-city-chiefs-v-philadelphia-eagles-1-610x400.jpg",
+      "publishedAt": "2025-02-10T12:35:47Z",
+      "content": "Um veste rubro-negro, o outro cruz-maltino. Um é zagueiro, o outro meio-campista. De um lado, Flamengo. Do outro, Vasco. Mas o que Léo Ortiz e Tchê Tchê têm em comum? A paixão avassaladora por NFL (l… [+3374 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Uol.com.br"
+      },
+      "author": "Luiza Sá",
+      "title": null,
+      "description": "A lesão de Alex Sandro dará uma responsabilidade extra ao lateral-esquerdo Ayrton Lucas. Em baixa desde o ano passado, o jogador pode aproveitar a oportunidade pelo menos pelos próximos jogos para reconquistar a torcida e dar um recado ao técnico Filip",
+      "url": "https://www.uol.com.br/esporte/futebol/ultimas-noticias/2025/02/10/ayrton-lucas-tera-chance-nos-classicos-para-reconquistar-torcida-do-fla.htm",
+      "urlToImage": "https://conteudo.imguol.com.br/c/esporte/c0/2024/09/29/ayrton-lucas-em-acao-durante-jogo-entre-flamengo-e-athletico-pelo-brasileirao-1727656943731_v2_615x300.jpg",
+      "publishedAt": "2025-02-10T10:55:38Z",
+      "content": "Fato é que Filipe Luís não vai forçar o elenco mesmo tendo todos à disposição. Assim como aconteceu na última temporada, o treinador deve fazer um controle de carga com Alex Sandro para tê-lo nas par… [+2111 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Olhardigital.com.br"
+      },
+      "author": "Vitoria Lopes Gomez",
+      "title": "Sampaio Corrêa x Vasco: onde assistir, horário e escalação do Campeonato Carioca",
+      "description": "Próximos na tabela, equipes podem ficar mais próximas da liderança\nO post Sampaio Corrêa x Vasco: onde assistir, horário e escalação do Campeonato Carioca apareceu primeiro em Olhar Digital.",
+      "url": "https://olhardigital.com.br/2025/02/10/internet-e-redes-sociais/sampaio-correa-x-vasco-onde-assistir-horario-e-escalacao-do-campeonato-carioca/",
+      "urlToImage": "https://img.odcdn.com.br/wp-content/uploads/2025/02/sampaio-correa-x-vasco.png",
+      "publishedAt": "2025-02-10T09:30:00Z",
+      "content": "Nesta segunda-feira (10), Sampaio Corrêa e Vasco se enfrentam pela 9ª rodada do Campeonato Carioca2025. As equipes estão com apenas 1 ponto de diferença na tabela. A bola rola às 20h (horário de Bras… [+1456 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Metropoles.com"
+      },
+      "author": "Raphael Costa",
+      "title": "É hoje! São Paulo e Inter de Limeira se enfrentam em Brasília",
+      "description": "São Paulo e Inter de Limeira se enfrentam nesta segunda-feira (9/2), em jogo atrasado pela 1ª rodada do Campeonato Paulista",
+      "url": "https://www.metropoles.com/esportes/e-hoje-sao-paulo-e-inter-de-limeira-se-enfrentam-em-brasilia",
+      "urlToImage": "https://uploads.metroimg.com/wp-content/uploads/2025/02/05112850/spfc-inter-limeira-df.jpeg",
+      "publishedAt": "2025-02-10T05:00:35Z",
+      "content": "Chegou o grande dia para a torcida Tricolor. Nesta segunda-feira (10/2), o São Paulo joga em Brasília contra a Inter de Limeira, às 21h30, na Arena BRB Mané Garrincha. O compromisso é um jogo atrasad… [+2298 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Metropoles.com"
+      },
+      "author": "Pedro Santana",
+      "title": "Abel Ferreira sobre Palmeiras em Brasília: “Merecemos o empate”. Vídeo",
+      "description": "Treinador lamentou empate com Água Santa, mas foi sincero sobre resultado de jogo no DF. Partida foi uma realização Metrópoles Sports",
+      "url": "https://www.metropoles.com/esportes/abel-ferreira-sobre-palmeiras-em-brasilia-merecemos-o-empate-video",
+      "urlToImage": "https://uploads.metroimg.com/wp-content/uploads/2048/01/09202508/A%CC%81gua-Santa-e-Palmeiras-pela-oitava-rodada-do-Campeonato-Paulista-Metro%CC%81poles-Sports-4-3-1133x800.jpeg",
+      "publishedAt": "2025-02-10T00:56:40Z",
+      "content": "Em jogo muito disputado em Brasília, o Água Santa segurou o ímpeto e a pressão do Palmeiras e garantiu o empate por 1 x 1 na Arena BRB Mané Garrincha, neste domingo (9/2), em jogo da 8ª rodada do Cam… [+2307 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Esporte News Mundo",
+      "title": "Botafogo perde para o Madureira e técnico interino explica decisão de poupar titulares",
+      "description": "Com a equipe formada por reservas, o técnico interino Carlos Leiria justificou as escolhas feitas na escalação",
+      "url": "https://www.terra.com.br/esportes/botafogo/botafogo-perde-para-o-madureira-e-tecnico-interino-explica-decisao-de-poupar-titulares,c2251a2ec47620310b00315bbefc59be77ho6pe8.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/09/107074075-carlos-leiria-foto-vitor-silvabotafogo.jpg",
+      "publishedAt": "2025-02-09T23:46:00Z",
+      "content": "O Botafogo foi derrotado pelo Madureira por 2 a 0 neste domingo, em jogo válido pela 9ª rodada do Campeonato Carioca, disputado em Cariacica, no Espírito Santo. Com a equipe formada por reservas, o t… [+2114 chars]"
+    }
+  ]
+}
+2025-02-11T15:06:55.279Z - Sucesso! Encontradas 10 notícias
+2025-02-11T15:06:55.279Z - Total de artigos encontrados: 10
+2025-02-11T15:06:55.280Z - Artigos relevantes filtrados: 2
+2025-02-11T15:06:55.280Z - 
+Processando artigo: "Flamengo não tem pressa por novos reforços e buscará apenas oportunidades de mercado"
+2025-02-11T15:06:55.280Z - Tentando salvar artigo: Flamengo não tem pressa por novos reforços e buscará apenas oportunidades de mercado
+2025-02-11T15:06:55.950Z - Tabela não existe, tentando criar...
+2025-02-11T15:06:55.951Z - Erro ao processar salvamento: {}
+2025-02-11T15:06:55.951Z - 
+Processando artigo: "Rivais em campo, dupla de Flamengo e Vasco divide a mesma paixão por NFL"
+2025-02-11T15:06:55.952Z - Tentando salvar artigo: Rivais em campo, dupla de Flamengo e Vasco divide a mesma paixão por NFL
+2025-02-11T15:06:56.199Z - Tabela não existe, tentando criar...
+2025-02-11T15:06:56.200Z - Erro ao processar salvamento: {}
+2025-02-11T15:06:56.200Z - 
+=== Resumo da execução ===
+2025-02-11T15:06:56.201Z - Artigos salvos: 0
+2025-02-11T15:06:56.201Z - Posts nas redes sociais: 0
+2025-02-11T15:10:01.286Z - Variáveis de ambiente carregadas: {
+  "PRISMIC_ENDPOINT": "https://blog-mengo.cdn.prismic.io/api/v2",
+  "NEWS_API_KEY": "be640ddc30904e129e65b46c7b180803"
+}
+2025-02-11T15:10:01.289Z - === Iniciando automação de notícias do Flamengo ===
+2025-02-11T15:10:01.290Z - Buscando artigos...
+2025-02-11T15:10:01.290Z - API_KEY: be640ddc30904e129e65b46c7b180803
+2025-02-11T15:10:01.290Z - Fazendo requisição para NewsAPI...
+2025-02-11T15:10:01.525Z - Status da resposta: 200
+2025-02-11T15:10:01.531Z - Resposta completa da API: {
+  "status": "ok",
+  "totalResults": 1296,
+  "articles": [
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Botafogo trabalha para o retorno do volante Allan, após problemas físicos",
+      "description": "Atleta, que teve um desgaste físico e atuou por apenas três minutos na temporada até aqui, pode reaparecer no clássicos segundo Carlos Leiria",
+      "url": "https://www.terra.com.br/esportes/botafogo/botafogo-trabalha-para-o-retorno-do-volante-allan-apos-problemas-fisicos,502f680c3bec27c7c0f6f4afa4ff5e8fkerzoi9t.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/1375139930-54120292291554c2deb4fceasy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T14:44:00Z",
+      "content": "Reforço do Botafogo para a temporada de 2024, Allan ainda não conseguiu se firmar entre os titulares, visto que Gregore e Marlon Freitas tiveram grandes fases na ocasião. Agora, em 2025, o volante te… [+1322 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Abril.com.br"
+      },
+      "author": "Pedro Gil",
+      "title": "Com bancos e bets, clubes do Brasileirão exibiram 132 marcas em 2024",
+      "description": "Estudo identificou crescimento de 13% em relação ao ano anterior",
+      "url": "https://veja.abril.com.br/coluna/radar-economico/com-bancos-e-bets-clubes-do-brasileirao-exibiram-132-marcas-em-2024",
+      "urlToImage": "https://veja.abril.com.br/wp-content/uploads/2023/07/GettyImages-1460331654.jpg?quality=70&strip=info&crop=1&resize=1080,565",
+      "publishedAt": "2025-02-10T14:04:26Z",
+      "content": "Verão: 4 Revistas em casa a partir de 29,90/mês\r\nRivais nas principais disputas dos últimos anos, Palmeiras e Flamengo jogam no Allianz Parque, neste sábado -  (Buda Mendes/Getty Images)\r\nContinua ap… [+1608 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Flamengo não tem pressa por novos reforços e buscará apenas oportunidades de mercado",
+      "description": "Filipe Luís se diz satisfeito com o elenco rubro-negro, e o intuito é trazer novas peças apenas no meio do ano visando a disputa do Mundial",
+      "url": "https://www.terra.com.br/esportes/flamengo/flamengo-nao-tem-pressa-por-novos-reforcos-e-buscara-apenas-oportunidades-de-mercado,759a46d2aff99535f2166da954a1f7f52kpgw4fw.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/366170611-flamengo-02easy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T13:41:50Z",
+      "content": "Com a reta final da janela de transferências, que fecha no dia 28 de fevereiro, os clubes ainda terão tempo para se movimentarem no mercado. O Flamengo, até o momento, contratou o zagueiro Danilo e o… [+1504 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Com saída de Kauã Elias, Mano fala sobre busca do Fluminense por outro atacante",
+      "description": "Após o empate no Fla-Flu, técnico fala sobre a saída do jovem para o Shakhtar e necessidade de um atleta com características diferentes",
+      "url": "https://www.terra.com.br/esportes/fluminense/com-saida-de-kaua-elias-mano-fala-sobre-busca-do-fluminense-por-outro-atacante,4603337233e9efd98c42a2963e9ecb19awo3okej.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/1779704895-54315145788883211be85heasy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T13:14:47Z",
+      "content": "Na montagem do elenco para 2025, o Fluminense confirmou a venda de Kauã Elias para o Shakhtar Donetsk, da Ucrânia. Assim, o clube carioca segue ativo no mercado na busca por uma peça de reposição par… [+2294 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Rivais em campo, dupla de Flamengo e Vasco divide a mesma paixão por NFL",
+      "description": "Rubro-negro e cruz-maltino relacionam suas carreiras com a admiração pela liga de futebol americano, que tem os Eagles como atuais campeões",
+      "url": "https://www.terra.com.br/esportes/flamengo/rivais-em-campo-dupla-de-flamengo-e-vasco-divide-a-mesma-paixao-por-nfl,ea37b1a2d3b0afc271be563ae6342f77t73ngahf.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/695659169-super-bowl-lix-kansas-city-chiefs-v-philadelphia-eagles-1-610x400.jpg",
+      "publishedAt": "2025-02-10T12:35:47Z",
+      "content": "Um veste rubro-negro, o outro cruz-maltino. Um é zagueiro, o outro meio-campista. De um lado, Flamengo. Do outro, Vasco. Mas o que Léo Ortiz e Tchê Tchê têm em comum? A paixão avassaladora por NFL (l… [+3374 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Uol.com.br"
+      },
+      "author": "Luiza Sá",
+      "title": null,
+      "description": "A lesão de Alex Sandro dará uma responsabilidade extra ao lateral-esquerdo Ayrton Lucas. Em baixa desde o ano passado, o jogador pode aproveitar a oportunidade pelo menos pelos próximos jogos para reconquistar a torcida e dar um recado ao técnico Filip",
+      "url": "https://www.uol.com.br/esporte/futebol/ultimas-noticias/2025/02/10/ayrton-lucas-tera-chance-nos-classicos-para-reconquistar-torcida-do-fla.htm",
+      "urlToImage": "https://conteudo.imguol.com.br/c/esporte/c0/2024/09/29/ayrton-lucas-em-acao-durante-jogo-entre-flamengo-e-athletico-pelo-brasileirao-1727656943731_v2_615x300.jpg",
+      "publishedAt": "2025-02-10T10:55:38Z",
+      "content": "Fato é que Filipe Luís não vai forçar o elenco mesmo tendo todos à disposição. Assim como aconteceu na última temporada, o treinador deve fazer um controle de carga com Alex Sandro para tê-lo nas par… [+2111 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Olhardigital.com.br"
+      },
+      "author": "Vitoria Lopes Gomez",
+      "title": "Sampaio Corrêa x Vasco: onde assistir, horário e escalação do Campeonato Carioca",
+      "description": "Próximos na tabela, equipes podem ficar mais próximas da liderança\nO post Sampaio Corrêa x Vasco: onde assistir, horário e escalação do Campeonato Carioca apareceu primeiro em Olhar Digital.",
+      "url": "https://olhardigital.com.br/2025/02/10/internet-e-redes-sociais/sampaio-correa-x-vasco-onde-assistir-horario-e-escalacao-do-campeonato-carioca/",
+      "urlToImage": "https://img.odcdn.com.br/wp-content/uploads/2025/02/sampaio-correa-x-vasco.png",
+      "publishedAt": "2025-02-10T09:30:00Z",
+      "content": "Nesta segunda-feira (10), Sampaio Corrêa e Vasco se enfrentam pela 9ª rodada do Campeonato Carioca2025. As equipes estão com apenas 1 ponto de diferença na tabela. A bola rola às 20h (horário de Bras… [+1456 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Metropoles.com"
+      },
+      "author": "Raphael Costa",
+      "title": "É hoje! São Paulo e Inter de Limeira se enfrentam em Brasília",
+      "description": "São Paulo e Inter de Limeira se enfrentam nesta segunda-feira (9/2), em jogo atrasado pela 1ª rodada do Campeonato Paulista",
+      "url": "https://www.metropoles.com/esportes/e-hoje-sao-paulo-e-inter-de-limeira-se-enfrentam-em-brasilia",
+      "urlToImage": "https://uploads.metroimg.com/wp-content/uploads/2025/02/05112850/spfc-inter-limeira-df.jpeg",
+      "publishedAt": "2025-02-10T05:00:35Z",
+      "content": "Chegou o grande dia para a torcida Tricolor. Nesta segunda-feira (10/2), o São Paulo joga em Brasília contra a Inter de Limeira, às 21h30, na Arena BRB Mané Garrincha. O compromisso é um jogo atrasad… [+2298 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Metropoles.com"
+      },
+      "author": "Pedro Santana",
+      "title": "Abel Ferreira sobre Palmeiras em Brasília: “Merecemos o empate”. Vídeo",
+      "description": "Treinador lamentou empate com Água Santa, mas foi sincero sobre resultado de jogo no DF. Partida foi uma realização Metrópoles Sports",
+      "url": "https://www.metropoles.com/esportes/abel-ferreira-sobre-palmeiras-em-brasilia-merecemos-o-empate-video",
+      "urlToImage": "https://uploads.metroimg.com/wp-content/uploads/2048/01/09202508/A%CC%81gua-Santa-e-Palmeiras-pela-oitava-rodada-do-Campeonato-Paulista-Metro%CC%81poles-Sports-4-3-1133x800.jpeg",
+      "publishedAt": "2025-02-10T00:56:40Z",
+      "content": "Em jogo muito disputado em Brasília, o Água Santa segurou o ímpeto e a pressão do Palmeiras e garantiu o empate por 1 x 1 na Arena BRB Mané Garrincha, neste domingo (9/2), em jogo da 8ª rodada do Cam… [+2307 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Esporte News Mundo",
+      "title": "Botafogo perde para o Madureira e técnico interino explica decisão de poupar titulares",
+      "description": "Com a equipe formada por reservas, o técnico interino Carlos Leiria justificou as escolhas feitas na escalação",
+      "url": "https://www.terra.com.br/esportes/botafogo/botafogo-perde-para-o-madureira-e-tecnico-interino-explica-decisao-de-poupar-titulares,c2251a2ec47620310b00315bbefc59be77ho6pe8.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/09/107074075-carlos-leiria-foto-vitor-silvabotafogo.jpg",
+      "publishedAt": "2025-02-09T23:46:00Z",
+      "content": "O Botafogo foi derrotado pelo Madureira por 2 a 0 neste domingo, em jogo válido pela 9ª rodada do Campeonato Carioca, disputado em Cariacica, no Espírito Santo. Com a equipe formada por reservas, o t… [+2114 chars]"
+    }
+  ]
+}
+2025-02-11T15:10:01.531Z - Sucesso! Encontradas 10 notícias
+2025-02-11T15:10:01.531Z - Total de artigos encontrados: 10
+2025-02-11T15:10:01.532Z - Artigos relevantes filtrados: 2
+2025-02-11T15:10:01.532Z - 
+Processando artigo: "Flamengo não tem pressa por novos reforços e buscará apenas oportunidades de mercado"
+2025-02-11T15:10:01.533Z - Tentando salvar artigo: Flamengo não tem pressa por novos reforços e buscará apenas oportunidades de mercado
+2025-02-11T15:10:02.404Z - Erro ao verificar artigo existente: {
+  "code": "42703",
+  "details": null,
+  "hint": null,
+  "message": "column news.url does not exist"
+}
+2025-02-11T15:10:02.405Z - 
+Processando artigo: "Rivais em campo, dupla de Flamengo e Vasco divide a mesma paixão por NFL"
+2025-02-11T15:10:02.405Z - Tentando salvar artigo: Rivais em campo, dupla de Flamengo e Vasco divide a mesma paixão por NFL
+2025-02-11T15:10:03.100Z - Erro ao verificar artigo existente: {
+  "code": "42703",
+  "details": null,
+  "hint": null,
+  "message": "column news.url does not exist"
+}
+2025-02-11T15:10:03.101Z - 
+=== Resumo da execução ===
+2025-02-11T15:10:03.102Z - Artigos salvos: 0
+2025-02-11T15:12:40.047Z - Variáveis de ambiente carregadas: {
+  "PRISMIC_ENDPOINT": "https://blog-mengo.cdn.prismic.io/api/v2",
+  "NEWS_API_KEY": "be640ddc30904e129e65b46c7b180803"
+}
+2025-02-11T15:12:40.050Z - === Iniciando automação de notícias do Flamengo ===
+2025-02-11T15:12:40.050Z - Buscando artigos...
+2025-02-11T15:12:40.051Z - API_KEY: be640ddc30904e129e65b46c7b180803
+2025-02-11T15:12:40.051Z - Fazendo requisição para NewsAPI...
+2025-02-11T15:12:40.291Z - Status da resposta: 200
+2025-02-11T15:12:40.296Z - Resposta completa da API: {
+  "status": "ok",
+  "totalResults": 1297,
+  "articles": [
+    {
+      "source": {
+        "id": null,
+        "name": "Metropoles.com"
+      },
+      "author": "The Playoffs",
+      "title": "Astro da NBA diz que poderia jogar no Flamengo. Entenda",
+      "description": "Jogador, que agora defende o Golden State Warriors, brincou que poderia vestir a camisa do Rubro-negro",
+      "url": "https://www.metropoles.com/esportes/astro-da-nba-diz-que-poderia-jogar-no-flamengo-entenda",
+      "urlToImage": "https://uploads.metroimg.com/wp-content/uploads/2023/06/01164156/Nikola-Jokic-e-Jimmy-Butler.jpg",
+      "publishedAt": "2025-02-10T15:12:33Z",
+      "content": "Jimmy Butler fez a sua estreia pelo Golden State Warriors, liderando seu novo time a uma vitória dominante por 132 x 11 sobre o Chicago Bulls. Sua tão aguardada estreia aconteceu após uma longa e tum… [+876 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Botafogo trabalha para o retorno do volante Allan, após problemas físicos",
+      "description": "Atleta, que teve um desgaste físico e atuou por apenas três minutos na temporada até aqui, pode reaparecer no clássicos segundo Carlos Leiria",
+      "url": "https://www.terra.com.br/esportes/botafogo/botafogo-trabalha-para-o-retorno-do-volante-allan-apos-problemas-fisicos,502f680c3bec27c7c0f6f4afa4ff5e8fkerzoi9t.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/1375139930-54120292291554c2deb4fceasy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T14:44:00Z",
+      "content": "Reforço do Botafogo para a temporada de 2024, Allan ainda não conseguiu se firmar entre os titulares, visto que Gregore e Marlon Freitas tiveram grandes fases na ocasião. Agora, em 2025, o volante te… [+1322 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Abril.com.br"
+      },
+      "author": "Pedro Gil",
+      "title": "Com bancos e bets, clubes do Brasileirão exibiram 132 marcas em 2024",
+      "description": "Estudo identificou crescimento de 13% em relação ao ano anterior",
+      "url": "https://veja.abril.com.br/coluna/radar-economico/com-bancos-e-bets-clubes-do-brasileirao-exibiram-132-marcas-em-2024",
+      "urlToImage": "https://veja.abril.com.br/wp-content/uploads/2023/07/GettyImages-1460331654.jpg?quality=70&strip=info&crop=1&resize=1080,565",
+      "publishedAt": "2025-02-10T14:04:26Z",
+      "content": "Verão: 4 Revistas em casa a partir de 29,90/mês\r\nRivais nas principais disputas dos últimos anos, Palmeiras e Flamengo jogam no Allianz Parque, neste sábado -  (Buda Mendes/Getty Images)\r\nContinua ap… [+1608 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Flamengo não tem pressa por novos reforços e buscará apenas oportunidades de mercado",
+      "description": "Filipe Luís se diz satisfeito com o elenco rubro-negro, e o intuito é trazer novas peças apenas no meio do ano visando a disputa do Mundial",
+      "url": "https://www.terra.com.br/esportes/flamengo/flamengo-nao-tem-pressa-por-novos-reforcos-e-buscara-apenas-oportunidades-de-mercado,759a46d2aff99535f2166da954a1f7f52kpgw4fw.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/366170611-flamengo-02easy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T13:41:50Z",
+      "content": "Com a reta final da janela de transferências, que fecha no dia 28 de fevereiro, os clubes ainda terão tempo para se movimentarem no mercado. O Flamengo, até o momento, contratou o zagueiro Danilo e o… [+1504 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Com saída de Kauã Elias, Mano fala sobre busca do Fluminense por outro atacante",
+      "description": "Após o empate no Fla-Flu, técnico fala sobre a saída do jovem para o Shakhtar e necessidade de um atleta com características diferentes",
+      "url": "https://www.terra.com.br/esportes/fluminense/com-saida-de-kaua-elias-mano-fala-sobre-busca-do-fluminense-por-outro-atacante,4603337233e9efd98c42a2963e9ecb19awo3okej.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/1779704895-54315145788883211be85heasy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T13:14:47Z",
+      "content": "Na montagem do elenco para 2025, o Fluminense confirmou a venda de Kauã Elias para o Shakhtar Donetsk, da Ucrânia. Assim, o clube carioca segue ativo no mercado na busca por uma peça de reposição par… [+2294 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Rivais em campo, dupla de Flamengo e Vasco divide a mesma paixão por NFL",
+      "description": "Rubro-negro e cruz-maltino relacionam suas carreiras com a admiração pela liga de futebol americano, que tem os Eagles como atuais campeões",
+      "url": "https://www.terra.com.br/esportes/flamengo/rivais-em-campo-dupla-de-flamengo-e-vasco-divide-a-mesma-paixao-por-nfl,ea37b1a2d3b0afc271be563ae6342f77t73ngahf.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/695659169-super-bowl-lix-kansas-city-chiefs-v-philadelphia-eagles-1-610x400.jpg",
+      "publishedAt": "2025-02-10T12:35:47Z",
+      "content": "Um veste rubro-negro, o outro cruz-maltino. Um é zagueiro, o outro meio-campista. De um lado, Flamengo. Do outro, Vasco. Mas o que Léo Ortiz e Tchê Tchê têm em comum? A paixão avassaladora por NFL (l… [+3374 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Uol.com.br"
+      },
+      "author": "Luiza Sá",
+      "title": null,
+      "description": "A lesão de Alex Sandro dará uma responsabilidade extra ao lateral-esquerdo Ayrton Lucas. Em baixa desde o ano passado, o jogador pode aproveitar a oportunidade pelo menos pelos próximos jogos para reconquistar a torcida e dar um recado ao técnico Filip",
+      "url": "https://www.uol.com.br/esporte/futebol/ultimas-noticias/2025/02/10/ayrton-lucas-tera-chance-nos-classicos-para-reconquistar-torcida-do-fla.htm",
+      "urlToImage": "https://conteudo.imguol.com.br/c/esporte/c0/2024/09/29/ayrton-lucas-em-acao-durante-jogo-entre-flamengo-e-athletico-pelo-brasileirao-1727656943731_v2_615x300.jpg",
+      "publishedAt": "2025-02-10T10:55:38Z",
+      "content": "Fato é que Filipe Luís não vai forçar o elenco mesmo tendo todos à disposição. Assim como aconteceu na última temporada, o treinador deve fazer um controle de carga com Alex Sandro para tê-lo nas par… [+2111 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Olhardigital.com.br"
+      },
+      "author": "Vitoria Lopes Gomez",
+      "title": "Sampaio Corrêa x Vasco: onde assistir, horário e escalação do Campeonato Carioca",
+      "description": "Próximos na tabela, equipes podem ficar mais próximas da liderança\nO post Sampaio Corrêa x Vasco: onde assistir, horário e escalação do Campeonato Carioca apareceu primeiro em Olhar Digital.",
+      "url": "https://olhardigital.com.br/2025/02/10/internet-e-redes-sociais/sampaio-correa-x-vasco-onde-assistir-horario-e-escalacao-do-campeonato-carioca/",
+      "urlToImage": "https://img.odcdn.com.br/wp-content/uploads/2025/02/sampaio-correa-x-vasco.png",
+      "publishedAt": "2025-02-10T09:30:00Z",
+      "content": "Nesta segunda-feira (10), Sampaio Corrêa e Vasco se enfrentam pela 9ª rodada do Campeonato Carioca2025. As equipes estão com apenas 1 ponto de diferença na tabela. A bola rola às 20h (horário de Bras… [+1456 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Metropoles.com"
+      },
+      "author": "Raphael Costa",
+      "title": "É hoje! São Paulo e Inter de Limeira se enfrentam em Brasília",
+      "description": "São Paulo e Inter de Limeira se enfrentam nesta segunda-feira (9/2), em jogo atrasado pela 1ª rodada do Campeonato Paulista",
+      "url": "https://www.metropoles.com/esportes/e-hoje-sao-paulo-e-inter-de-limeira-se-enfrentam-em-brasilia",
+      "urlToImage": "https://uploads.metroimg.com/wp-content/uploads/2025/02/05112850/spfc-inter-limeira-df.jpeg",
+      "publishedAt": "2025-02-10T05:00:35Z",
+      "content": "Chegou o grande dia para a torcida Tricolor. Nesta segunda-feira (10/2), o São Paulo joga em Brasília contra a Inter de Limeira, às 21h30, na Arena BRB Mané Garrincha. O compromisso é um jogo atrasad… [+2298 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Metropoles.com"
+      },
+      "author": "Pedro Santana",
+      "title": "Abel Ferreira sobre Palmeiras em Brasília: “Merecemos o empate”. Vídeo",
+      "description": "Treinador lamentou empate com Água Santa, mas foi sincero sobre resultado de jogo no DF. Partida foi uma realização Metrópoles Sports",
+      "url": "https://www.metropoles.com/esportes/abel-ferreira-sobre-palmeiras-em-brasilia-merecemos-o-empate-video",
+      "urlToImage": "https://uploads.metroimg.com/wp-content/uploads/2048/01/09202508/A%CC%81gua-Santa-e-Palmeiras-pela-oitava-rodada-do-Campeonato-Paulista-Metro%CC%81poles-Sports-4-3-1133x800.jpeg",
+      "publishedAt": "2025-02-10T00:56:40Z",
+      "content": "Em jogo muito disputado em Brasília, o Água Santa segurou o ímpeto e a pressão do Palmeiras e garantiu o empate por 1 x 1 na Arena BRB Mané Garrincha, neste domingo (9/2), em jogo da 8ª rodada do Cam… [+2307 chars]"
+    }
+  ]
+}
+2025-02-11T15:12:40.297Z - Sucesso! Encontradas 10 notícias
+2025-02-11T15:12:40.297Z - Total de artigos encontrados: 10
+2025-02-11T15:12:40.298Z - Artigos relevantes filtrados: 3
+2025-02-11T15:12:40.298Z - 
+Processando artigo: "Astro da NBA diz que poderia jogar no Flamengo. Entenda"
+2025-02-11T15:12:40.298Z - Tentando salvar artigo: Astro da NBA diz que poderia jogar no Flamengo. Entenda
+2025-02-11T15:12:41.242Z - Buscando conteúdo completo do artigo...
+2025-02-11T15:12:41.242Z - Tentando buscar conteúdo completo da URL: https://www.metropoles.com/esportes/astro-da-nba-diz-que-poderia-jogar-no-flamengo-entenda
+2025-02-11T15:12:41.537Z - Conteúdo encontrado usando seletor: article
+2025-02-11T15:12:41.803Z - Artigo salvo com sucesso!
+2025-02-11T15:12:41.804Z - Artigo salvo com sucesso no Supabase
+2025-02-11T15:12:41.804Z - 
+Processando artigo: "Flamengo não tem pressa por novos reforços e buscará apenas oportunidades de mercado"
+2025-02-11T15:12:41.805Z - Tentando salvar artigo: Flamengo não tem pressa por novos reforços e buscará apenas oportunidades de mercado
+2025-02-11T15:12:42.053Z - Buscando conteúdo completo do artigo...
+2025-02-11T15:12:42.054Z - Tentando buscar conteúdo completo da URL: https://www.terra.com.br/esportes/flamengo/flamengo-nao-tem-pressa-por-novos-reforcos-e-buscara-apenas-oportunidades-de-mercado,759a46d2aff99535f2166da954a1f7f52kpgw4fw.html
+2025-02-11T15:12:42.486Z - Conteúdo encontrado usando seletor: article
+2025-02-11T15:12:42.739Z - Artigo salvo com sucesso!
+2025-02-11T15:12:42.740Z - Artigo salvo com sucesso no Supabase
+2025-02-11T15:12:42.740Z - 
+Processando artigo: "Rivais em campo, dupla de Flamengo e Vasco divide a mesma paixão por NFL"
+2025-02-11T15:12:42.740Z - Tentando salvar artigo: Rivais em campo, dupla de Flamengo e Vasco divide a mesma paixão por NFL
+2025-02-11T15:12:42.988Z - Buscando conteúdo completo do artigo...
+2025-02-11T15:12:42.988Z - Tentando buscar conteúdo completo da URL: https://www.terra.com.br/esportes/flamengo/rivais-em-campo-dupla-de-flamengo-e-vasco-divide-a-mesma-paixao-por-nfl,ea37b1a2d3b0afc271be563ae6342f77t73ngahf.html
+2025-02-11T15:13:03.721Z - Conteúdo encontrado usando seletor: article
+2025-02-11T15:13:04.021Z - Artigo salvo com sucesso!
+2025-02-11T15:13:04.021Z - Artigo salvo com sucesso no Supabase
+2025-02-11T15:13:04.022Z - 
+=== Resumo da execução ===
+2025-02-11T15:13:04.022Z - Artigos salvos: 3
+2025-02-11T15:15:11.150Z - Variáveis de ambiente carregadas: {
+  "PRISMIC_ENDPOINT": "https://blog-mengo.cdn.prismic.io/api/v2",
+  "NEWS_API_KEY": "be640ddc30904e129e65b46c7b180803"
+}
+2025-02-11T15:15:11.153Z - === Iniciando automação de notícias do Flamengo ===
+2025-02-11T15:15:11.154Z - Buscando artigos...
+2025-02-11T15:15:11.154Z - API_KEY: be640ddc30904e129e65b46c7b180803
+2025-02-11T15:15:11.155Z - Fazendo requisição para NewsAPI...
+2025-02-11T15:15:11.362Z - Status da resposta: 200
+2025-02-11T15:15:11.368Z - Resposta completa da API: {
+  "status": "ok",
+  "totalResults": 1297,
+  "articles": [
+    {
+      "source": {
+        "id": null,
+        "name": "Metropoles.com"
+      },
+      "author": "The Playoffs",
+      "title": "Astro da NBA diz que poderia jogar no Flamengo. Entenda",
+      "description": "Jogador, que agora defende o Golden State Warriors, brincou que poderia vestir a camisa do Rubro-negro",
+      "url": "https://www.metropoles.com/esportes/astro-da-nba-diz-que-poderia-jogar-no-flamengo-entenda",
+      "urlToImage": "https://uploads.metroimg.com/wp-content/uploads/2023/06/01164156/Nikola-Jokic-e-Jimmy-Butler.jpg",
+      "publishedAt": "2025-02-10T15:12:33Z",
+      "content": "Jimmy Butler fez a sua estreia pelo Golden State Warriors, liderando seu novo time a uma vitória dominante por 132 x 11 sobre o Chicago Bulls. Sua tão aguardada estreia aconteceu após uma longa e tum… [+876 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Botafogo trabalha para o retorno do volante Allan, após problemas físicos",
+      "description": "Atleta, que teve um desgaste físico e atuou por apenas três minutos na temporada até aqui, pode reaparecer no clássicos segundo Carlos Leiria",
+      "url": "https://www.terra.com.br/esportes/botafogo/botafogo-trabalha-para-o-retorno-do-volante-allan-apos-problemas-fisicos,502f680c3bec27c7c0f6f4afa4ff5e8fkerzoi9t.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/1375139930-54120292291554c2deb4fceasy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T14:44:00Z",
+      "content": "Reforço do Botafogo para a temporada de 2024, Allan ainda não conseguiu se firmar entre os titulares, visto que Gregore e Marlon Freitas tiveram grandes fases na ocasião. Agora, em 2025, o volante te… [+1322 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Abril.com.br"
+      },
+      "author": "Pedro Gil",
+      "title": "Com bancos e bets, clubes do Brasileirão exibiram 132 marcas em 2024",
+      "description": "Estudo identificou crescimento de 13% em relação ao ano anterior",
+      "url": "https://veja.abril.com.br/coluna/radar-economico/com-bancos-e-bets-clubes-do-brasileirao-exibiram-132-marcas-em-2024",
+      "urlToImage": "https://veja.abril.com.br/wp-content/uploads/2023/07/GettyImages-1460331654.jpg?quality=70&strip=info&crop=1&resize=1080,565",
+      "publishedAt": "2025-02-10T14:04:26Z",
+      "content": "Verão: 4 Revistas em casa a partir de 29,90/mês\r\nRivais nas principais disputas dos últimos anos, Palmeiras e Flamengo jogam no Allianz Parque, neste sábado -  (Buda Mendes/Getty Images)\r\nContinua ap… [+1608 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Flamengo não tem pressa por novos reforços e buscará apenas oportunidades de mercado",
+      "description": "Filipe Luís se diz satisfeito com o elenco rubro-negro, e o intuito é trazer novas peças apenas no meio do ano visando a disputa do Mundial",
+      "url": "https://www.terra.com.br/esportes/flamengo/flamengo-nao-tem-pressa-por-novos-reforcos-e-buscara-apenas-oportunidades-de-mercado,759a46d2aff99535f2166da954a1f7f52kpgw4fw.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/366170611-flamengo-02easy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T13:41:50Z",
+      "content": "Com a reta final da janela de transferências, que fecha no dia 28 de fevereiro, os clubes ainda terão tempo para se movimentarem no mercado. O Flamengo, até o momento, contratou o zagueiro Danilo e o… [+1504 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Com saída de Kauã Elias, Mano fala sobre busca do Fluminense por outro atacante",
+      "description": "Após o empate no Fla-Flu, técnico fala sobre a saída do jovem para o Shakhtar e necessidade de um atleta com características diferentes",
+      "url": "https://www.terra.com.br/esportes/fluminense/com-saida-de-kaua-elias-mano-fala-sobre-busca-do-fluminense-por-outro-atacante,4603337233e9efd98c42a2963e9ecb19awo3okej.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/1779704895-54315145788883211be85heasy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T13:14:47Z",
+      "content": "Na montagem do elenco para 2025, o Fluminense confirmou a venda de Kauã Elias para o Shakhtar Donetsk, da Ucrânia. Assim, o clube carioca segue ativo no mercado na busca por uma peça de reposição par… [+2294 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Rivais em campo, dupla de Flamengo e Vasco divide a mesma paixão por NFL",
+      "description": "Rubro-negro e cruz-maltino relacionam suas carreiras com a admiração pela liga de futebol americano, que tem os Eagles como atuais campeões",
+      "url": "https://www.terra.com.br/esportes/flamengo/rivais-em-campo-dupla-de-flamengo-e-vasco-divide-a-mesma-paixao-por-nfl,ea37b1a2d3b0afc271be563ae6342f77t73ngahf.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/695659169-super-bowl-lix-kansas-city-chiefs-v-philadelphia-eagles-1-610x400.jpg",
+      "publishedAt": "2025-02-10T12:35:47Z",
+      "content": "Um veste rubro-negro, o outro cruz-maltino. Um é zagueiro, o outro meio-campista. De um lado, Flamengo. Do outro, Vasco. Mas o que Léo Ortiz e Tchê Tchê têm em comum? A paixão avassaladora por NFL (l… [+3374 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Uol.com.br"
+      },
+      "author": "Luiza Sá",
+      "title": null,
+      "description": "A lesão de Alex Sandro dará uma responsabilidade extra ao lateral-esquerdo Ayrton Lucas. Em baixa desde o ano passado, o jogador pode aproveitar a oportunidade pelo menos pelos próximos jogos para reconquistar a torcida e dar um recado ao técnico Filip",
+      "url": "https://www.uol.com.br/esporte/futebol/ultimas-noticias/2025/02/10/ayrton-lucas-tera-chance-nos-classicos-para-reconquistar-torcida-do-fla.htm",
+      "urlToImage": "https://conteudo.imguol.com.br/c/esporte/c0/2024/09/29/ayrton-lucas-em-acao-durante-jogo-entre-flamengo-e-athletico-pelo-brasileirao-1727656943731_v2_615x300.jpg",
+      "publishedAt": "2025-02-10T10:55:38Z",
+      "content": "Fato é que Filipe Luís não vai forçar o elenco mesmo tendo todos à disposição. Assim como aconteceu na última temporada, o treinador deve fazer um controle de carga com Alex Sandro para tê-lo nas par… [+2111 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Olhardigital.com.br"
+      },
+      "author": "Vitoria Lopes Gomez",
+      "title": "Sampaio Corrêa x Vasco: onde assistir, horário e escalação do Campeonato Carioca",
+      "description": "Próximos na tabela, equipes podem ficar mais próximas da liderança\nO post Sampaio Corrêa x Vasco: onde assistir, horário e escalação do Campeonato Carioca apareceu primeiro em Olhar Digital.",
+      "url": "https://olhardigital.com.br/2025/02/10/internet-e-redes-sociais/sampaio-correa-x-vasco-onde-assistir-horario-e-escalacao-do-campeonato-carioca/",
+      "urlToImage": "https://img.odcdn.com.br/wp-content/uploads/2025/02/sampaio-correa-x-vasco.png",
+      "publishedAt": "2025-02-10T09:30:00Z",
+      "content": "Nesta segunda-feira (10), Sampaio Corrêa e Vasco se enfrentam pela 9ª rodada do Campeonato Carioca2025. As equipes estão com apenas 1 ponto de diferença na tabela. A bola rola às 20h (horário de Bras… [+1456 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Metropoles.com"
+      },
+      "author": "Raphael Costa",
+      "title": "É hoje! São Paulo e Inter de Limeira se enfrentam em Brasília",
+      "description": "São Paulo e Inter de Limeira se enfrentam nesta segunda-feira (9/2), em jogo atrasado pela 1ª rodada do Campeonato Paulista",
+      "url": "https://www.metropoles.com/esportes/e-hoje-sao-paulo-e-inter-de-limeira-se-enfrentam-em-brasilia",
+      "urlToImage": "https://uploads.metroimg.com/wp-content/uploads/2025/02/05112850/spfc-inter-limeira-df.jpeg",
+      "publishedAt": "2025-02-10T05:00:35Z",
+      "content": "Chegou o grande dia para a torcida Tricolor. Nesta segunda-feira (10/2), o São Paulo joga em Brasília contra a Inter de Limeira, às 21h30, na Arena BRB Mané Garrincha. O compromisso é um jogo atrasad… [+2298 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Metropoles.com"
+      },
+      "author": "Pedro Santana",
+      "title": "Abel Ferreira sobre Palmeiras em Brasília: “Merecemos o empate”. Vídeo",
+      "description": "Treinador lamentou empate com Água Santa, mas foi sincero sobre resultado de jogo no DF. Partida foi uma realização Metrópoles Sports",
+      "url": "https://www.metropoles.com/esportes/abel-ferreira-sobre-palmeiras-em-brasilia-merecemos-o-empate-video",
+      "urlToImage": "https://uploads.metroimg.com/wp-content/uploads/2048/01/09202508/A%CC%81gua-Santa-e-Palmeiras-pela-oitava-rodada-do-Campeonato-Paulista-Metro%CC%81poles-Sports-4-3-1133x800.jpeg",
+      "publishedAt": "2025-02-10T00:56:40Z",
+      "content": "Em jogo muito disputado em Brasília, o Água Santa segurou o ímpeto e a pressão do Palmeiras e garantiu o empate por 1 x 1 na Arena BRB Mané Garrincha, neste domingo (9/2), em jogo da 8ª rodada do Cam… [+2307 chars]"
+    }
+  ]
+}
+2025-02-11T15:15:11.368Z - Sucesso! Encontradas 10 notícias
+2025-02-11T15:15:11.369Z - Total de artigos encontrados: 10
+2025-02-11T15:15:11.370Z - Erro na execução principal: Cannot read properties of null (reading 'toLowerCase')
+2025-02-11T15:15:33.108Z - Variáveis de ambiente carregadas: {
+  "PRISMIC_ENDPOINT": "https://blog-mengo.cdn.prismic.io/api/v2",
+  "NEWS_API_KEY": "be640ddc30904e129e65b46c7b180803"
+}
+2025-02-11T15:15:33.111Z - === Iniciando automação de notícias do Flamengo ===
+2025-02-11T15:15:33.111Z - Buscando artigos...
+2025-02-11T15:15:33.112Z - API_KEY: be640ddc30904e129e65b46c7b180803
+2025-02-11T15:15:33.112Z - Fazendo requisição para NewsAPI...
+2025-02-11T15:15:33.683Z - Status da resposta: 200
+2025-02-11T15:15:33.688Z - Resposta completa da API: {
+  "status": "ok",
+  "totalResults": 1297,
+  "articles": [
+    {
+      "source": {
+        "id": null,
+        "name": "Metropoles.com"
+      },
+      "author": "The Playoffs",
+      "title": "Astro da NBA diz que poderia jogar no Flamengo. Entenda",
+      "description": "Jogador, que agora defende o Golden State Warriors, brincou que poderia vestir a camisa do Rubro-negro",
+      "url": "https://www.metropoles.com/esportes/astro-da-nba-diz-que-poderia-jogar-no-flamengo-entenda",
+      "urlToImage": "https://uploads.metroimg.com/wp-content/uploads/2023/06/01164156/Nikola-Jokic-e-Jimmy-Butler.jpg",
+      "publishedAt": "2025-02-10T15:12:33Z",
+      "content": "Jimmy Butler fez a sua estreia pelo Golden State Warriors, liderando seu novo time a uma vitória dominante por 132 x 11 sobre o Chicago Bulls. Sua tão aguardada estreia aconteceu após uma longa e tum… [+876 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Botafogo trabalha para o retorno do volante Allan, após problemas físicos",
+      "description": "Atleta, que teve um desgaste físico e atuou por apenas três minutos na temporada até aqui, pode reaparecer no clássicos segundo Carlos Leiria",
+      "url": "https://www.terra.com.br/esportes/botafogo/botafogo-trabalha-para-o-retorno-do-volante-allan-apos-problemas-fisicos,502f680c3bec27c7c0f6f4afa4ff5e8fkerzoi9t.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/1375139930-54120292291554c2deb4fceasy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T14:44:00Z",
+      "content": "Reforço do Botafogo para a temporada de 2024, Allan ainda não conseguiu se firmar entre os titulares, visto que Gregore e Marlon Freitas tiveram grandes fases na ocasião. Agora, em 2025, o volante te… [+1322 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Abril.com.br"
+      },
+      "author": "Pedro Gil",
+      "title": "Com bancos e bets, clubes do Brasileirão exibiram 132 marcas em 2024",
+      "description": "Estudo identificou crescimento de 13% em relação ao ano anterior",
+      "url": "https://veja.abril.com.br/coluna/radar-economico/com-bancos-e-bets-clubes-do-brasileirao-exibiram-132-marcas-em-2024",
+      "urlToImage": "https://veja.abril.com.br/wp-content/uploads/2023/07/GettyImages-1460331654.jpg?quality=70&strip=info&crop=1&resize=1080,565",
+      "publishedAt": "2025-02-10T14:04:26Z",
+      "content": "Verão: 4 Revistas em casa a partir de 29,90/mês\r\nRivais nas principais disputas dos últimos anos, Palmeiras e Flamengo jogam no Allianz Parque, neste sábado -  (Buda Mendes/Getty Images)\r\nContinua ap… [+1608 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Flamengo não tem pressa por novos reforços e buscará apenas oportunidades de mercado",
+      "description": "Filipe Luís se diz satisfeito com o elenco rubro-negro, e o intuito é trazer novas peças apenas no meio do ano visando a disputa do Mundial",
+      "url": "https://www.terra.com.br/esportes/flamengo/flamengo-nao-tem-pressa-por-novos-reforcos-e-buscara-apenas-oportunidades-de-mercado,759a46d2aff99535f2166da954a1f7f52kpgw4fw.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/366170611-flamengo-02easy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T13:41:50Z",
+      "content": "Com a reta final da janela de transferências, que fecha no dia 28 de fevereiro, os clubes ainda terão tempo para se movimentarem no mercado. O Flamengo, até o momento, contratou o zagueiro Danilo e o… [+1504 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Com saída de Kauã Elias, Mano fala sobre busca do Fluminense por outro atacante",
+      "description": "Após o empate no Fla-Flu, técnico fala sobre a saída do jovem para o Shakhtar e necessidade de um atleta com características diferentes",
+      "url": "https://www.terra.com.br/esportes/fluminense/com-saida-de-kaua-elias-mano-fala-sobre-busca-do-fluminense-por-outro-atacante,4603337233e9efd98c42a2963e9ecb19awo3okej.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/1779704895-54315145788883211be85heasy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T13:14:47Z",
+      "content": "Na montagem do elenco para 2025, o Fluminense confirmou a venda de Kauã Elias para o Shakhtar Donetsk, da Ucrânia. Assim, o clube carioca segue ativo no mercado na busca por uma peça de reposição par… [+2294 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Rivais em campo, dupla de Flamengo e Vasco divide a mesma paixão por NFL",
+      "description": "Rubro-negro e cruz-maltino relacionam suas carreiras com a admiração pela liga de futebol americano, que tem os Eagles como atuais campeões",
+      "url": "https://www.terra.com.br/esportes/flamengo/rivais-em-campo-dupla-de-flamengo-e-vasco-divide-a-mesma-paixao-por-nfl,ea37b1a2d3b0afc271be563ae6342f77t73ngahf.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/695659169-super-bowl-lix-kansas-city-chiefs-v-philadelphia-eagles-1-610x400.jpg",
+      "publishedAt": "2025-02-10T12:35:47Z",
+      "content": "Um veste rubro-negro, o outro cruz-maltino. Um é zagueiro, o outro meio-campista. De um lado, Flamengo. Do outro, Vasco. Mas o que Léo Ortiz e Tchê Tchê têm em comum? A paixão avassaladora por NFL (l… [+3374 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Uol.com.br"
+      },
+      "author": "Luiza Sá",
+      "title": null,
+      "description": "A lesão de Alex Sandro dará uma responsabilidade extra ao lateral-esquerdo Ayrton Lucas. Em baixa desde o ano passado, o jogador pode aproveitar a oportunidade pelo menos pelos próximos jogos para reconquistar a torcida e dar um recado ao técnico Filip",
+      "url": "https://www.uol.com.br/esporte/futebol/ultimas-noticias/2025/02/10/ayrton-lucas-tera-chance-nos-classicos-para-reconquistar-torcida-do-fla.htm",
+      "urlToImage": "https://conteudo.imguol.com.br/c/esporte/c0/2024/09/29/ayrton-lucas-em-acao-durante-jogo-entre-flamengo-e-athletico-pelo-brasileirao-1727656943731_v2_615x300.jpg",
+      "publishedAt": "2025-02-10T10:55:38Z",
+      "content": "Fato é que Filipe Luís não vai forçar o elenco mesmo tendo todos à disposição. Assim como aconteceu na última temporada, o treinador deve fazer um controle de carga com Alex Sandro para tê-lo nas par… [+2111 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Olhardigital.com.br"
+      },
+      "author": "Vitoria Lopes Gomez",
+      "title": "Sampaio Corrêa x Vasco: onde assistir, horário e escalação do Campeonato Carioca",
+      "description": "Próximos na tabela, equipes podem ficar mais próximas da liderança\nO post Sampaio Corrêa x Vasco: onde assistir, horário e escalação do Campeonato Carioca apareceu primeiro em Olhar Digital.",
+      "url": "https://olhardigital.com.br/2025/02/10/internet-e-redes-sociais/sampaio-correa-x-vasco-onde-assistir-horario-e-escalacao-do-campeonato-carioca/",
+      "urlToImage": "https://img.odcdn.com.br/wp-content/uploads/2025/02/sampaio-correa-x-vasco.png",
+      "publishedAt": "2025-02-10T09:30:00Z",
+      "content": "Nesta segunda-feira (10), Sampaio Corrêa e Vasco se enfrentam pela 9ª rodada do Campeonato Carioca2025. As equipes estão com apenas 1 ponto de diferença na tabela. A bola rola às 20h (horário de Bras… [+1456 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Metropoles.com"
+      },
+      "author": "Raphael Costa",
+      "title": "É hoje! São Paulo e Inter de Limeira se enfrentam em Brasília",
+      "description": "São Paulo e Inter de Limeira se enfrentam nesta segunda-feira (9/2), em jogo atrasado pela 1ª rodada do Campeonato Paulista",
+      "url": "https://www.metropoles.com/esportes/e-hoje-sao-paulo-e-inter-de-limeira-se-enfrentam-em-brasilia",
+      "urlToImage": "https://uploads.metroimg.com/wp-content/uploads/2025/02/05112850/spfc-inter-limeira-df.jpeg",
+      "publishedAt": "2025-02-10T05:00:35Z",
+      "content": "Chegou o grande dia para a torcida Tricolor. Nesta segunda-feira (10/2), o São Paulo joga em Brasília contra a Inter de Limeira, às 21h30, na Arena BRB Mané Garrincha. O compromisso é um jogo atrasad… [+2298 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Metropoles.com"
+      },
+      "author": "Pedro Santana",
+      "title": "Abel Ferreira sobre Palmeiras em Brasília: “Merecemos o empate”. Vídeo",
+      "description": "Treinador lamentou empate com Água Santa, mas foi sincero sobre resultado de jogo no DF. Partida foi uma realização Metrópoles Sports",
+      "url": "https://www.metropoles.com/esportes/abel-ferreira-sobre-palmeiras-em-brasilia-merecemos-o-empate-video",
+      "urlToImage": "https://uploads.metroimg.com/wp-content/uploads/2048/01/09202508/A%CC%81gua-Santa-e-Palmeiras-pela-oitava-rodada-do-Campeonato-Paulista-Metro%CC%81poles-Sports-4-3-1133x800.jpeg",
+      "publishedAt": "2025-02-10T00:56:40Z",
+      "content": "Em jogo muito disputado em Brasília, o Água Santa segurou o ímpeto e a pressão do Palmeiras e garantiu o empate por 1 x 1 na Arena BRB Mané Garrincha, neste domingo (9/2), em jogo da 8ª rodada do Cam… [+2307 chars]"
+    }
+  ]
+}
+2025-02-11T15:15:33.689Z - Sucesso! Encontradas 10 notícias
+2025-02-11T15:15:33.689Z - Total de artigos encontrados: 10
+2025-02-11T15:15:33.690Z - Artigos relevantes filtrados: 3
+
+2025-02-11T15:15:33.690Z - Processando artigo: "Astro da NBA diz que poderia jogar no Flamengo. Entenda"
+2025-02-11T15:15:33.691Z - Tentando salvar artigo: Astro da NBA diz que poderia jogar no Flamengo. Entenda
+2025-02-11T15:15:34.585Z - Buscando conteúdo completo do artigo...
+2025-02-11T15:15:34.586Z - Tentando buscar conteúdo completo da URL: https://www.metropoles.com/esportes/astro-da-nba-diz-que-poderia-jogar-no-flamengo-entenda
+2025-02-11T15:15:34.858Z - Conteúdo encontrado usando seletor: article
+2025-02-11T15:15:35.110Z - Artigo salvo com sucesso!
+2025-02-11T15:15:35.111Z - Artigo salvo com sucesso no Supabase
+2025-02-11T15:15:35.111Z - Tentando postar no Facebook...
+2025-02-11T15:15:35.112Z - Erro na execução principal: metaSocialService is not defined
+2025-02-11T15:15:59.606Z - Variáveis de ambiente carregadas: {
+  "PRISMIC_ENDPOINT": "https://blog-mengo.cdn.prismic.io/api/v2",
+  "NEWS_API_KEY": "be640ddc30904e129e65b46c7b180803"
+}
+2025-02-11T15:15:59.609Z - === Iniciando automação de notícias do Flamengo ===
+2025-02-11T15:15:59.609Z - Buscando artigos...
+2025-02-11T15:15:59.610Z - API_KEY: be640ddc30904e129e65b46c7b180803
+2025-02-11T15:15:59.610Z - Fazendo requisição para NewsAPI...
+2025-02-11T15:15:59.811Z - Status da resposta: 200
+2025-02-11T15:15:59.816Z - Resposta completa da API: {
+  "status": "ok",
+  "totalResults": 1297,
+  "articles": [
+    {
+      "source": {
+        "id": null,
+        "name": "Metropoles.com"
+      },
+      "author": "The Playoffs",
+      "title": "Astro da NBA diz que poderia jogar no Flamengo. Entenda",
+      "description": "Jogador, que agora defende o Golden State Warriors, brincou que poderia vestir a camisa do Rubro-negro",
+      "url": "https://www.metropoles.com/esportes/astro-da-nba-diz-que-poderia-jogar-no-flamengo-entenda",
+      "urlToImage": "https://uploads.metroimg.com/wp-content/uploads/2023/06/01164156/Nikola-Jokic-e-Jimmy-Butler.jpg",
+      "publishedAt": "2025-02-10T15:12:33Z",
+      "content": "Jimmy Butler fez a sua estreia pelo Golden State Warriors, liderando seu novo time a uma vitória dominante por 132 x 11 sobre o Chicago Bulls. Sua tão aguardada estreia aconteceu após uma longa e tum… [+876 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Botafogo trabalha para o retorno do volante Allan, após problemas físicos",
+      "description": "Atleta, que teve um desgaste físico e atuou por apenas três minutos na temporada até aqui, pode reaparecer no clássicos segundo Carlos Leiria",
+      "url": "https://www.terra.com.br/esportes/botafogo/botafogo-trabalha-para-o-retorno-do-volante-allan-apos-problemas-fisicos,502f680c3bec27c7c0f6f4afa4ff5e8fkerzoi9t.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/1375139930-54120292291554c2deb4fceasy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T14:44:00Z",
+      "content": "Reforço do Botafogo para a temporada de 2024, Allan ainda não conseguiu se firmar entre os titulares, visto que Gregore e Marlon Freitas tiveram grandes fases na ocasião. Agora, em 2025, o volante te… [+1322 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Abril.com.br"
+      },
+      "author": "Pedro Gil",
+      "title": "Com bancos e bets, clubes do Brasileirão exibiram 132 marcas em 2024",
+      "description": "Estudo identificou crescimento de 13% em relação ao ano anterior",
+      "url": "https://veja.abril.com.br/coluna/radar-economico/com-bancos-e-bets-clubes-do-brasileirao-exibiram-132-marcas-em-2024",
+      "urlToImage": "https://veja.abril.com.br/wp-content/uploads/2023/07/GettyImages-1460331654.jpg?quality=70&strip=info&crop=1&resize=1080,565",
+      "publishedAt": "2025-02-10T14:04:26Z",
+      "content": "Verão: 4 Revistas em casa a partir de 29,90/mês\r\nRivais nas principais disputas dos últimos anos, Palmeiras e Flamengo jogam no Allianz Parque, neste sábado -  (Buda Mendes/Getty Images)\r\nContinua ap… [+1608 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Flamengo não tem pressa por novos reforços e buscará apenas oportunidades de mercado",
+      "description": "Filipe Luís se diz satisfeito com o elenco rubro-negro, e o intuito é trazer novas peças apenas no meio do ano visando a disputa do Mundial",
+      "url": "https://www.terra.com.br/esportes/flamengo/flamengo-nao-tem-pressa-por-novos-reforcos-e-buscara-apenas-oportunidades-de-mercado,759a46d2aff99535f2166da954a1f7f52kpgw4fw.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/366170611-flamengo-02easy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T13:41:50Z",
+      "content": "Com a reta final da janela de transferências, que fecha no dia 28 de fevereiro, os clubes ainda terão tempo para se movimentarem no mercado. O Flamengo, até o momento, contratou o zagueiro Danilo e o… [+1504 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Com saída de Kauã Elias, Mano fala sobre busca do Fluminense por outro atacante",
+      "description": "Após o empate no Fla-Flu, técnico fala sobre a saída do jovem para o Shakhtar e necessidade de um atleta com características diferentes",
+      "url": "https://www.terra.com.br/esportes/fluminense/com-saida-de-kaua-elias-mano-fala-sobre-busca-do-fluminense-por-outro-atacante,4603337233e9efd98c42a2963e9ecb19awo3okej.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/1779704895-54315145788883211be85heasy-resizecom-610x400.jpg",
+      "publishedAt": "2025-02-10T13:14:47Z",
+      "content": "Na montagem do elenco para 2025, o Fluminense confirmou a venda de Kauã Elias para o Shakhtar Donetsk, da Ucrânia. Assim, o clube carioca segue ativo no mercado na busca por uma peça de reposição par… [+2294 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Terra.com.br"
+      },
+      "author": "Jogada10",
+      "title": "Rivais em campo, dupla de Flamengo e Vasco divide a mesma paixão por NFL",
+      "description": "Rubro-negro e cruz-maltino relacionam suas carreiras com a admiração pela liga de futebol americano, que tem os Eagles como atuais campeões",
+      "url": "https://www.terra.com.br/esportes/flamengo/rivais-em-campo-dupla-de-flamengo-e-vasco-divide-a-mesma-paixao-por-nfl,ea37b1a2d3b0afc271be563ae6342f77t73ngahf.html",
+      "urlToImage": "https://p2.trrsf.com/image/fget/cf/1200/630/middle/images.terra.com/2025/02/10/695659169-super-bowl-lix-kansas-city-chiefs-v-philadelphia-eagles-1-610x400.jpg",
+      "publishedAt": "2025-02-10T12:35:47Z",
+      "content": "Um veste rubro-negro, o outro cruz-maltino. Um é zagueiro, o outro meio-campista. De um lado, Flamengo. Do outro, Vasco. Mas o que Léo Ortiz e Tchê Tchê têm em comum? A paixão avassaladora por NFL (l… [+3374 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Uol.com.br"
+      },
+      "author": "Luiza Sá",
+      "title": null,
+      "description": "A lesão de Alex Sandro dará uma responsabilidade extra ao lateral-esquerdo Ayrton Lucas. Em baixa desde o ano passado, o jogador pode aproveitar a oportunidade pelo menos pelos próximos jogos para reconquistar a torcida e dar um recado ao técnico Filip",
+      "url": "https://www.uol.com.br/esporte/futebol/ultimas-noticias/2025/02/10/ayrton-lucas-tera-chance-nos-classicos-para-reconquistar-torcida-do-fla.htm",
+      "urlToImage": "https://conteudo.imguol.com.br/c/esporte/c0/2024/09/29/ayrton-lucas-em-acao-durante-jogo-entre-flamengo-e-athletico-pelo-brasileirao-1727656943731_v2_615x300.jpg",
+      "publishedAt": "2025-02-10T10:55:38Z",
+      "content": "Fato é que Filipe Luís não vai forçar o elenco mesmo tendo todos à disposição. Assim como aconteceu na última temporada, o treinador deve fazer um controle de carga com Alex Sandro para tê-lo nas par… [+2111 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Olhardigital.com.br"
+      },
+      "author": "Vitoria Lopes Gomez",
+      "title": "Sampaio Corrêa x Vasco: onde assistir, horário e escalação do Campeonato Carioca",
+      "description": "Próximos na tabela, equipes podem ficar mais próximas da liderança\nO post Sampaio Corrêa x Vasco: onde assistir, horário e escalação do Campeonato Carioca apareceu primeiro em Olhar Digital.",
+      "url": "https://olhardigital.com.br/2025/02/10/internet-e-redes-sociais/sampaio-correa-x-vasco-onde-assistir-horario-e-escalacao-do-campeonato-carioca/",
+      "urlToImage": "https://img.odcdn.com.br/wp-content/uploads/2025/02/sampaio-correa-x-vasco.png",
+      "publishedAt": "2025-02-10T09:30:00Z",
+      "content": "Nesta segunda-feira (10), Sampaio Corrêa e Vasco se enfrentam pela 9ª rodada do Campeonato Carioca2025. As equipes estão com apenas 1 ponto de diferença na tabela. A bola rola às 20h (horário de Bras… [+1456 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Metropoles.com"
+      },
+      "author": "Raphael Costa",
+      "title": "É hoje! São Paulo e Inter de Limeira se enfrentam em Brasília",
+      "description": "São Paulo e Inter de Limeira se enfrentam nesta segunda-feira (9/2), em jogo atrasado pela 1ª rodada do Campeonato Paulista",
+      "url": "https://www.metropoles.com/esportes/e-hoje-sao-paulo-e-inter-de-limeira-se-enfrentam-em-brasilia",
+      "urlToImage": "https://uploads.metroimg.com/wp-content/uploads/2025/02/05112850/spfc-inter-limeira-df.jpeg",
+      "publishedAt": "2025-02-10T05:00:35Z",
+      "content": "Chegou o grande dia para a torcida Tricolor. Nesta segunda-feira (10/2), o São Paulo joga em Brasília contra a Inter de Limeira, às 21h30, na Arena BRB Mané Garrincha. O compromisso é um jogo atrasad… [+2298 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Metropoles.com"
+      },
+      "author": "Pedro Santana",
+      "title": "Abel Ferreira sobre Palmeiras em Brasília: “Merecemos o empate”. Vídeo",
+      "description": "Treinador lamentou empate com Água Santa, mas foi sincero sobre resultado de jogo no DF. Partida foi uma realização Metrópoles Sports",
+      "url": "https://www.metropoles.com/esportes/abel-ferreira-sobre-palmeiras-em-brasilia-merecemos-o-empate-video",
+      "urlToImage": "https://uploads.metroimg.com/wp-content/uploads/2048/01/09202508/A%CC%81gua-Santa-e-Palmeiras-pela-oitava-rodada-do-Campeonato-Paulista-Metro%CC%81poles-Sports-4-3-1133x800.jpeg",
+      "publishedAt": "2025-02-10T00:56:40Z",
+      "content": "Em jogo muito disputado em Brasília, o Água Santa segurou o ímpeto e a pressão do Palmeiras e garantiu o empate por 1 x 1 na Arena BRB Mané Garrincha, neste domingo (9/2), em jogo da 8ª rodada do Cam… [+2307 chars]"
+    }
+  ]
+}
+2025-02-11T15:15:59.817Z - Sucesso! Encontradas 10 notícias
+2025-02-11T15:15:59.817Z - Total de artigos encontrados: 10
+2025-02-11T15:15:59.818Z - Artigos relevantes filtrados: 3
+
+2025-02-11T15:15:59.818Z - Processando artigo: "Astro da NBA diz que poderia jogar no Flamengo. Entenda"
+2025-02-11T15:15:59.818Z - Tentando salvar artigo: Astro da NBA diz que poderia jogar no Flamengo. Entenda
+2025-02-11T15:16:00.076Z - Artigo já existe no banco: Astro da NBA diz que poderia jogar no Flamengo. Entenda
+2025-02-11T15:16:00.076Z - Processando artigo: "Flamengo não tem pressa por novos reforços e buscará apenas oportunidades de mercado"
+2025-02-11T15:16:00.076Z - Tentando salvar artigo: Flamengo não tem pressa por novos reforços e buscará apenas oportunidades de mercado
+2025-02-11T15:16:00.326Z - Buscando conteúdo completo do artigo...
+2025-02-11T15:16:00.327Z - Tentando buscar conteúdo completo da URL: https://www.terra.com.br/esportes/flamengo/flamengo-nao-tem-pressa-por-novos-reforcos-e-buscara-apenas-oportunidades-de-mercado,759a46d2aff99535f2166da954a1f7f52kpgw4fw.html
+2025-02-11T15:16:31.358Z - Conteúdo encontrado usando seletor: article
+2025-02-11T15:16:31.676Z - Artigo salvo com sucesso!
+2025-02-11T15:16:31.677Z - Artigo salvo com sucesso no Supabase
+2025-02-11T15:16:31.677Z - Tentando postar no Facebook...
+2025-02-11T15:16:37.203Z - Post no Facebook: Sucesso
+2025-02-11T15:16:37.203Z - Processando artigo: "Rivais em campo, dupla de Flamengo e Vasco divide a mesma paixão por NFL"
+2025-02-11T15:16:37.204Z - Tentando salvar artigo: Rivais em campo, dupla de Flamengo e Vasco divide a mesma paixão por NFL
+2025-02-11T15:16:37.458Z - Buscando conteúdo completo do artigo...
+2025-02-11T15:16:37.458Z - Tentando buscar conteúdo completo da URL: https://www.terra.com.br/esportes/flamengo/rivais-em-campo-dupla-de-flamengo-e-vasco-divide-a-mesma-paixao-por-nfl,ea37b1a2d3b0afc271be563ae6342f77t73ngahf.html
+2025-02-11T15:16:38.028Z - Conteúdo encontrado usando seletor: article
+2025-02-11T15:16:38.691Z - Artigo salvo com sucesso!
+2025-02-11T15:16:38.692Z - Artigo salvo com sucesso no Supabase
+2025-02-11T15:16:38.692Z - Tentando postar no Facebook...
+2025-02-11T15:16:42.615Z - Post no Facebook: Sucesso
+2025-02-11T15:16:42.616Z - 
+Buscando produto mais recente do Prismic...
+2025-02-11T15:16:45.547Z - Produto encontrado: "Camiseta Flamengo Retrô - Zico"
+2025-02-11T15:16:45.548Z - Tentando postar produto no Facebook...
+2025-02-11T15:16:51.853Z - Produto postado com sucesso no Facebook
+2025-02-11T15:16:51.854Z - 
+=== Resumo da execução ===
+2025-02-11T15:16:51.855Z - Artigos salvos: 2
+2025-02-11T15:16:51.855Z - Posts nas redes sociais: 3
