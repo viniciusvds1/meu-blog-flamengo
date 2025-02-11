@@ -81,6 +81,13 @@ export class NewsService {
 
       // Se chegou aqui, o artigo não existe, então insere
       const content = await this.fetchFullArticleContent(article.url);
+      const uid = article.title
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
 
       const { error: insertError } = await supabase.from('news').insert([{
         title: article.title,
@@ -89,7 +96,7 @@ export class NewsService {
         date: article.publishedAt,
         is_published: true,
         category: 'noticias',
-        uid: article.url
+        uid: uid
       }]);
 
       if (insertError) {
