@@ -5,6 +5,7 @@ import NewsletterSignup from '@/components/NewsletterSignup';
 import SearchBar from '@/components/SearchBar';
 import NoticiasSection from '@/components/NoticiasSection';
 import AddBanner from '@/components/AddBanner';
+import CookieConsent from '@/components/CookieConsent';
 import { getAllNews } from '@/lib/getNews';
 import * as prismic from '@prismicio/client';
 import dynamic from 'next/dynamic';
@@ -66,6 +67,9 @@ export default async function Home() {
       <section className="mb-8">
         <SearchBar className="max-w-2xl mx-auto" />
       </section>
+
+      {/* Componente de Aceite de Cookies */}
+      <CookieConsent />
 
       {/* Main Content */}
       <div className="flex flex-col lg:flex-row gap-8">

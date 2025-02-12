@@ -67,7 +67,7 @@ export default function ProductShelf({ products }) {
               {product.data.title?.[0]?.text || "Produto Flamengo"}
             </h2>
             <p className="text-gray-600 mb-4">
-              {product.data.description?.[0]?.text || ""}
+              {product.data.description?.[0]?.text?.slice(0, 100) + (product.data.description?.[0]?.text?.length > 100 ? '...' : '') || ""}
             </p>
             <div className="flex flex-col items-center mb-4">
               {hasDiscount && (

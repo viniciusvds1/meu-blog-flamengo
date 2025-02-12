@@ -60,6 +60,32 @@ export class NewsService {
     }
   }
 
+  async rewriteContentWithOpenAI(content) {
+    const openai = new OpenAI(process.env.OPENAI_API_KEY);
+    try {
+      const response = await openai.Completions.create({
+        engine: 'text-davinci-003',
+        prompt: `Reescreva o seguinte conteúdo de forma original e envolvente: ${content}`,
+        maxTokens: 500,
+        temperature: 0.7,
+      });
+      return response.choices[0].text.trim();
+    } catch (error) {
+      console.error('Erro ao reescrever conteúdo com OpenAI:', error);
+      return content; // Retorna o conteúdo original em caso de erro
+    }
+  }
+
+  async fetchAndRewriteNews() {
+    const articles = await this.fetchNews();
+    const rewrittenArticles = [];
+    for (const article of articles) {
+      const rewrittenContent = await this.rewriteContentWithOpenAI(article.content);
+      rewrittenArticles.push({ ...article, content: rewrittenContent });
+    }
+    return rewrittenArticles;
+  }
+
   async saveToSupabase(article) {
     try {
       // Verifica se o artigo já existe pelo título
@@ -314,12 +340,15 @@ export async function fetchAndCreateFlamengoNews() {
     for (const article of relevantArticles) {
       console.log(`\nProcessando artigo: "${article.title}"`);
 
-      const saved = await newsService.saveToSupabase(article);
+      const rewrittenArticles = await newsService.fetchAndRewriteNews();
+      const rewrittenArticle = rewrittenArticles.find(a => a.title === article.title);
+
+      const saved = await newsService.saveToSupabase(rewrittenArticle);
       if (saved) {
         console.log('Artigo salvo com sucesso no Supabase');
         savedArticles.push(article);
         console.log('Tentando postar no Facebook...');
-        const facebookPosted = await metaSocialService.postToFacebook(article);
+        const facebookPosted = await metaSocialService.postToFacebook(rewrittenArticle);
         console.log(`Post no Facebook: ${facebookPosted ? 'Sucesso' : 'Falha'}`);
         socialMediaPosts.push({
           article: article.title,
