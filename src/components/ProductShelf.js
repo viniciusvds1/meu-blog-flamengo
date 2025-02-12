@@ -6,21 +6,23 @@ export default function ProductShelf({ products }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
+  const updateIndex = (index) => {
+    setIsAnimating(true);
+    setTimeout(() => {
+      setCurrentIndex(index);
+      setIsAnimating(false);
+    }, 500);
+  };
+
   useEffect(() => {
     if (!products || products.length === 0) return;
 
     const timer = setInterval(() => {
-      setIsAnimating(true);
-      setTimeout(() => {
-        setCurrentIndex((prevIndex) => 
-          prevIndex === products.length - 1 ? 0 : prevIndex + 1
-        );
-        setIsAnimating(false);
-      }, 500); // Half of the transition time
+      updateIndex(currentIndex === products.length - 1 ? 0 : currentIndex + 1);
     }, 5000);
 
     return () => clearInterval(timer);
-  }, [products]);
+  }, [products, currentIndex]);
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('pt-BR', {
@@ -67,7 +69,7 @@ export default function ProductShelf({ products }) {
               {product.data.title?.[0]?.text || "Produto Flamengo"}
             </h2>
             <p className="text-gray-600 mb-4">
-              {product.data.description?.[0]?.text || ""}
+              {product.data.description?.[0]?.text?.slice(0, 100) + (product.data.description?.[0]?.text?.length > 100 ? '...' : '') || ""}
             </p>
             <div className="flex flex-col items-center mb-4">
               {hasDiscount && (
@@ -96,13 +98,7 @@ export default function ProductShelf({ products }) {
         {products.map((_, idx) => (
           <button
             key={idx}
-            onClick={() => {
-              setIsAnimating(true);
-              setTimeout(() => {
-                setCurrentIndex(idx);
-                setIsAnimating(false);
-              }, 500);
-            }}
+            onClick={() => updateIndex(idx)}
             className={`w-2 h-2 rounded-full transition-all duration-300 ${
               idx === currentIndex 
                 ? 'bg-red-600 w-4' 

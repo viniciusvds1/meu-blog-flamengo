@@ -19,20 +19,27 @@ export class NewsService {
       apiKey: API_KEY
     });
 
-    try {
-      const response = await fetch(`https://newsapi.org/v2/everything?${params}`);
-      const data = await response.json();
+    const maxRetries = 3;
+    let attempts = 0;
 
-      if (response.ok) {
-        return data.articles;
-      } else {
-        console.error('Erro na resposta da API:', data);
-        return [];
+    while (attempts < maxRetries) {
+      try {
+        const response = await fetch(`https://newsapi.org/v2/everything?${params}`);
+        const data = await response.json();
+
+        if (response.ok) {
+          return data.articles;
+        } else {
+          console.error('Erro na resposta da API:', data);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar notícias:', error);
       }
-    } catch (error) {
-      console.error('Erro ao buscar notícias:', error);
-      return [];
+      attempts++;
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second before retrying
     }
+
+    return [];
   }
 
   async fetchFullArticleContent(url) {
@@ -58,6 +65,32 @@ export class NewsService {
       console.error('Erro ao buscar conteúdo completo:', error);
       return null;
     }
+  }
+
+  async rewriteContentWithOpenAI(content) {
+    const openai = new OpenAI(process.env.OPENAI_API_KEY);
+    try {
+      const response = await openai.Completions.create({
+        engine: 'text-davinci-003',
+        prompt: `Reescreva o seguinte conteúdo de forma original e envolvente: ${content}`,
+        maxTokens: 500,
+        temperature: 0.7,
+      });
+      return response.choices[0].text.trim();
+    } catch (error) {
+      console.error('Erro ao reescrever conteúdo com OpenAI:', error);
+      return content; // Retorna o conteúdo original em caso de erro
+    }
+  }
+
+  async fetchAndRewriteNews() {
+    const articles = await this.fetchNews();
+    const rewrittenArticles = [];
+    for (const article of articles) {
+      const rewrittenContent = await this.rewriteContentWithOpenAI(article.content);
+      rewrittenArticles.push({ ...article, content: rewrittenContent });
+    }
+    return rewrittenArticles;
   }
 
   async saveToSupabase(article) {
@@ -314,12 +347,15 @@ export async function fetchAndCreateFlamengoNews() {
     for (const article of relevantArticles) {
       console.log(`\nProcessando artigo: "${article.title}"`);
 
-      const saved = await newsService.saveToSupabase(article);
+      const rewrittenArticles = await newsService.fetchAndRewriteNews();
+      const rewrittenArticle = rewrittenArticles.find(a => a.title === article.title);
+
+      const saved = await newsService.saveToSupabase(rewrittenArticle);
       if (saved) {
         console.log('Artigo salvo com sucesso no Supabase');
         savedArticles.push(article);
         console.log('Tentando postar no Facebook...');
-        const facebookPosted = await metaSocialService.postToFacebook(article);
+        const facebookPosted = await metaSocialService.postToFacebook(rewrittenArticle);
         console.log(`Post no Facebook: ${facebookPosted ? 'Sucesso' : 'Falha'}`);
         socialMediaPosts.push({
           article: article.title,
