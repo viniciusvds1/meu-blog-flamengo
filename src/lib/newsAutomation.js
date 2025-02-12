@@ -19,20 +19,27 @@ export class NewsService {
       apiKey: API_KEY
     });
 
-    try {
-      const response = await fetch(`https://newsapi.org/v2/everything?${params}`);
-      const data = await response.json();
+    const maxRetries = 3;
+    let attempts = 0;
 
-      if (response.ok) {
-        return data.articles;
-      } else {
-        console.error('Erro na resposta da API:', data);
-        return [];
+    while (attempts < maxRetries) {
+      try {
+        const response = await fetch(`https://newsapi.org/v2/everything?${params}`);
+        const data = await response.json();
+
+        if (response.ok) {
+          return data.articles;
+        } else {
+          console.error('Erro na resposta da API:', data);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar notícias:', error);
       }
-    } catch (error) {
-      console.error('Erro ao buscar notícias:', error);
-      return [];
+      attempts++;
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second before retrying
     }
+
+    return [];
   }
 
   async fetchFullArticleContent(url) {

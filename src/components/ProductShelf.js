@@ -6,21 +6,23 @@ export default function ProductShelf({ products }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
+  const updateIndex = (index) => {
+    setIsAnimating(true);
+    setTimeout(() => {
+      setCurrentIndex(index);
+      setIsAnimating(false);
+    }, 500);
+  };
+
   useEffect(() => {
     if (!products || products.length === 0) return;
 
     const timer = setInterval(() => {
-      setIsAnimating(true);
-      setTimeout(() => {
-        setCurrentIndex((prevIndex) => 
-          prevIndex === products.length - 1 ? 0 : prevIndex + 1
-        );
-        setIsAnimating(false);
-      }, 500); // Half of the transition time
+      updateIndex(currentIndex === products.length - 1 ? 0 : currentIndex + 1);
     }, 5000);
 
     return () => clearInterval(timer);
-  }, [products]);
+  }, [products, currentIndex]);
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('pt-BR', {
@@ -96,13 +98,7 @@ export default function ProductShelf({ products }) {
         {products.map((_, idx) => (
           <button
             key={idx}
-            onClick={() => {
-              setIsAnimating(true);
-              setTimeout(() => {
-                setCurrentIndex(idx);
-                setIsAnimating(false);
-              }, 500);
-            }}
+            onClick={() => updateIndex(idx)}
             className={`w-2 h-2 rounded-full transition-all duration-300 ${
               idx === currentIndex 
                 ? 'bg-red-600 w-4' 
