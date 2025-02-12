@@ -6,9 +6,15 @@ import * as prismic from '@prismicio/client';
 import dotenv from 'dotenv';
 import fs from 'fs';
 
-// Carrega as variáveis de ambiente do .env.local
 dotenv.config({ path: '.env.local' });
+
 export class NewsService {
+  constructor() {
+    this.openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY
+    });
+  }
+
   async fetchNews() {
     const API_KEY = process.env.NEWS_API_KEY;
     const params = new URLSearchParams({
@@ -30,13 +36,13 @@ export class NewsService {
         if (response.ok) {
           return data.articles;
         } else {
-          console.error('Erro na resposta da API:', data);
+          console.error(`Erro na resposta da API: ${data}`);
         }
       } catch (error) {
-        console.error('Erro ao buscar notícias:', error);
+        console.error(`Erro ao buscar notícias: ${error}`);
       }
       attempts++;
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second before retrying
+      await new Promise(resolve => setTimeout(resolve, 1000));
     }
 
     return [];
@@ -49,82 +55,115 @@ export class NewsService {
       const dom = new JSDOM(html);
       const document = dom.window.document;
 
-      // Tenta diferentes seletores comuns para conteúdo de artigos
-      const selectors = ['article', '.article-content', '.post-content', '.entry-content'];
+      const selectors = [
+        'article', 
+        '.article-content', 
+        '.post-content', 
+        '.entry-content',
+        'main',
+        '[itemprop="articleBody"]',
+        '.news-text',
+        '.materia-conteudo'
+      ];
       
       for (const selector of selectors) {
         const element = document.querySelector(selector);
         if (element) {
-          console.log(`Conteúdo encontrado usando seletor: ${selector}`);
-          return element.textContent.trim();
+          // Remove scripts, styles e comentários
+          const scripts = element.getElementsByTagName('script');
+          const styles = element.getElementsByTagName('style');
+          Array.from(scripts).forEach(script => script.remove());
+          Array.from(styles).forEach(style => style.remove());
+          
+          // Limpa o texto
+          const text = element.textContent
+            .replace(/\s+/g, ' ')
+            .replace(/\n+/g, '\n')
+            .trim();
+          
+          return text;
         }
       }
 
       return null;
     } catch (error) {
-      console.error('Erro ao buscar conteúdo completo:', error);
+      console.error(`Erro ao buscar conteúdo completo: ${error}`);
       return null;
     }
   }
 
-  async rewriteContentWithOpenAI(content) {
-    const openai = new OpenAI(process.env.OPENAI_API_KEY);
+  async rewriteContentWithOpenAI(title, content) {
     try {
-      const response = await openai.Completions.create({
-        engine: 'text-davinci-003',
-        prompt: `Reescreva o seguinte conteúdo de forma original e envolvente: ${content}`,
-        maxTokens: 500,
-        temperature: 0.7,
-      });
-      return response.choices[0].text.trim();
-    } catch (error) {
-      console.error('Erro ao reescrever conteúdo com OpenAI:', error);
-      return content; // Retorna o conteúdo original em caso de erro
-    }
-  }
+      const prompt = `
+Reescreva este artigo sobre o Flamengo de forma original e envolvente, mantendo todas as informações importantes:
 
-  async fetchAndRewriteNews() {
-    const articles = await this.fetchNews();
-    const rewrittenArticles = [];
-    for (const article of articles) {
-      const rewrittenContent = await this.rewriteContentWithOpenAI(article.content);
-      rewrittenArticles.push({ ...article, content: rewrittenContent });
+Título: ${title}
+Conteúdo: ${content}
+
+Regras para reescrita:
+1. Mantenha todos os fatos e dados importantes
+2. Use um tom jornalístico profissional
+3. Evite repetições e redundâncias
+4. Organize o texto em parágrafos claros
+5. Mantenha citações diretas quando houver
+6. Preserve nomes e números exatos
+7. Adicione um parágrafo de contextualização quando relevante
+`;
+
+      const completion = await this.openai.chat.completions.create({
+        model: "gpt-4-turbo-preview",
+        messages: [
+          {
+            role: "system",
+            content: "Você é um jornalista esportivo especializado em Flamengo, com anos de experiência em reescrever matérias mantendo a precisão das informações."
+          },
+          {
+            role: "user",
+            content: prompt
+          }
+        ],
+        temperature: 0.7,
+        max_tokens: 1000
+      });
+
+      return completion.choices[0].message.content.trim();
+    } catch (error) {
+      return content;
     }
-    return rewrittenArticles;
   }
 
   async saveToSupabase(article) {
     try {
-      // Verifica se o artigo já existe pelo título
       const { data: existingArticles, error: checkError } = await supabase
         .from('news')
         .select('title')
         .eq('title', article.title);
 
       if (checkError) {
-        console.error('Erro ao verificar artigo existente:', checkError);
         return false;
       }
 
-      // Se o artigo já existe, não insere
       if (existingArticles && existingArticles.length > 0) {
-        console.log('Artigo já existe no banco:', article.title);
         return false;
       }
 
-      // Se chegou aqui, o artigo não existe, então insere
-      const content = await this.fetchFullArticleContent(article.url);
+      const fullContent = await this.fetchFullArticleContent(article.url);
+      const rewrittenContent = await this.rewriteContentWithOpenAI(
+        article.title,
+        fullContent || article.description
+      );
+
       const uid = article.title
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
 
 
       const { error: insertError } = await supabase.from('news').insert([{
         title: article.title,
-        content: content || article.description,
+        content: rewrittenContent,
         image: article.urlToImage,
         date: article.publishedAt,
         is_published: true,
@@ -133,20 +172,23 @@ export class NewsService {
       }]);
 
       if (insertError) {
-        console.error('Erro ao salvar no Supabase:', insertError);
         return false;
       }
 
-      console.log('Artigo salvo com sucesso!');
       return true;
     } catch (error) {
-      console.error('Erro ao processar salvamento:', error);
       return false;
     }
   }
 }
 
 export class MetaSocialService {
+  constructor() {
+    this.openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY
+    });
+  }
+
   generateAppSecretProof(access_token, app_secret) {
     return crypto
       .createHmac('sha256', app_secret)
@@ -155,19 +197,15 @@ export class MetaSocialService {
   }
 
   async generateFacebookPost(article) {
-    const openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY
-    });
-
     try {
-      const completion = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
+      const completion = await this.openai.chat.completions.create({
+        model: "gpt-4-turbo-preview",
         messages: [{
           role: "system",
-          content: "Crie posts curtos e envolventes sobre o Flamengo. Use 1-2 emojis e 2-3 hashtags."
+          content: "Você é um social media especializado em conteúdo esportivo do Flamengo. Crie posts envolventes e chamativos que gerem engajamento."
         }, {
           role: "user",
-          content: `Título: ${article.title}`
+          content: `Crie um post curto e envolvente sobre esta notícia do Flamengo. Use 2-3 emojis relevantes e 2-3 hashtags estratégicas. Título: ${article.title}`
         }],
         temperature: 0.7,
         max_tokens: 150
@@ -183,6 +221,7 @@ export class MetaSocialService {
 
       return `${postContent}\n\n${process.env.SITE_URL}/noticias/${uid}`;
     } catch (error) {
+      console.error(`Erro ao gerar post: ${error}`);
       const uid = article.title
         .toLowerCase()
         .normalize('NFD')
@@ -195,10 +234,6 @@ export class MetaSocialService {
   }
 
   async generateProductPost(product) {
-    const openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY
-    });
-
     const priceFormatted = new Intl.NumberFormat('pt-BR', { 
       style: 'currency', 
       currency: 'BRL' 
@@ -210,21 +245,26 @@ export class MetaSocialService {
       : 0;
 
     try {
-      const completion = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
+      const completion = await this.openai.chat.completions.create({
+        model: "gpt-4-turbo-preview",
         messages: [{
           role: "system",
           content: hasDiscount 
-            ? "Crie posts curtos e urgentes sobre produtos em promoção do Flamengo. Use 2-3 emojis."
-            : "Crie posts curtos sobre produtos do Flamengo. Use 1-2 emojis."
+            ? "Você é um especialista em marketing digital focado em vendas de produtos do Flamengo. Crie posts urgentes e persuasivos para produtos em promoção."
+            : "Você é um especialista em marketing digital focado em vendas de produtos do Flamengo. Crie posts atrativos e persuasivos."
         }, {
           role: "user",
           content: hasDiscount
-            ? `Produto: ${product.data.title[0].text}. Preço: ${priceFormatted}. Desconto: ${discountPercentage}%`
-            : `Produto: ${product.data.title[0].text}. Preço: ${priceFormatted}`
+            ? `Crie um post persuasivo para este produto em promoção do Flamengo. Use 2-3 emojis e enfatize o desconto.
+               Produto: ${product.data.title[0].text}
+               Preço: ${priceFormatted}
+               Desconto: ${discountPercentage}%`
+            : `Crie um post persuasivo para este produto do Flamengo. Use 1-2 emojis.
+               Produto: ${product.data.title[0].text}
+               Preço: ${priceFormatted}`
         }],
         temperature: hasDiscount ? 0.8 : 0.7,
-        max_tokens: 100
+        max_tokens: 150
       });
 
       const generatedText = completion.choices[0].message.content;
@@ -233,6 +273,7 @@ export class MetaSocialService {
         link: product.data.link_product.url
       };
     } catch (error) {
+      console.error(`Erro ao gerar post de produto: ${error}`);
       const message = hasDiscount
         ? `🔥 OFERTA! ${product.data.title[0].text}\n${discountPercentage}% OFF!\nPor: ${priceFormatted}\n\n#Flamengo #CRF`
         : `🛍️ ${product.data.title[0].text}\n${priceFormatted}\n\n#Flamengo #CRF`;
@@ -275,19 +316,13 @@ export class MetaSocialService {
         if (data.error) {
           throw new Error(data.error.message);
         }
-      } else {
-        const uid = content.title
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .replace(/[^a-z0-9]+/g, '-')
-          .replace(/^-+|-+$/g, '');
 
+        return true;
+      } else {
         const message = await this.generateFacebookPost(content);
         const url = `https://graph.facebook.com/v18.0/${page_id}/feed`;
         const body = new URLSearchParams({
           message: message,
-          link: `${process.env.SITE_URL}/noticias/${uid}`,
           access_token: access_token,
           appsecret_proof: appsecret_proof
         });
@@ -301,22 +336,23 @@ export class MetaSocialService {
         if (data.error) {
           throw new Error(data.error.message);
         }
-      }
 
-      return true;
+        return true;
+      }
     } catch (error) {
+      console.error(`Erro ao postar no Facebook: ${error}`);
       return false;
     }
   }
 }
 
-const newsService = new NewsService();
-
 export async function fetchAndCreateFlamengoNews() {
   console.log('\n=== Iniciando automação de notícias do Flamengo ===');
+  
+  const newsService = new NewsService();
+  const metaSocialService = new MetaSocialService();
   const savedArticles = [];
   const socialMediaPosts = [];
-  const metaSocialService = new MetaSocialService();
 
   try {
     console.log('Buscando artigos...');
@@ -347,20 +383,23 @@ export async function fetchAndCreateFlamengoNews() {
     for (const article of relevantArticles) {
       console.log(`\nProcessando artigo: "${article.title}"`);
 
-      const rewrittenArticles = await newsService.fetchAndRewriteNews();
-      const rewrittenArticle = rewrittenArticles.find(a => a.title === article.title);
-
-      const saved = await newsService.saveToSupabase(rewrittenArticle);
+      const saved = await newsService.saveToSupabase(article);
+      
       if (saved) {
         console.log('Artigo salvo com sucesso no Supabase');
         savedArticles.push(article);
+        
         console.log('Tentando postar no Facebook...');
-        const facebookPosted = await metaSocialService.postToFacebook(rewrittenArticle);
+        const facebookPosted = await metaSocialService.postToFacebook(article);
         console.log(`Post no Facebook: ${facebookPosted ? 'Sucesso' : 'Falha'}`);
+        
         socialMediaPosts.push({
           article: article.title,
           facebook: facebookPosted
         });
+        
+        // Aguarda um intervalo entre os posts para evitar limitações da API
+        await new Promise(resolve => setTimeout(resolve, 2000));
       }
     }
 
@@ -397,7 +436,7 @@ export async function fetchAndCreateFlamengoNews() {
           console.log('Nenhum produto encontrado no Prismic');
         }
       } catch (error) {
-        console.error('Erro ao processar produto:', error);
+        console.error(`Erro ao processar produto: ${error}`);
       }
     }
 
@@ -412,7 +451,7 @@ export async function fetchAndCreateFlamengoNews() {
       message: `Successfully saved ${savedArticles.length} new articles and posted content to Facebook${savedArticles.length > 0 ? ' along with the latest product' : ''}`
     };
   } catch (error) {
-    console.error('Erro na execução principal:', error);
+    console.error(`Erro na execução principal: ${error}`);
     return {
       success: false,
       savedArticles,
