@@ -212,14 +212,15 @@ export class MetaSocialService {
       });
 
       const postContent = completion.choices[0].message.content;
-      const uid = article.title
+      return {
+        message: `${postContent}\n\n`,
+        uid:article.title
         .toLowerCase()
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
         .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '');
-
-      return `${postContent}\n\n${process.env.SITE_URL}/noticias/${uid}`;
+        .replace(/^-+|-+$/g, '')
+      };
     } catch (error) {
       console.error(`Erro ao gerar post: ${error}`);
       const uid = article.title
@@ -290,6 +291,7 @@ export class MetaSocialService {
     const page_id = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID;
     const app_secret = process.env.FACEBOOK_APP_SECRET;
 
+
     try {
       if (!app_secret) {
         throw new Error('FACEBOOK_APP_SECRET não está configurado');
@@ -319,11 +321,12 @@ export class MetaSocialService {
 
         return true;
       } else {
-        const message = await this.generateFacebookPost(content);
+        const {message, uid} = await this.generateFacebookPost(content);
         const url = `https://graph.facebook.com/v18.0/${page_id}/feed`;
         const body = new URLSearchParams({
           message: message,
           access_token: access_token,
+          link: `${process.env.SITE_URL}/noticias/${uid}`,
           appsecret_proof: appsecret_proof
         });
 
