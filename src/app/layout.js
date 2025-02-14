@@ -43,7 +43,7 @@ export const metadata = {
     }],
   },
   verification: {
-    google: 'your-google-verification',
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
   other: {
     'apple-mobile-web-app-capable': 'yes',
@@ -53,7 +53,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" className={inter.className}>
       <head>
         <link
           rel="preconnect"
@@ -67,8 +67,9 @@ export default function RootLayout({ children }) {
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} />
       </head>
-      <body className={inter.className}>
+      <body className="bg-gray-50">
         <Analytics />
         <Navbar />
         <main className="min-h-screen">
@@ -80,7 +81,6 @@ export default function RootLayout({ children }) {
           embedURL="https://www.orubronegronews.com/"
         />
         <InbendaScripts/>
-        <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} />
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GTM_ID}/>
       </body>
     </html>
