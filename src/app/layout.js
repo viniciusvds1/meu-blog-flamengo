@@ -11,7 +11,6 @@ import WebStory from "@/components/webstories";
 const inter = Inter({
   subsets: ["latin"],
   display: 'swap',
-  preload: true,
 });
 
 export const viewport = {
@@ -57,6 +56,21 @@ export default function RootLayout({ children }) {
       <head>
         <link
           rel="preconnect"
+          href="https://www.googletagmanager.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://www.google-analytics.com"
+          crossOrigin="anonymous"
+        />
+        <link 
+          rel="preload" 
+          href="/assets/logooficialrubronews.png" 
+          as="image"
+        />
+        <link
+          rel="preconnect"
           href="https://images.prismic.io"
           crossOrigin="anonymous"
         />
@@ -69,19 +83,20 @@ export default function RootLayout({ children }) {
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} />
       </head>
-      <body className="bg-gray-50">
-        <Analytics />
+      <body className="flex flex-col min-h-screen bg-gray-50">
         <Navbar />
-        <main className="min-h-screen">
+        <main className="flex-grow">
           {children}
         </main>
-        <div id="fb-root"></div>
         <Footer />
+        <div id="fb-root"></div>
+        <Analytics />
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GTM_ID} />
+        <GoogleAdsense />
+        <InbendaScripts />
         <WebStory 
           embedURL="https://www.orubronegronews.com/"
         />
-        <InbendaScripts/>
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GTM_ID}/>
       </body>
     </html>
   );

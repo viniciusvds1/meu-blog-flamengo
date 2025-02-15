@@ -13,6 +13,7 @@ interface OptimizedImageProps {
   height?: number;
   quality?: number;
   loading?: "lazy" | "eager";
+  onLoad?: () => void;
 }
 
 const OptimizedImage: FC<OptimizedImageProps> = ({ 
@@ -21,15 +22,17 @@ const OptimizedImage: FC<OptimizedImageProps> = ({
   className = '', 
   priority = false,
   aspectRatio = 'aspect-video',
-  objectFit = 'object-contain',
+  objectFit = 'object-fill',
   width,
   height,
   quality = 75,
-  loading = "lazy"
+  loading = "lazy",
+  onLoad
 }) => {
   // Ensure src is a string and not undefined
   const imageSrc = src || '/placeholder.jpg';
 
+  // If width and height are provided, use them
   if (width && height) {
     return (
       <Image
@@ -41,12 +44,14 @@ const OptimizedImage: FC<OptimizedImageProps> = ({
         loading={loading}
         className={`${className} ${objectFit}`}
         priority={priority}
+        onLoad={onLoad}
       />
     );
   }
 
+  // Otherwise, use fill mode with a container
   return (
-    <div className={`relative ${aspectRatio}`} style={{ width: '100%', height: '100%' }}>
+    <div className={`relative text-white ${aspectRatio}`} style={{ width: '100%', height: '100%' }}>
       <Image
         src={imageSrc}
         alt={alt}
@@ -55,6 +60,8 @@ const OptimizedImage: FC<OptimizedImageProps> = ({
         loading={loading}
         className={`${className} ${objectFit}`}
         priority={priority}
+        onLoad={onLoad}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
       />
     </div>
   );

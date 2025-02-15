@@ -1,21 +1,25 @@
 import Image from 'next/image';
 import { Suspense } from 'react';
-import LastResultAndNextGame from '@/components/LastResultAndNextGame';
-import NewsletterSignup from '@/components/NewsletterSignup';
-import SearchBar from '@/components/SearchBar';
-import NoticiasSection from '@/components/NoticiasSection';
-import AddBanner from '@/components/AddBanner';
-import CookieConsent from '@/components/CookieConsent';
-import { getAllNews } from '@/lib/getNews';
-import * as prismic from '@prismicio/client';
 import dynamic from 'next/dynamic';
+import * as prismic from '@prismicio/client';
+import { getAllNews } from '@/lib/getNews';
 
-// Dynamically import ProductShelf with no SSR since it's client-side only
+// Componentes com carregamento dinâmico
+const HeroSlider = dynamic(() => import('@/components/HeroSlider'), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-[400px] rounded-lg" />
+});
+
+const LastResultAndNextGame = dynamic(() => import('@/components/LastResultAndNextGame'));
+const NewsletterSignup = dynamic(() => import('@/components/NewsletterSignup'));
+const SearchBar = dynamic(() => import('@/components/SearchBar'));
+const NoticiasSection = dynamic(() => import('@/components/NoticiasSection'));
+const AddBanner = dynamic(() => import('@/components/AddBanner'));
+const CookieConsent = dynamic(() => import('@/components/CookieConsent'));
 const ProductShelf = dynamic(() => import('@/components/ProductShelf'), {
   ssr: false,
 });
 
-// Loading components for better UX
+// Loading components para melhor UX
 const SidebarSkeleton = () => (
   <div className="space-y-4 animate-pulse">
     <div className="bg-gray-200 h-64 rounded-lg" />
@@ -23,6 +27,8 @@ const SidebarSkeleton = () => (
     <div className="bg-gray-200 h-32 rounded-lg" />
   </div>
 );
+
+export const revalidate = 3600; // Revalidar a página a cada hora
 
 export default async function Home() {
   const { news: initialNoticias } = await getAllNews({ pageSize: 6 });
@@ -34,38 +40,20 @@ export default async function Home() {
   
   const products = await client.getAllByType('produtos');
 
-
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Hero Section */}
-      <section className="relative mb-12">
-        <div className="relative aspect-[21/9] md:aspect-[3/1] w-full overflow-hidden rounded-xl">
-          <Image
-            src="/assets/bannerubro.png"
-            alt="Banner do Flamengo"
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 1200px"
-            priority
-            quality={90}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-          <div className="absolute bottom-0 left-0 p-6 md:p-8 w-full">
-            <div className="max-w-3xl">
-              <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">
-                Blog do Flamengo
-              </h1>
-              <p className="text-lg md:text-xl text-gray-100">
-                Todas as notícias do Mengão em um só lugar
-              </p>
-            </div>
-          </div>
-        </div>
+      <section className="mb-8">
+        <Suspense fallback={<div className="animate-pulse bg-gray-200 h-[400px] rounded-lg" />}>
+          <HeroSlider news={initialNoticias} />
+        </Suspense>
       </section>
 
       {/* Search Section */}
       <section className="mb-8">
-        <SearchBar className="max-w-2xl mx-auto" />
+        <Suspense fallback={<div className="animate-pulse bg-gray-200 h-12 rounded-lg max-w-2xl mx-auto" />}>
+          <SearchBar className="max-w-2xl mx-auto" />
+        </Suspense>
       </section>
 
       {/* Componente de Aceite de Cookies */}
@@ -84,12 +72,13 @@ export default async function Home() {
               <section className="bg-white rounded-xl shadow-sm p-4">
                 <NewsletterSignup />
               </section>
+              
               <section className="bg-white rounded-xl shadow-sm p-4">
-                 {/* Product Shelf */}
                 {products && products.length > 0 && (
                   <ProductShelf products={products} />
                 )}
               </section>
+              
               <section className="bg-white rounded-xl shadow-sm p-4">
                 <AddBanner 
                   adClient={`ca-pub-${process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID}`}
@@ -119,8 +108,6 @@ export default async function Home() {
           </Suspense>
         </main>
       </div>
-
-     
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { client } from '../prismic';
+import * as prismic from '@prismicio/client';
 import { supabase } from './supabase.js';
 import { normalizeNewsCollection, normalizeNewsData } from './newsAdapter';
 
@@ -10,39 +11,51 @@ export const NEWS_CATEGORIES = {
   JOGOS: 'jogos'
 };
 
+export const CATEGORY_LABELS = {
+  noticias: 'Notícias',
+  contrataçoes: 'Contratações',
+  bastidores: 'Bastidores',
+  coletivas: 'Coletivas',
+  jogos: 'Jogos'
+};
+
 export async function getAllNews({ pageSize = 6, page = 1, category = null } = {}) {
   try {
-    const prismicResponse = await client.getByType('noticias', {
-      orderings: [
-        { field: 'document.first_publication_date', direction: 'desc' },
+    // Prismic query without category filter
+    const prismicResponse = await client.get({
+      predicates: [
+        prismic.predicate.at('document.type', 'noticias')
       ],
-      ...(category ? {
-        predicates: [
-          ['document.category', category]
-        ]
-      } : {}),
+      orderings: {
+        field: 'document.first_publication_date',
+        direction: 'desc'
+      },
       pageSize: 100
     });
 
+    // Supabase query with category filter
     const query = supabase
       .from('news')
       .select('*', { count: 'exact' })
-      .order('date', { ascending: false })
-      .limit(100);
+      .order('date', { ascending: false });
 
     if (category) {
-      query.eq('category', category);
+      query.eq('category', category.toLowerCase());
     }
 
     const { data: supabaseNews, error } = await query;
 
     if (error) throw error;
 
-    const prismicNews = normalizeNewsCollection(prismicResponse.results || [], 'prismic');
+    // Combine and normalize results
+    const prismicNews = normalizeNewsCollection(prismicResponse.results || [], 'prismic')
+      .filter(news => !category || news.category.toLowerCase() === category.toLowerCase());
+    
     const supabaseFormattedNews = normalizeNewsCollection(supabaseNews || [], 'supabase');
-    const allNews = [...prismicNews, ...supabaseFormattedNews].sort((a, b) => 
-      new Date(b.date) - new Date(a.date)
-    );
+    
+    // Combine and filter results
+    const allNews = [...prismicNews, ...supabaseFormattedNews]
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
 
     const totalNews = allNews.length;
     const startIndex = (page - 1) * pageSize;
@@ -56,15 +69,18 @@ export async function getAllNews({ pageSize = 6, page = 1, category = null } = {
       total: totalNews,
       page,
       pageSize,
-      hasMore
+      hasMore,
+      category
     };
   } catch (error) {
+    console.error('Error fetching news:', error);
     return {
       news: [],
       total: 0,
       page,
       pageSize,
-      hasMore: false
+      hasMore: false,
+      category
     };
   }
 }

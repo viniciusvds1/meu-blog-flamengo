@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import OptimizedImage from './OptimizedImage';
 
 export default function ProductShelf({ products }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -52,11 +53,17 @@ export default function ProductShelf({ products }) {
         <div className="card bg-white shadow-xl hover:shadow-2xl transition-shadow duration-300">
           <figure className="relative pt-4 px-4">
             {product.data.image?.url && (
-              <img
-                src={product.data.image.url}
-                alt={product.data.title?.[0]?.text || "Produto Flamengo"}
-                className="w-full h-64 object-contain rounded-lg"
-              />
+              <div className="relative w-full h-64">
+                <OptimizedImage
+                  src={product.data.image.url}
+                  alt={product.data.title?.[0]?.text || "Produto Flamengo"}
+                  fill
+                  className="object-contain rounded-lg"
+                  sizes="(max-width: 768px) 100vw, 384px"
+                  quality={75}
+                  priority={currentIndex === 0}
+                />
+              </div>
             )}
             {hasDiscount && (
               <div className="absolute top-6 right-6 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-semibold animate-pulse">
@@ -100,11 +107,9 @@ export default function ProductShelf({ products }) {
             key={idx}
             onClick={() => updateIndex(idx)}
             className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              idx === currentIndex 
-                ? 'bg-red-600 w-4' 
-                : 'bg-gray-300 hover:bg-gray-400'
+              currentIndex === idx ? 'bg-red-600 w-4' : 'bg-gray-300'
             }`}
-            aria-label={`Go to slide ${idx + 1}`}
+            aria-label={`Ir para produto ${idx + 1}`}
           />
         ))}
       </div>

@@ -1,4 +1,14 @@
 // newsAdapter.js
+import { NEWS_CATEGORIES } from './getNews';
+
+const normalizeCategory = (category) => {
+  if (!category) return NEWS_CATEGORIES.NOTICIAS;
+  const normalizedCategory = category.toLowerCase();
+  return Object.values(NEWS_CATEGORIES).includes(normalizedCategory) 
+    ? normalizedCategory 
+    : NEWS_CATEGORIES.NOTICIAS;
+};
+
 export function normalizeNewsData(news, source) {
   if (!news) return null;
 
@@ -32,7 +42,7 @@ export function normalizeNewsData(news, source) {
       date: news.first_publication_date || data.date || new Date().toISOString(),
       image: data.image?.url || null,
       tags: Array.isArray(news.tags) ? news.tags.filter(Boolean) : [],
-      category: data.category || 'geral',
+      category: normalizeCategory(data.category),
       source: 'prismic'
     };
   } else if (source === 'supabase') {
@@ -44,7 +54,7 @@ export function normalizeNewsData(news, source) {
       date: news.date || new Date().toISOString(),
       image: news.image || null,
       tags: Array.isArray(news.tags) ? news.tags.filter(Boolean) : [],
-      category: news.category || 'geral',
+      category: normalizeCategory(news.category),
       source: 'supabase'
     };
   }
