@@ -6,6 +6,7 @@ import SearchBar from '@/components/SearchBar';
 import NoticiasSection from '@/components/NoticiasSection';
 import AddBanner from '@/components/AddBanner';
 import CookieConsent from '@/components/CookieConsent';
+import HeroSlider from '@/components/HeroSlider'; // Import the new HeroSlider component
 import { getAllNews } from '@/lib/getNews';
 import * as prismic from '@prismicio/client';
 import dynamic from 'next/dynamic';
@@ -38,29 +39,8 @@ export default async function Home() {
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Hero Section */}
-      <section className="relative mb-12">
-        <div className="relative aspect-[21/9] md:aspect-[3/1] w-full overflow-hidden rounded-xl">
-          <Image
-            src="/assets/bannerubro.png"
-            alt="Banner do Flamengo"
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 1200px"
-            priority
-            quality={90}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-          <div className="absolute bottom-0 left-0 p-6 md:p-8 w-full">
-            <div className="max-w-3xl">
-              <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">
-                Blog do Flamengo
-              </h1>
-              <p className="text-lg md:text-xl text-gray-100">
-                Todas as notícias do Mengão em um só lugar
-              </p>
-            </div>
-          </div>
-        </div>
+      <section className="mb-8">
+      <HeroSlider news={initialNoticias} />
       </section>
 
       {/* Search Section */}
