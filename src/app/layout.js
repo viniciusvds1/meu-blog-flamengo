@@ -11,7 +11,6 @@ import WebStory from "@/components/webstories";
 const inter = Inter({
   subsets: ["latin"],
   display: 'swap',
-  preload: true,
 });
 
 export const viewport = {

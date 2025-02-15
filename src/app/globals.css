@@ -1,75 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "~slick-carousel/slick/slick.css";
-@import "~slick-carousel/slick/slick-theme.css";
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 :root {
-  --background: #ffffff;
   --foreground: #000000;
+  --background: #ffffff;
   --text-primary: #1a1a1a;
-  --text-secondary: #333333;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --text-secondary: #4a4a4a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground: #ffffff;
+    --background: #121212;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+  }
 }
 
 body {
   font-family: 'Roboto', sans-serif;
   color: var(--text-primary);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif ,'Roboto';
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #121212;
-    --foreground: #ffffff;
-    --text-primary: #ffffff;
-    --text-secondary: #e0e0e0;
-  }
+.text-shadow-lg {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* Remove padding since navbar is not fixed anymore */
-main {
-  padding-top: 0;
-}
-
-/* Melhorar contraste para tabelas e estatísticas */
-.table-row {
-  color: var(--text-primary);
-  background: var(--background);
-}
-
-.table-row:nth-child(even) {
-  background: rgba(0, 0, 0, 0.03);
-}
-
-@media (prefers-color-scheme: dark) {
-  .table-row:nth-child(even) {
-    background: rgba(255, 255, 255, 0.03);
-  }
-}
-
-/* Melhorar contraste para textos */
-h1, h2, h3, h4, h5, h6 {
-  color: var(--text-primary);
-  font-weight: 700;
-}
-
-p, span, div {
-  color: var(--text-secondary);
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
-.custom-img {
-  object-fit: contain;
-  width: 100% !important;
-  position: relative !important;
-  height: unset !important;
+.text-shadow-md {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }

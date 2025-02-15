@@ -30,6 +30,7 @@ export default function OptimizedImage({
   alt = '',
   width,
   height,
+  fill,
   ...props 
 }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -39,29 +40,60 @@ export default function OptimizedImage({
     ? src 
     : `${src}?format=webp`;
 
-  // Calculate placeholder size
-  const placeholderSize = {
-    width: typeof width === 'number' ? width : '100%',
-    height: typeof height === 'number' ? height : '100%',
+  // Default dimensions for the shimmer effect
+  const shimmerWidth = width || 1200;
+  const shimmerHeight = height || 630;
+
+  const imageProps = {
+    src: imageUrl,
+    alt,
+    className: `
+      transition-opacity duration-500 ease-in-out
+      ${isLoading ? 'opacity-0' : 'opacity-100'}
+      ${className}
+    `,
+    loading: priority ? 'eager' : 'lazy',
+    quality: props.quality || 75,
+    placeholder: "blur",
+    blurDataURL: `data:image/svg+xml;base64,${toBase64(shimmer(shimmerWidth, shimmerHeight))}`,
+    onLoad: () => setIsLoading(false),
+    ...props
   };
 
+  // If fill mode is enabled
+  if (fill) {
+    return (
+      <div className="relative w-full h-full">
+        <Image
+          {...imageProps}
+          fill
+          sizes={props.sizes || "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
+          style={{ objectFit: props.objectFit || 'cover' }}
+        />
+      </div>
+    );
+  }
+
+  // If width and height are provided
+  if (width && height) {
+    return (
+      <div className={`relative ${className}`}>
+        <Image
+          {...imageProps}
+          width={width}
+          height={height}
+        />
+      </div>
+    );
+  }
+
+  // Default case: use fixed dimensions of 1200x630
   return (
-    <div className={`relative ${className}`} style={placeholderSize}>
+    <div className={`relative ${className}`}>
       <Image
-        src={imageUrl}
-        alt={alt}
-        width={width}
-        height={height}
-        className={`
-          transition-opacity duration-500 ease-in-out
-          ${isLoading ? 'opacity-0' : 'opacity-100'}
-        `}
-        loading={priority ? 'eager' : 'lazy'}
-        quality={props.quality || 75}
-        placeholder="blur"
-        blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(width || 700, height || 475))}`}
-        onLoadingComplete={() => setIsLoading(false)}
-        {...props}
+        {...imageProps}
+        width={1200}
+        height={630}
       />
     </div>
   );
