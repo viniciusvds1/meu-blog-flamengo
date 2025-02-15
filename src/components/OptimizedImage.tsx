@@ -21,7 +21,7 @@ const OptimizedImage: FC<OptimizedImageProps> = ({
   className = '', 
   priority = false,
   aspectRatio = 'aspect-video',
-  objectFit = 'object-contain',
+  objectFit = 'object-fill',
   width,
   height,
   quality = 75,
@@ -46,11 +46,12 @@ const OptimizedImage: FC<OptimizedImageProps> = ({
   }
 
   return (
-    <div className={`relative ${aspectRatio}`} style={{ width: '100%', height: '100%' }}>
+    <div className={`relative text-white ${aspectRatio}`} style={{ width: '100%', height: '100%' }}>
       <Image
         src={imageSrc}
         alt={alt}
         fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
         quality={quality}
         loading={loading}
         className={`${className} ${objectFit}`}
