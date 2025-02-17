@@ -119,7 +119,7 @@ export async function GET(req) {
     const TEAM_ID = 127; // Flamengo
     const BRASILEIRO_LEAGUE_ID = 71;
     const CARIOCA_LEAGUE_ID = 624;
-    const CURRENT_SEASON = 2024;
+    const CURRENT_SEASON = new Date().getFullYear();
 
     const data = {
       resultados: [],

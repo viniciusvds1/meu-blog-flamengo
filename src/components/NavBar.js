@@ -7,8 +7,8 @@ import { FiMenu, FiX } from 'react-icons/fi';
 const menuItems = [
   { href: '/', label: 'Início' },
   { href: '/noticias', label: 'Notícias' },
-  { href: '/jogos', label: 'Jogos' },
-  { href: '/elenco', label: 'Elenco' },
+  { href: '/resultados', label: 'Resultados' },
+  { href: '/galeria', label: 'Galeria' },
   { href: '/historia', label: 'História' }
 ];
 
