@@ -11,7 +11,7 @@ config({
   allowEmptyValues: false
 });
 
-import { fetchAndCreateFlamengoNews } from '../src/lib/newsAutomation.js';
+import { fetchAndCreateFlamengoNews } from '../src/lib/newsAutomation.mjs';
 
 async function runNewsUpdate() {
   try {

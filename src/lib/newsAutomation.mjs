@@ -1,4 +1,4 @@
-import { supabase } from './supabase.js';
+import { supabase } from './supabase.mjs';
 import OpenAI from 'openai';
 import { JSDOM } from 'jsdom';
 import crypto from 'crypto';
