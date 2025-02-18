@@ -1,6 +1,6 @@
 import { client } from '../prismic';
 import * as prismic from '@prismicio/client';
-import { supabase } from './supabase.js';
+import { supabase } from './supabase.mjs';
 import { normalizeNewsCollection, normalizeNewsData } from './newsAdapter';
 
 export const NEWS_CATEGORIES = {
