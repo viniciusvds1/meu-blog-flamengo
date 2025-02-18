@@ -10,7 +10,7 @@
     "slicemachine": "start-slicemachine",
     "test": "jest",
     "test:watch": "jest --watch",
-    "update-news": "node scripts/updateNews.js"
+    "update-news": "node scripts/updateNews.mjs"
   },
   "dependencies": {
     "@next/third-parties": "^15.1.3",
@@ -29,7 +29,7 @@
     "framer-motion": "^12.4.3",
     "jsdom": "^26.0.0",
     "lucide-react": "^0.456.0",
-    "next": "14.1.0",
+    "next": "^14.2.24",
     "openai": "^4.28.0",
     "react": "^18.2.0",
     "react-cookie-consent": "^9.0.0",

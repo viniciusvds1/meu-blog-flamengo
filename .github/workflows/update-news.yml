@@ -22,7 +22,7 @@ jobs:
         run: npm ci
         
       - name: Run news update script
-        run: node scripts/updateNews.js
+        run: node scripts/updateNews.mjs
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
