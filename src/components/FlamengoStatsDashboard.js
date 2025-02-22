@@ -1,8 +1,12 @@
-'use client';
-
-import React, { useEffect, useState } from 'react';
+/**
+ * Componente do painel de estatísticas do Flamengo.
+ *
+ * @returns {JSX.Element} - Elemento JSX do painel de estatísticas.
+ * 
+ * 
+ */
 import Image from 'next/image';
-import { Trophy, BarChart2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export default function FlamengoStatsDashboard() {
   const [data, setData] = useState({
@@ -14,7 +18,11 @@ export default function FlamengoStatsDashboard() {
   const [selectedChampionship, setSelectedChampionship] = useState('brasileiro');
   const [selectedStatsChampionship, setSelectedStatsChampionship] = useState('brasileiro');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  /**
+   * Efetua a busca dos dados da API.
+   */
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -34,6 +42,7 @@ export default function FlamengoStatsDashboard() {
         setLoading(false);
       } catch (error) {
         console.error('Erro ao buscar dados:', error);
+        setError(error.message);
         setLoading(false);
       }
     };
@@ -41,30 +50,76 @@ export default function FlamengoStatsDashboard() {
     fetchData();
   }, []);
 
+  if (error) {
+    return (
+      <div className="text-red-600" role="alert">
+        Erro ao carregar dados: {error}
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen" role="status">
+        <span className="loading loading-spinner loading-lg text-red-600"></span>
+        <span className="sr-only">Carregando...</span>
+      </div>
+    );
+  }
+
+  /**
+   * Renderiza a tabela de campeonato.
+   *
+   * @param {object} tabela - Dados da tabela de campeonato.
+   * @returns {JSX.Element} - Elemento JSX da tabela de campeonato.
+   */
   const renderChampionshipTable = (tabela) => {
     if (!tabela) {
-      return <div className="text-center text-gray-500">Tabela não disponível</div>;
+      return (
+        <div className="text-center text-gray-500" role="alert">
+          Tabela não disponível
+        </div>
+      );
     }
 
-    // Handle both data structures - direct array or nested in tabela property
     const tabelaData = Array.isArray(tabela) ? tabela : (tabela.tabela || []);
-    
+
     if (!Array.isArray(tabelaData) || tabelaData.length === 0) {
-      return <div className="text-center text-gray-500">Tabela não disponível</div>;
+      return (
+        <div className="text-center text-gray-500" role="alert">
+          Tabela não disponível
+        </div>
+      );
     }
 
     return (
       <div className="overflow-x-auto">
-        <table className="table table-zebra w-full">
+        <table
+          className="table table-zebra w-full"
+          aria-label="Tabela de campeonato"
+          role="table"
+        >
           <thead className="bg-red-600 text-white">
             <tr>
-              <th className="text-center">Pos</th>
-              <th>Time</th>
-              <th className="text-center">Pts</th>
-              <th className="text-center">J</th>
-              <th className="text-center">V</th>
-              <th className="text-center">E</th>
-              <th className="text-center">D</th>
+              <th className="text-center" scope="col">
+                Pos
+              </th>
+              <th scope="col">Time</th>
+              <th className="text-center" scope="col">
+                Pts
+              </th>
+              <th className="text-center" scope="col">
+                J
+              </th>
+              <th className="text-center" scope="col">
+                V
+              </th>
+              <th className="text-center" scope="col">
+                E
+              </th>
+              <th className="text-center" scope="col">
+                D
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -99,9 +154,19 @@ export default function FlamengoStatsDashboard() {
     );
   };
 
+  /**
+   * Renderiza as estatísticas do time.
+   *
+   * @param {object} estatisticas - Dados das estatísticas do time.
+   * @returns {JSX.Element} - Elemento JSX das estatísticas do time.
+   */
   const renderStatistics = (estatisticas) => {
     if (!estatisticas) {
-      return <div className="text-center text-gray-500">Estatísticas não disponíveis</div>;
+      return (
+        <div className="text-center text-gray-500" role="alert">
+          Estatísticas não disponíveis
+        </div>
+      );
     }
 
     const statsList = [
@@ -113,7 +178,10 @@ export default function FlamengoStatsDashboard() {
     ];
 
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div
+        className="grid grid-cols-1 md:grid-cols-2 gap-4"
+        aria-label="Estatísticas do time"
+      >
         {statsList.map((stat, index) => (
           <div
             key={index}
@@ -129,14 +197,6 @@ export default function FlamengoStatsDashboard() {
     );
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-spinner loading-lg text-red-600"></span>
-      </div>
-    );
-  }
-
   return (
     <div className="container mx-auto px-4 py-8 bg-gray-50 min-h-screen">
       <h1 className="text-4xl font-bold text-center text-red-700 mb-8">
@@ -145,7 +205,10 @@ export default function FlamengoStatsDashboard() {
 
       {/* Campeonatos */}
       <section className="mb-12">
-        <div className="tabs tabs-boxed mb-6 justify-center">
+        <div
+          className="tabs tabs-boxed mb-6 justify-center"
+          aria-label="Selecione o campeonato"
+        >
           <button
             className={`tab ${selectedChampionship === 'brasileiro' ? 'tab-active' : ''}`}
             onClick={() => setSelectedChampionship('brasileiro')}
@@ -165,9 +228,12 @@ export default function FlamengoStatsDashboard() {
           : renderChampionshipTable(data.tabelaCarioca)}
       </section>
 
-      {/* Estatísticas 
+      {/* Estatísticas */}
       <section>
-        <div className="tabs tabs-boxed mb-6 justify-center">
+        <div
+          className="tabs tabs-boxed mb-6 justify-center"
+          aria-label="Selecione as estatísticas"
+        >
           <button
             className={`tab ${selectedStatsChampionship === 'brasileiro' ? 'tab-active' : ''}`}
             onClick={() => setSelectedStatsChampionship('brasileiro')}
@@ -187,7 +253,7 @@ export default function FlamengoStatsDashboard() {
             ? data.estatisticasBrasileiro
             : data.estatisticasCarioca
         )}
-      </section>*/}
+      </section>
     </div>
   );
 }

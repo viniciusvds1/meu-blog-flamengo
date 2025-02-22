@@ -69,6 +69,7 @@ export default function OptimizedImage({
           fill
           sizes={props.sizes || "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
           style={{ objectFit: props.objectFit || 'cover' }}
+          alt={alt} // Certifique-se de que todas as imagens tenham um alt definido.
         />
       </div>
     );
@@ -82,6 +83,7 @@ export default function OptimizedImage({
           {...imageProps}
           width={width}
           height={height}
+          alt={alt} // Certifique-se de que todas as imagens tenham um alt definido.
         />
       </div>
     );
@@ -94,6 +96,7 @@ export default function OptimizedImage({
         {...imageProps}
         width={1200}
         height={630}
+        alt={alt} // Certifique-se de que todas as imagens tenham um alt definido.
       />
     </div>
   );

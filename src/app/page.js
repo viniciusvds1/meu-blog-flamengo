@@ -56,8 +56,6 @@ export default async function Home() {
         </Suspense>
       </section>
 
-      {/* Componente de Aceite de Cookies */}
-      <CookieConsent />
 
       {/* Main Content */}
       <div className="flex flex-col lg:flex-row gap-8">

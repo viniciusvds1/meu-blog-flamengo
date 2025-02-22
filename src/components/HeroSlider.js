@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import OptimizedImage from './OptimizedImage';
 
@@ -8,26 +8,28 @@ export default function HeroSlider({ news }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const timerRef = useRef(null);
-  
-  const slides = [
-    {
-      type: 'banner',
-      image: '/assets/bannerubro.png',
-      title: 'Blog do Flamengo',
-      description: 'Todas as notícias do Mengão em um só lugar',
-      width: 1200,
-      height: 630,
-    },
-    ...news.slice(0, 3).map(item => ({
-      type: 'news',
-      image: item.image,
-      title: item.title,
-      description: item.excerpt,
-      slug: item.slug,
-      width: 1200,
-      height: 630,
-    }))
-  ];
+
+  const slides = useMemo(() => {
+    return [
+      {
+        type: 'banner',
+        image: '/assets/bannerubro.png',
+        title: 'Blog do Flamengo',
+        description: 'Todas as notícias do Mengão em um só lugar',
+        width: 1200,
+        height: 630,
+      },
+      ...news.slice(0, 3).map(item => ({
+        type: 'news',
+        image: item.image,
+        title: item.title,
+        description: item.excerpt,
+        slug: item.slug,
+        width: 1200,
+        height: 630,
+      }))
+    ];
+  }, [news]);
 
   const updateSlide = useCallback((index) => {
     setIsAnimating(true);

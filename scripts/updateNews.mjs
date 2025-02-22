@@ -17,11 +17,13 @@ async function runNewsUpdate() {
   try {
     const result = await fetchAndCreateFlamengoNews();
     console.log('Resultado:', JSON.stringify(result, null, 2));
-    process.exit(0);
   } catch (error) {
-    console.error('Erro:', error);
-    process.exit(1);
+    console.error('Erro ao atualizar notícias:', error);
+    throw error;
   }
 }
 
-runNewsUpdate();
+runNewsUpdate().catch((error) => {
+  console.error('Erro ao executar a atualização de notícias:', error);
+  throw error;
+});
