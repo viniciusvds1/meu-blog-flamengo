@@ -8,6 +8,10 @@ import config from "../slicemachine.config.json";
 export const repositoryName =
   process.env.NEXT_PUBLIC_PRISMIC_ENVIRONMENT || config.repositoryName;
 
+if (!repositoryName) {
+  throw new Error('O nome do repositório Prismic não está definido.');
+}
+
 /**
  * A list of Route Resolver objects that define how a document's `url` field is resolved.
  *
@@ -33,22 +37,29 @@ const routes = [
  * query content from the Prismic API.
  *
  * @param {prismicNext.CreateClientConfig} config - Configuration for the Prismic client.
+ * @returns {prismic.Client} The Prismic client instance.
+ * @throws {Error} If an error occurs while creating the client.
  */
 export const createClient = (config = {}) => {
-  const client = prismic.createClient(repositoryName, {
-    routes,
-    fetchOptions:
-      process.env.NODE_ENV === "production"
-        ? { next: { tags: ["prismic"] }, cache: "force-cache" }
-        : { next: { revalidate: 5 } },
-    ...config,
-  });
+  try {
+    const client = prismic.createClient(repositoryName, {
+      routes,
+      fetchOptions:
+        process.env.NODE_ENV === "production"
+          ? { next: { tags: ["prismic"] }, cache: "force-cache" }
+          : { next: { revalidate: 5 } },
+      ...config,
+    });
 
-  prismicNext.enableAutoPreviews({
-    client,
-    previewData: config.previewData,
-    req: config.req,
-  });
+    prismicNext.enableAutoPreviews({
+      client,
+      previewData: config.previewData,
+      req: config.req,
+    });
 
-  return client;
+    return client;
+  } catch (error) {
+    console.error('Erro ao criar o cliente Prismic:', error);
+    throw new Error(`Erro ao criar o cliente Prismic: ${error.message}`);
+  }
 };
