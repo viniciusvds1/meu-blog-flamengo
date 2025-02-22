@@ -3,8 +3,10 @@
  * 
  * @param {string} currentCategory - Categoria de notícias atualmente selecionada.
  * @returns {JSX.Element} - Elemento JSX do componente de filtro de categorias.
- * @throws {Error} - Se a prop currentCategory não estiver definida.
+ * @throws {Error} - Se a prop currentCategory não estiver def
+ * inida.
  */
+import Link from 'next/link';
 export default function CategoryFilter({ currentCategory }) {
   // Verificar se currentCategory está definido
   if (typeof currentCategory === 'undefined') {

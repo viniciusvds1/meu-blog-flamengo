@@ -2,7 +2,12 @@
  * Componente do painel de estatísticas do Flamengo.
  *
  * @returns {JSX.Element} - Elemento JSX do painel de estatísticas.
+ * 
+ * 
  */
+import Image from 'next/image';
+import { useState, useEffect } from 'react';
+
 export default function FlamengoStatsDashboard() {
   const [data, setData] = useState({
     tabelaBrasileiro: null,

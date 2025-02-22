@@ -10,20 +10,19 @@ import { useEffect } from 'react';
  * @returns {JSX.Element|null} O componente de banner de anúncio ou null se as props não estiverem definidas.
  */
 const AdBanner = ({ adClient, adSlot, adFormat = "auto" }) => {
-  // Verificar se adClient e adSlot estão definidos
-  if (!adClient || !adSlot) {
-    console.error('adClient e adSlot são obrigatórios para o AdBanner.');
-    return null; // Retorna null se as props não estiverem definidas
-  }
-
   useEffect(() => {
+    if (!adClient || !adSlot) {
+      console.error('adClient e adSlot são obrigatórios para o AdBanner.');
+      return; // Apenas loga o erro e não continua
+    }
+
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (e) {
       console.error('Erro ao carregar anúncio:', e);
       // Aqui você pode adicionar um fallback ou mensagem de erro para o usuário
     }
-  }, []);
+  }, [adClient, adSlot, adFormat]);
 
   return (
     <div>
