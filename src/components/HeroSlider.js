@@ -24,7 +24,7 @@ export default function HeroSlider({ news }) {
         image: item.image,
         title: item.title,
         description: item.excerpt,
-        slug: item.slug,
+        slug: item.uid,
         width: 1200,
         height: 630,
       }))
@@ -48,6 +48,8 @@ export default function HeroSlider({ news }) {
 
     return () => clearInterval(timer);
   }, [slides, currentSlide, updateSlide]);
+
+  console.log(slides);
 
   return (
     <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden bg-black">

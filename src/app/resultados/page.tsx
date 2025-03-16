@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import OptimizedImage from '@/components/OptimizedImage';
-import { motion } from 'framer-motion';
-import { RefreshCw, Calendar, Trophy } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { RefreshCw, Calendar, Trophy, Star, Crown, Award } from 'lucide-react';
 import FlamengoStatsDashboard from '@/components/FlamengoStatsDashboard';
 
 interface Resultado {
@@ -285,6 +285,145 @@ export default function ResultadosFlamengo() {
 
   return (
     <div className="max-w-5xl mx-auto px-2 sm:px-4 py-4 sm:py-8 bg-gray-50 min-h-screen">
+      {/* Campeão Carioca 2025 Banner */}
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="mb-8 p-6 rounded-2xl bg-gradient-to-r from-red-700 via-red-600 to-red-800 shadow-2xl relative overflow-hidden"
+        >
+          {/* Animated background effects */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 to-transparent"
+            initial={{ x: '-100%' }}
+            animate={{ x: '100%' }}
+            transition={{ 
+              duration: 2,
+              repeat: Infinity,
+              repeatType: "mirror",
+              ease: "linear"
+            }}
+          />
+
+          <div className="flex flex-col items-center space-y-4 relative z-10">
+            <motion.div
+              initial={{ y: -20 }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="flex items-center space-x-2"
+            >
+              <motion.div
+                animate={{ 
+                  rotate: [0, -10, 10, -10, 0],
+                  scale: [1, 1.1, 1, 1.1, 1]
+                }}
+                transition={{ 
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+              >
+                <Crown className="w-8 h-8 text-yellow-300" />
+              </motion.div>
+              <h2 className="text-4xl sm:text-5xl font-black text-white text-center bg-gradient-to-r from-yellow-300 via-white to-yellow-300 bg-clip-text text-transparent">
+                CAMPEÃO CARIOCA 2025
+              </h2>
+              <motion.div
+                animate={{ 
+                  rotate: [0, 10, -10, 10, 0],
+                  scale: [1, 1.1, 1, 1.1, 1]
+                }}
+                transition={{ 
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+              >
+                <Crown className="w-8 h-8 text-yellow-300" />
+              </motion.div>
+            </motion.div>
+            
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              className="relative w-32 h-32"
+            >
+              <motion.div
+                animate={{ 
+                  scale: [1, 1.05, 1],
+                  rotate: [0, 5, -5, 0]
+                }}
+                transition={{ 
+                  duration: 4,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+              >
+                <OptimizedImage
+                  src="/assets/flamengo.png"
+                  alt="Flamengo Campeão"
+                  aspectRatio="aspect-square"
+                  objectFit="contain"
+                  priority={true}
+                  width={128}
+                  height={128}
+                  className="drop-shadow-2xl"
+                />
+              </motion.div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.9 }}
+              className="flex flex-col items-center space-y-3"
+            >
+              <div className="flex items-center space-x-4 text-white">
+                <motion.div
+                  animate={{ 
+                    rotate: [0, 360],
+                    scale: [1, 1.2, 1]
+                  }}
+                  transition={{ 
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
+                >
+                  <Star className="w-6 h-6 text-yellow-300" fill="currentColor" />
+                </motion.div>
+                <span className="text-xl font-bold">37º Título Carioca</span>
+                <motion.div
+                  animate={{ 
+                    rotate: [0, -360],
+                    scale: [1, 1.2, 1]
+                  }}
+                  transition={{ 
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
+                >
+                  <Star className="w-6 h-6 text-yellow-300" fill="currentColor" />
+                </motion.div>
+              </div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 1.2 }}
+                className="flex items-center space-x-2 text-yellow-300"
+              >
+                <Award className="w-5 h-5" />
+                <span className="text-sm font-medium">Maior Campeão do Rio de Janeiro</span>
+                <Award className="w-5 h-5" />
+              </motion.div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+
       <h1 className="text-3xl sm:text-5xl font-extrabold mb-4 sm:mb-8 text-center text-red-700">
         Flamengo: Resultados e Próximos Jogos
       </h1>
