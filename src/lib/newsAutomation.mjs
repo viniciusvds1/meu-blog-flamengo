@@ -214,12 +214,12 @@ export class MetaSocialService {
       const postContent = completion.choices[0].message.content;
       return {
         message: `${postContent}\n\n`,
-        uid:article.title
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '')
+        uid: article.title
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '')
       };
     } catch (error) {
       console.error(`Erro ao gerar post: ${error}`);
