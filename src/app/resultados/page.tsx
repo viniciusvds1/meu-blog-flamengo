@@ -394,7 +394,7 @@ export default function ResultadosFlamengo() {
                 >
                   <Star className="w-6 h-6 text-yellow-300" fill="currentColor" />
                 </motion.div>
-                <span className="text-xl font-bold">37º Título Carioca</span>
+                <span className="text-xl font-bold">39º Título Carioca</span>
                 <motion.div
                   animate={{ 
                     rotate: [0, -360],
