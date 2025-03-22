@@ -230,7 +230,10 @@ export class MetaSocialService {
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-+|-+$/g, '');
 
-      return `🔴⚫ ${article.title}\n\n${process.env.SITE_URL}/noticias/${uid}\n\n#Flamengo #CRF`;
+      return {
+        message: `🔴⚫ ${article.title}\n\n${process.env.SITE_URL}/noticias/${uid}\n\n#Flamengo #CRF`,
+        uid: uid
+      };
     }
   }
 
