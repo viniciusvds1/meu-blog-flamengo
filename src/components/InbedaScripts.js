@@ -32,6 +32,7 @@ const InbendaScripts = () => {
         strategy="lazyOnload"
         id="iubenda-stub"
       />
+      <Script type="text/javascript" data-cmp-ab="1" src="https://cdn.consentmanager.net/delivery/autoblocking/642b8c93223d8.js" data-cmp-host="d.delivery.consentmanager.net" data-cmp-cdn="cdn.consentmanager.net" data-cmp-codesrc="16"></Script>
       <Script
         id="gtm-script"
         strategy="lazyOnload"
