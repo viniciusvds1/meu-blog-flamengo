@@ -53,13 +53,14 @@ export default function HeroSlider({ news }) {
 
   return (
     <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden bg-black">
+      <div className="absolute inset-0 bg-gradient-to-r from-flamengoRed/20 to-transparent z-0" />
       {slides.map((slide, index) => (
         <div
           key={index}
           className={`
             absolute w-full h-full transform transition-all duration-1000 ease-in-out
             ${currentSlide === index 
-              ? 'opacity-100 scale-100 z-10' 
+              ? 'opacity-100 scale-100 z-10 animate-fade-in' 
               : 'opacity-0 scale-95 z-0'
             }
             ${isAnimating ? 'transition-opacity' : ''}
@@ -76,10 +77,10 @@ export default function HeroSlider({ news }) {
                 className="w-full h-full"
                 objectFit="cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent">
-                <div className="absolute bottom-0 left-0 p-8 max-w-3xl">
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white text-shadow-lg">{slide.title}</h2>
-                  <p className="text-xl md:text-2xl text-white/90 text-shadow-md">{slide.description}</p>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent transition-opacity duration-300 group-hover:from-black/95">
+                <div className="absolute bottom-0 left-0 p-8 max-w-3xl transform transition-transform duration-300 group-hover:translate-y-[-4px]">
+                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white text-shadow-lg animate-fade-in">{slide.title}</h2>
+                  <p className="text-xl md:text-2xl text-white/90 text-shadow-md animate-slide-up">{slide.description}</p>
                 </div>
               </div>
             </div>
@@ -113,11 +114,11 @@ export default function HeroSlider({ news }) {
           <button
             key={index}
             onClick={() => updateSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentSlide
-                ? 'bg-red-600 scale-110'
-                : 'bg-white/50 hover:bg-red-600/70'
-            }`}
+            className={`w-3 h-3 rounded-full transition-all duration-300 transform
+              ${currentSlide === index 
+                ? 'bg-white scale-110 ring-2 ring-white/50' 
+                : 'bg-white/50 hover:bg-white/70 hover:scale-105'}
+            `}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}

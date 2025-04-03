@@ -40,39 +40,42 @@ export default function Navbar() {
   }, [menuOpen]);
 
   return (
-    <nav className="bg-red-700 text-white shadow-lg sticky top-0 z-50">
+    <nav className="bg-flamengoRed text-white shadow-lg sticky top-0 z-50 animate-fade-in">
       <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <Link href="/" prefetch={true}>
-            <p className="text-2xl font-bold text-white hover:text-gray-100">Blog do Flamengo</p>
+          <Link href="/" prefetch={true} className="group">
+            <p className="text-2xl font-bold text-white transition-transform duration-300 group-hover:scale-105 text-shadow-md">
+              Blog do Flamengo
+            </p>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <ul className="flex items-center space-x-12">
-              {menuItems.map(({ href, label }) => (
-                <li key={href}>
-                  <Link 
-                    href={href}
-                    prefetch={true}
-                    className="text-white hover:text-gray-200 transition-colors font-medium"
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <div className="hidden lg:flex space-x-8">
+            {menuItems.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className="text-white hover:text-white/90 transition-all duration-300 relative group"
+              >
+                {label}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full" />
+              </Link>
+            ))}
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile menu button */}
           <button
             id="menu-button"
-            className="md:hidden text-white focus:outline-none"
             onClick={handleMenuToggle}
-            aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+            className="lg:hidden focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg p-2 transition-colors hover:bg-white/10"
+            aria-label="Toggle menu"
           >
-            {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+            {menuOpen ? (
+              <FiX className="h-6 w-6 transition-transform duration-300 transform rotate-90" />
+            ) : (
+              <FiMenu className="h-6 w-6 transition-transform duration-300 hover:scale-110" />
+            )}
           </button>
         </div>
 

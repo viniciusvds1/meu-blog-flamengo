@@ -15,20 +15,21 @@ const NewsCard = memo(function NewsCard({ uid, title, content, date, image, cate
 
   return (
     <Link href={`/noticias/${uid}`} className="block group">
-      <article className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+      <article className="card animate-fade-in bg-white dark:bg-neutral-800 flex flex-col h-full">
         {image && (
-          <div className="relative w-full h-48 overflow-hidden">
+          <div className="relative w-full h-48 overflow-hidden rounded-t-xl">
             <OptimizedImage
               src={image}
               alt={title}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </div>
         )}
         <div className="p-6 flex-grow">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-gray-500">
+          <div className="flex items-center justify-between mb-3 animate-slide-up">
+            <span className="text-sm text-gray-500 dark:text-gray-400">
               {new Date(date).toLocaleDateString('pt-BR', {
                 year: 'numeric',
                 month: 'long',
@@ -36,24 +37,24 @@ const NewsCard = memo(function NewsCard({ uid, title, content, date, image, cate
               })}
             </span>
             {category && (
-              <span className="px-3 py-1 bg-red-600 text-white text-sm rounded-full">
+              <span className="px-3 py-1 bg-flamengoRed text-white text-sm rounded-full transform transition-transform group-hover:scale-105">
                 {category}
               </span>
             )}
           </div>
-          <h2 className="text-xl font-semibold mb-4 line-clamp-2 text-gray-800 group-hover:text-red-600 transition-colors">
+          <h2 className="text-xl font-bold mb-4 line-clamp-2 text-gray-800 dark:text-white group-hover:text-flamengoRed transition-colors">
             {title}
           </h2>
           {content && (
-            <div className="text-gray-600 line-clamp-3 mb-4">
+            <div className="text-gray-600 dark:text-gray-300 line-clamp-3 mb-4 animate-slide-up delay-100">
               {isSupabaseContent ? (
                 <p>{content[0]?.text || ''}</p>
               ) : isPrismicContent ? (
                 <PrismicRichText
-                  field={content.richText || content.text}
+                  field={content.richText || content}
                   components={{
                     paragraph: ({ children }) => (
-                      <p className="text-gray-600">{children}</p>
+                      <p className="text-gray-600 dark:text-gray-300">{children}</p>
                     ),
                   }}
                 />
