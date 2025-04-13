@@ -41,18 +41,22 @@ export default async function Home() {
   const products = await client.getAllByType('produtos');
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 bg-gradient-to-b from-gray-50 to-white min-h-screen">
       {/* Hero Section */}
-      <section className="mb-8">
-        <Suspense fallback={<div className="animate-pulse bg-gray-200 h-[400px] rounded-lg" />}>
-          <HeroSlider news={initialNoticias} />
+      <section className="mb-12 transform hover:scale-[1.01] transition-transform duration-300">
+        <Suspense fallback={<div className="animate-pulse bg-gradient-to-r from-gray-200 to-gray-300 h-[400px] rounded-2xl shadow-2xl" />}>
+          <div className="glass-morphism rounded-2xl overflow-hidden shadow-2xl">
+            <HeroSlider news={initialNoticias} />
+          </div>
         </Suspense>
       </section>
 
       {/* Search Section */}
-      <section className="mb-8">
-        <Suspense fallback={<div className="animate-pulse bg-gray-200 h-12 rounded-lg max-w-2xl mx-auto" />}>
-          <SearchBar className="max-w-2xl mx-auto" />
+      <section className="mb-12 max-w-2xl mx-auto transform hover:scale-[1.02] transition-all duration-300">
+        <Suspense fallback={<div className="animate-pulse bg-gradient-to-r from-gray-200 to-gray-300 h-12 rounded-full" />}>
+          <div className="glass-morphism-light rounded-full shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <SearchBar className="w-full" />
+          </div>
         </Suspense>
       </section>
 
@@ -63,21 +67,21 @@ export default async function Home() {
         <aside className="w-full lg:w-1/4 order-2 lg:order-1">
           <div className="sticky top-4 space-y-6">
             <Suspense fallback={<SidebarSkeleton />}>
-              <section className="bg-white rounded-xl shadow-sm p-4">
+              <section className="glass-morphism rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 transform hover:scale-[1.01]">
                 <LastResultAndNextGame />
               </section>
 
-              <section className="bg-white rounded-xl shadow-sm p-4">
+              <section className="glass-morphism-light rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 transform hover:scale-[1.01]">
                 <NewsletterSignup />
               </section>
               
-              <section className="bg-white rounded-xl shadow-sm p-4">
+              <section className="glass-morphism rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 transform hover:scale-[1.01]">
                 {products && products.length > 0 && (
                   <ProductShelf products={products} />
                 )}
               </section>
               
-              <section className="bg-white rounded-xl shadow-sm p-4">
+              <section className="glass-morphism-light rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6">
                 <AddBanner 
                   adClient={`ca-pub-${process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID}`}
                   adSlot="0987654321"
@@ -94,15 +98,17 @@ export default async function Home() {
             fallback={
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-pulse">
                 {[...Array(6)].map((_, i) => (
-                  <div key={i} className="bg-gray-200 h-64 rounded-xl" />
+                  <div key={i} className="bg-gradient-to-r from-gray-200 to-gray-300 h-64 rounded-2xl" />
                 ))}
               </div>
             }
           >
-            <NoticiasSection 
-              initialNoticias={initialNoticias}
-              className="bg-white rounded-xl shadow-sm p-4" 
-            />
+            <div className="glass-morphism rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6">
+              <NoticiasSection 
+                initialNoticias={initialNoticias}
+                className="divide-y divide-gray-100" 
+              />
+            </div>
           </Suspense>
         </main>
       </div>
