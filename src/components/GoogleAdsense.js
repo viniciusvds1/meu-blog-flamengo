@@ -18,11 +18,24 @@ const GoogleAdsense = ({ pId }) => {
   // Verificar se a variável de ambiente está definida
   const googleAdsClientId = pId || process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID;
   
-  // Verificar modo de economia de dados (client-side only)
+  // Verificar modo de economia de dados e inicializar AdSense corretamente
   useEffect(() => {
-    if (typeof navigator !== 'undefined' && navigator.connection && navigator.connection.saveData) {
-      // Modo de economia de dados ativado
-      // Poderia implementar uma estratégia de carregamento reduzido ou alternativa
+    if (typeof window === 'undefined') return;
+    
+    // Verificar modo de economia de dados
+    if (navigator.connection && navigator.connection.saveData) {
+      console.log('Modo de economia de dados ativado - carregamento de anúncios reduzido');
+      return; // Não carrega anúncios em modo de economia de dados
+    }
+
+    // Inicialização controlada do AdSense para evitar duplicação
+    if (window.adsbygoogle && !window.adsbygoogleInitialized) {
+      try {
+        window.adsbygoogleInitialized = true;
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (error) {
+        console.error('Erro ao inicializar AdSense:', error);
+      }
     }
   }, []);
 
@@ -56,17 +69,26 @@ const GoogleAdsense = ({ pId }) => {
         async
         src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-${googleAdsClientId}`}
         crossOrigin="anonymous"
-        strategy="lazyOnload" // Carregamento otimizado após carregamento da página
+        strategy="afterInteractive" // Mudar para afterInteractive para evitar problemas de inicialização
         onError={(e) => {
           console.error('Erro ao carregar script do AdSense:', e);
-          // Implementar telemetria de erro aqui se necessário
         }}
         onLoad={() => {
-          // Script do AdSense carregado
+          console.log('Script do AdSense carregado com sucesso');
         }}
-        data-ad-frequency-hint="30s"
-        aria-label="Script do Google AdSense"
       />
+      
+      {/* Container para anúncios do AdSense */}
+      <div key="adsense-container" className="w-full my-4 text-center">
+        <ins
+          className="adsbygoogle"
+          style={{ display: 'block' }}
+          data-ad-client={`ca-pub-${googleAdsClientId}`}
+          data-ad-slot="5962665573"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        />
+      </div>
     </>
   );
 };
