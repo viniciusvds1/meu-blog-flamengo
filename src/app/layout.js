@@ -100,7 +100,6 @@ export default function RootLayout({ children }) {
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-        <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} />
       </head>
       <body className="flex flex-col min-h-screen bg-gray-50 font-sans" style={{
         '--font-sans': 'var(--font-inter), system-ui, sans-serif',
@@ -126,7 +125,7 @@ export default function RootLayout({ children }) {
         <div id="fb-root"></div>
         <Analytics />
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GTM_ID} />
-        <GoogleAdsense />
+        <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} />
         <InbendaScripts />
         <WebStory 
           embedURL="https://www.orubronegronews.com/"
