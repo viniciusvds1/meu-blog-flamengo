@@ -73,7 +73,7 @@ export default function HeroSlider({ news }) {
                 height={slide.height}
                 priority={index === 0}
                 className="w-full h-full"
-                objectFit="cover"
+                style={{ objectFit: "cover" }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent transition-opacity duration-300 group-hover:from-black/95">
                 <div className="absolute bottom-0 left-0 p-8 max-w-3xl transform transition-transform duration-300 group-hover:translate-y-[-4px]">
@@ -92,7 +92,7 @@ export default function HeroSlider({ news }) {
                   height={slide.height}
                   priority={index === 0}
                   className="w-full h-full"
-                  objectFit="cover"
+                  style={{ objectFit: "cover" }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent group-hover:from-black/95 transition-all duration-300">
                   <div className="absolute bottom-0 left-0 p-8 max-w-3xl">

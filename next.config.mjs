@@ -9,14 +9,13 @@ const nextConfig = {
         hostname: '**',
       },
     ],
-    domains: ['localhost'],  // Add domains explicitly for local development
+    domains: ['localhost', 'uploads.metroimg.com', 'uploads.metropoles.com', 'www.infomoney.com.br', 'www.metroimg.com'],  // Add domains explicitly for local development and external sources
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60 * 60 * 24 * 7, // 7 dias
     dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    unoptimized: true,  // This ensures static images work properly in production
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;"
   },
   // Asset prefix for static files if needed
   assetPrefix: process.env.NODE_ENV === 'production' ? undefined : undefined,
