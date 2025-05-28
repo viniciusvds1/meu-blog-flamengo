@@ -45,15 +45,8 @@ const HeroBanner = ({ slides = [] }) => {
   ];
 
   const slidesToShow = slides.length > 0 ? slides : defaultSlides;
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      goToNext();
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [currentIndex]);
-
+  
+  // Definir as funções de navegação antes do useEffect
   const goToPrevious = () => {
     if (isAnimating) return;
     setIsAnimating(true);
@@ -71,6 +64,15 @@ const HeroBanner = ({ slides = [] }) => {
     setCurrentIndex(newIndex);
     setTimeout(() => setIsAnimating(false), 500);
   };
+  
+  // Agora o useEffect, com goToNext já declarado
+  useEffect(() => {
+    const interval = setInterval(() => {
+      goToNext();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [currentIndex, goToNext]);
 
   return (
     <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden">
