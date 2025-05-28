@@ -5,7 +5,7 @@ import * as prismic from '@prismicio/client';
 import { getAllNews } from '@/lib/getNews';
 import '@/styles/animations.css';
 
-// Componentes com carregamento dinâmico
+
 const HeroBanner = dynamic(() => import('@/components/HeroBanner'), {
   loading: () => <div className="animate-pulse bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 h-[500px] rounded-lg" />
 });
@@ -20,7 +20,7 @@ const ProductShelf = dynamic(() => import('@/components/ProductShelf'), {
   ssr: false,
 });
 
-// Loading components para melhor UX
+
 const SidebarSkeleton = () => (
   <div className="space-y-4 animate-pulse">
     <div className="bg-gray-200 h-64 rounded-lg" />
@@ -29,7 +29,7 @@ const SidebarSkeleton = () => (
   </div>
 );
 
-export const revalidate = 3600; // Revalidar a página a cada hora
+export const revalidate = 3600;
 
 export default async function Home() {
   const { news: initialNoticias } = await getAllNews({ pageSize: 6 });
@@ -48,14 +48,17 @@ export default async function Home() {
       <section className="mb-12 -mx-4">
         <Suspense fallback={<div className="animate-pulse bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 h-[500px]" />}>
           <div className="overflow-hidden rounded-lg shadow-2xl">
-            <HeroBanner slides={initialNoticias?.map(noticia => ({
-              id: noticia.id,
-              title: noticia.title,
-              description: noticia.excerpt,
-              image: noticia.image || noticia.featuredImage?.url || '/assets/bannerubro.png',
-              category: noticia.category,
-              url: `/noticias/${noticia.uid}`
-            }))} />
+            <HeroBanner slides={initialNoticias?.map(noticia => {
+              const slideImage = noticia.image || '/assets/bannerubro.png';
+              return {
+                id: noticia.id || Math.random().toString(),
+                title: noticia.title || 'Notícia Flamengo',
+                description: noticia.excerpt || noticia.description || '',
+                image: slideImage,
+                category: noticia.category || 'Notícias',
+                url: `/noticias/${noticia.uid || ''}`
+              };
+            })} />
           </div>
         </Suspense>
       </section>

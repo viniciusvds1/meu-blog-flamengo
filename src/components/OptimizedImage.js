@@ -35,10 +35,16 @@ export default function OptimizedImage({
 }) {
   const [isLoading, setIsLoading] = useState(true);
   
-  // Convert image URL to WebP if it's not already
-  const imageUrl = src.startsWith('data:') || src.endsWith('.webp') 
-    ? src 
-    : `${src}?format=webp`;
+  // Tratar URLs externas e internas de forma diferente
+  let imageUrl = src;
+  
+  // Apenas converter para WebP se for uma URL interna (começando com /)
+  if (src.startsWith('/') && !src.startsWith('data:') && !src.endsWith('.webp')) {
+    imageUrl = `${src}?format=webp`;
+  }
+  
+  console.log('OptimizedImage - URL original:', src);
+  console.log('OptimizedImage - URL processada:', imageUrl);
 
   // Default dimensions for the shimmer effect
   const shimmerWidth = width || 1200;

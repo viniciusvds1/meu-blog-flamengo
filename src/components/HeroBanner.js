@@ -1,11 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
-
-const OptimizedImage = dynamic(() => import('./OptimizedImage'), {
-  ssr: true
-});
+import OptimizedImage from './OptimizedImage';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -13,14 +9,14 @@ const HeroBanner = ({ slides = [] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  // Dados de exemplo para o banner usando imagens que existem na pasta assets
+  // Use as imagens dos slides recebidos, ou use slides padrão se nenhum for fornecido
   const defaultSlides = [
     {
       id: 1,
       title: 'Palmeiras conquista vitória, de virada, sobre o Flamengo no Brasileirão sub-20',
       description: 'Mengão foi derrotado em partida acirrada do campeonato',
       image: '/assets/bannerubro.png',
-      webp: '/assets/bannerubro.webp', // Versão WebP otimizada
+      webp: '/assets/bannerubro.webp',
       category: 'Brasileirão',
       url: '/noticias/flamengo-palmeiras-sub20'
     },
@@ -29,7 +25,7 @@ const HeroBanner = ({ slides = [] }) => {
       title: 'Flamengo e Palmeiras entram em campo pela Libertadores com transmissão da Globo',
       description: 'Rubro-Negro busca classificação para as oitavas de final',
       image: '/assets/flamengo.jpg',
-      webp: '/assets/flamengo.webp', // Versão WebP otimizada
+      webp: '/assets/flamengo.webp',
       category: 'Libertadores',
       url: '/noticias/flamengo-libertadores-oitavas'
     },
@@ -38,13 +34,14 @@ const HeroBanner = ({ slides = [] }) => {
       title: 'Gerson tem leve inflamação no joelho e vira dúvida para próxima partida',
       description: 'Departamento médico avalia condições do jogador',
       image: '/assets/flamengo2.jpg',
-      webp: '/assets/flamengo2.webp', // Versão WebP otimizada
+      webp: '/assets/flamengo2.webp',
       category: 'Notícias',
       url: '/noticias/gerson-inflamacao-joelho'
     }
   ];
 
-  const slidesToShow = slides.length > 0 ? slides : defaultSlides;
+  console.log('Slides recebidos:', slides); // Para debug
+  const slidesToShow = slides && slides.length > 0 ? slides : defaultSlides;
   
   // Definir as funções de navegação antes do useEffect
   const goToPrevious = () => {
@@ -88,23 +85,47 @@ const HeroBanner = ({ slides = [] }) => {
             className={`absolute inset-0 transition-opacity duration-1000 ${index === currentIndex ? 'opacity-100' : 'opacity-0'}`}
           >
             <div className="relative w-full h-full">
-              <OptimizedImage 
-                src={slide.image || '/assets/bannerubro.png'} 
-                alt={slide.title}
-                fill
-                priority={index === currentIndex}
-                loading={index === currentIndex ? 'eager' : 'lazy'}
-                sizes="100vw"
-                style={{ objectFit: 'cover' }}
-                onLoad={(e) => {
-                  if (index === currentIndex) {
-                    console.log(`Hero image ${index} loaded successfully`);
-                    // Add a CSS class to trigger proper rendering
-                    e.target.classList.add('loaded');
-                  }
-                }}
-                className="transition-transform duration-10000 ease-out transform scale-105 animate-slow-zoom"
-              />
+              {/* Usar abordagem híbrida: tag img para URLs externas e OptimizedImage para recursos locais */}
+              {slide.image && slide.image.startsWith('http') ? (
+                <img 
+                  src={slide.image} 
+                  alt={slide.title}
+                  loading={index === currentIndex ? 'eager' : 'lazy'}
+                  onError={(e) => {
+                    console.error(`Error loading image: ${slide.image}`);
+                    e.target.src = '/assets/bannerubro.png';
+                  }}
+                  onLoad={(e) => {
+                    if (index === currentIndex) {
+                      console.log(`Hero image ${index} loaded successfully: ${slide.image}`);
+                      e.target.classList.add('loaded');
+                    }
+                  }}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-10000 ease-out transform scale-105 animate-slow-zoom"
+                />
+              ) : (
+                <OptimizedImage 
+                  src={slide.image || '/assets/bannerubro.png'} 
+                  alt={slide.title}
+                  fill
+                  priority={index === currentIndex}
+                  loading={index === currentIndex ? 'eager' : 'lazy'}
+                  sizes="100vw"
+                  style={{ objectFit: 'cover' }}
+                  onError={(e) => {
+                    console.error(`Error loading image: ${slide.image}`);
+                    e.target.src = '/assets/bannerubro.png'; // Fallback para imagem padrão
+                  }}
+                  onLoad={(e) => {
+                    if (index === currentIndex) {
+                      console.log(`Hero image ${index} loaded successfully: ${slide.image}`);
+                      // Add a CSS class to trigger proper rendering
+                      e.target.classList.add('loaded');
+                    }
+                  }}
+                  className="transition-transform duration-10000 ease-out transform scale-105 animate-slow-zoom"
+                />
+              )}
             </div>
           </div>
         ))}
