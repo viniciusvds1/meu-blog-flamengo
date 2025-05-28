@@ -18,19 +18,18 @@ const GoogleAdsense = ({ pId }) => {
   // Verificar se a variável de ambiente está definida
   const googleAdsClientId = pId || process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID;
   
-  if (!googleAdsClientId) {
-    console.error('ID do cliente Google AdSense não encontrado');
-    return null;
-  }
-
   // Verificar modo de economia de dados (client-side only)
   useEffect(() => {
-    // Verificar se estamos no navegador e se o modo de economia de dados está ativado
     if (typeof navigator !== 'undefined' && navigator.connection && navigator.connection.saveData) {
       // Modo de economia de dados ativado
       // Poderia implementar uma estratégia de carregamento reduzido ou alternativa
     }
   }, []);
+
+  if (!googleAdsClientId) {
+    console.error('ID do cliente Google AdSense não encontrado');
+    return null;
+  }
 
   return (
     <>

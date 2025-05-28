@@ -158,7 +158,7 @@ const CookieConsentBanner = ({
         </div>
         
         <p className="text-xs text-gray-300 mt-2">
-          Ao clicar em <strong>"{buttonText}"</strong>, você concorda com nossa <a href="/politica-de-privacidade" className="underline hover:text-white">política de privacidade</a>.
+          Ao clicar em <strong>&quot;{buttonText}&quot;</strong>, você concorda com nossa <a href="/politica-de-privacidade" className="underline hover:text-white">política de privacidade</a>.
         </p>
       </div>
     </CookieConsent>
