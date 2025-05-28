@@ -92,9 +92,17 @@ const HeroBanner = ({ slides = [] }) => {
                 src={slide.image || '/assets/bannerubro.png'} 
                 alt={slide.title}
                 fill
-                priority={true}
+                priority={index === currentIndex}
+                loading={index === currentIndex ? 'eager' : 'lazy'}
                 sizes="100vw"
                 style={{ objectFit: 'cover' }}
+                onLoad={(e) => {
+                  if (index === currentIndex) {
+                    console.log(`Hero image ${index} loaded successfully`);
+                    // Add a CSS class to trigger proper rendering
+                    e.target.classList.add('loaded');
+                  }
+                }}
                 className="transition-transform duration-10000 ease-out transform scale-105 animate-slow-zoom"
               />
             </div>
