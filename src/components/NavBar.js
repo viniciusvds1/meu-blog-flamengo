@@ -1,19 +1,25 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect, useCallback } from 'react';
-import { FiMenu, FiX } from 'react-icons/fi';
+import { usePathname } from 'next/navigation';
+import { Menu, X, Search, ChevronDown, Home, Newspaper, Calendar, Image as ImageIcon, Award, ShoppingBag, Trophy, Users, Star } from 'lucide-react';
 
 const menuItems = [
-  { href: '/', label: 'Início' },
-  { href: '/noticias', label: 'Notícias' },
-  { href: '/resultados', label: 'Resultados' },
-  { href: '/galeria', label: 'Galeria' },
-  { href: '/historia', label: 'História' }
+  { href: '/', label: 'Início', icon: Home },
+  { href: '/noticias', label: 'Notícias', icon: Newspaper },
+  { href: '/resultados', label: 'Resultados', icon: Calendar },
+  { href: '/elenco', label: 'Elenco', icon: Users },
+  { href: '/galeria', label: 'Galeria', icon: ImageIcon },
+  { href: '/historia', label: 'História', icon: Award },
+  { href: '/loja', label: 'Loja', icon: ShoppingBag }
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSubmenu, setActiveSubmenu] = useState(null);
 
   const handleMenuToggle = useCallback(() => {
     setMenuOpen(prev => !prev);
@@ -40,68 +46,188 @@ export default function Navbar() {
   }, [menuOpen]);
 
   return (
-    <nav className="bg-flamengoRed text-white shadow-lg sticky top-0 z-50 animate-fade-in">
-      <div className="max-w-6xl mx-auto px-4 py-4">
+    <nav className="sticky top-0 z-50 w-full bg-flamengoRed">
+      
+      {/* Main Navbar */}
+      <div className="container mx-auto px-4 py-2">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <Link href="/" prefetch={true} className="group">
-            <p className="text-2xl font-bold text-white transition-transform duration-300 group-hover:scale-105 text-shadow-md">
+          <Link href="/" className="flex items-center">
+            <div className="w-7 h-7 bg-white rounded-full flex items-center justify-center mr-2">
+              <div className="w-5 h-5 bg-flamengoRed rounded-full"></div>
+            </div>
+            <span className="text-base font-bold text-white">
               Blog do Flamengo
-            </p>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex space-x-8">
-            {menuItems.map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                className="text-white hover:text-white/90 transition-all duration-300 relative group"
-              >
-                {label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full" />
-              </Link>
+          <div className="hidden lg:flex items-center space-x-2">
+            {menuItems.map((item) => (
+              <div key={item.href} className="relative group">
+                <Link
+                  href={item.href}
+                  className={`flex items-center px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors ${
+                    pathname === item.href || pathname.startsWith(`${item.href}/`) 
+                      ? 'bg-white/15 font-semibold' 
+                      : ''
+                  }`}
+                  onMouseEnter={() => item.submenu && setActiveSubmenu(item.href)}
+                  onClick={() => setActiveSubmenu(null)}
+                >
+                  <item.icon className="w-4 h-4 mr-1.5" />
+                  <span>{item.label}</span>
+                  {item.submenu && <ChevronDown className="w-4 h-4 ml-1" />}
+                </Link>
+                
+                {/* Submenu dropdown */}
+                {item.submenu && (
+                  <div 
+                    className={`absolute top-full left-0 mt-1 bg-white shadow-lg rounded-md overflow-hidden w-48 transform transition-all duration-200 origin-top-left z-50 ${
+                      activeSubmenu === item.href ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'
+                    }`}
+                    onMouseLeave={() => setActiveSubmenu(null)}
+                  >
+                    {item.submenu.map((subItem) => (
+                      <Link 
+                        key={subItem.href} 
+                        href={subItem.href}
+                        className={`block px-4 py-2 text-sm text-gray-800 hover:bg-flamengoRed hover:text-white transition-colors ${
+                          pathname === subItem.href ? 'bg-flamengoRed/10 font-medium' : ''
+                        }`}
+                      >
+                        {subItem.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
+          </div>
+
+          {/* Search button */}
+          <div className="hidden lg:block">
+            <button className="text-white p-1">
+              <Search className="w-5 h-5" />
+            </button>
           </div>
 
           {/* Mobile menu button */}
           <button
             id="menu-button"
             onClick={handleMenuToggle}
-            className="lg:hidden focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg p-2 transition-colors hover:bg-white/10"
+            className="lg:hidden focus:outline-none rounded-lg p-2 text-white hover:bg-white/10 transition-colors"
             aria-label="Toggle menu"
           >
             {menuOpen ? (
-              <FiX className="h-6 w-6 transition-transform duration-300 transform rotate-90" />
+              <X className="h-6 w-6 transition-transform duration-300" />
             ) : (
-              <FiMenu className="h-6 w-6 transition-transform duration-300 hover:scale-110" />
+              <Menu className="h-6 w-6 transition-transform duration-300" />
             )}
           </button>
         </div>
-
-        {/* Mobile Menu */}
-        {menuOpen && (
-          <div
-            id="mobile-menu"
-            className="md:hidden fixed inset-0 top-[72px] bg-red-700 z-50"
-          >
-            <ul className="flex flex-col items-center space-y-8 pt-8">
-              {menuItems.map(({ href, label }) => (
-                <li key={href}>
-                  <Link
-                    href={href}
-                    prefetch={true}
-                    className="text-xl text-white hover:text-gray-200 transition-colors font-medium"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
+
+      {/* Mobile Menu - melhorado */}
+      {menuOpen && (
+        <div 
+          id="mobile-menu"
+          className="lg:hidden fixed inset-0 top-[60px] bg-black/95 backdrop-blur-sm z-50 animate-fade-in"
+        >
+          <div className="py-6 px-4 h-full overflow-y-auto">
+            <div className="flex flex-col space-y-2">
+              {menuItems.map((item) => (
+                <div key={item.href} className="flex flex-col">
+                  <Link
+                    href={item.href}
+                    className={`flex items-center py-3 px-4 rounded-lg ${
+                      pathname === item.href || pathname.startsWith(`${item.href}/`) 
+                        ? 'bg-flamengoRed text-white' 
+                        : 'text-white bg-black/30 hover:bg-flamengoRed/80'
+                    } transition-all duration-200`}
+                    onClick={() => {
+                      if (!item.submenu) setMenuOpen(false);
+                      setActiveSubmenu(activeSubmenu === item.href ? null : item.href);
+                    }}
+                  >
+                    <item.icon className="w-5 h-5 mr-3" />
+                    <span className="flex-1">{item.label}</span>
+                    {item.submenu && (
+                      <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${
+                        activeSubmenu === item.href ? 'rotate-180' : ''
+                      }`} />
+                    )}
+                  </Link>
+                  
+                  {/* Mobile Submenu */}
+                  {item.submenu && (
+                    <div className={`overflow-hidden transition-all duration-300 ${
+                      activeSubmenu === item.href 
+                        ? 'max-h-[400px] opacity-100 mt-1 mb-2' 
+                        : 'max-h-0 opacity-0'
+                    }`}>
+                      {item.submenu.map((subItem) => (
+                        <Link 
+                          key={subItem.href} 
+                          href={subItem.href}
+                          className={`flex pl-12 py-3 rounded-lg text-sm ${
+                            pathname === subItem.href 
+                              ? 'bg-flamengoRed/30 text-white font-medium' 
+                              : 'text-gray-200 hover:bg-flamengoRed/20'
+                          } transition-colors`}
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          {subItem.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            
+            {/* Barra de pesquisa móvel */}
+            <div className="mt-6 px-2">
+              <div className="relative flex items-center">
+                <input 
+                  type="text" 
+                  placeholder="Buscar no blog..." 
+                  className="w-full bg-black/30 text-white rounded-full pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-flamengoRed/50"
+                />
+                <Search className="absolute left-3 w-5 h-5 text-gray-400" />
+              </div>
+            </div>
+            
+            {/* Botões rápidos para acesso */}
+            <div className="mt-6 flex justify-around">
+              <Link 
+                href="/resultados" 
+                className="flex flex-col items-center px-4 py-2 text-white"
+                onClick={() => setMenuOpen(false)}
+              >
+                <Trophy className="w-6 h-6 mb-1" />
+                <span className="text-xs">Resultados</span>
+              </Link>
+              <Link 
+                href="/loja" 
+                className="flex flex-col items-center px-4 py-2 text-white"
+                onClick={() => setMenuOpen(false)}
+              >
+                <ShoppingBag className="w-6 h-6 mb-1" />
+                <span className="text-xs">Loja</span>
+              </Link>
+              <Link 
+                href="/historia" 
+                className="flex flex-col items-center px-4 py-2 text-white"
+                onClick={() => setMenuOpen(false)}
+              >
+                <Star className="w-6 h-6 mb-1" />
+                <span className="text-xs">História</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

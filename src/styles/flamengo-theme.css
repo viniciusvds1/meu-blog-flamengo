@@ -1,0 +1,261 @@
+/**
+ * Tema personalizado para o Blog do Flamengo
+ * Um conjunto de classes e variu00e1veis CSS para manter a identidade visual
+ */
+
+:root {
+  /* Cores principais do Flamengo */
+  --flamengo-red: #e20e0e;
+  --flamengo-black: #000000;
+  
+  /* Variau00e7u00f5es de vermelho */
+  --flamengo-red-light: #f03e3e;
+  --flamengo-red-dark: #b50c0c;
+  
+  /* Variau00e7u00f5es de cinza */
+  --flamengo-gray-50: #f9fafb;
+  --flamengo-gray-100: #f3f4f6;
+  --flamengo-gray-200: #e5e7eb;
+  --flamengo-gray-300: #d1d5db;
+  --flamengo-gray-400: #9ca3af;
+  --flamengo-gray-500: #6b7280;
+  --flamengo-gray-600: #4b5563;
+  --flamengo-gray-700: #374151;
+  --flamengo-gray-800: #1f2937;
+  --flamengo-gray-900: #111827;
+  
+  /* Cores de destaque */
+  --flamengo-gold: #ffc107;
+  --flamengo-silver: #c0c0c0;
+  
+  /* Gradientes */
+  --flamengo-gradient: linear-gradient(135deg, var(--flamengo-red) 0%, var(--flamengo-red-dark) 100%);
+  
+  /* Fontes */
+  --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-family-serif: 'Merriweather', Georgia, serif;
+  
+  /* Espau00e7amentos */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  
+  /* Sombras */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  
+  /* Bordas arredondadas */
+  --border-radius-sm: 0.25rem;
+  --border-radius-md: 0.375rem;
+  --border-radius-lg: 0.5rem;
+  --border-radius-xl: 0.75rem;
+  --border-radius-2xl: 1rem;
+  --border-radius-full: 9999px;
+  
+  /* Transiu00e7u00f5es */
+  --transition-fast: 150ms;
+  --transition-normal: 300ms;
+  --transition-slow: 500ms;
+}
+
+/* Tipografia personalizada */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--flamengo-gray-900);
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 2.25rem;
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: 1.875rem;
+  margin-bottom: 1.25rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Botu00f5es com estilo do Flamengo */
+.btn-flamengo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.25rem;
+  font-weight: 600;
+  border-radius: var(--border-radius-md);
+  transition: all var(--transition-normal) ease;
+  text-decoration: none;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.btn-flamengo-primary {
+  background: var(--flamengo-gradient);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 6px rgba(226, 14, 14, 0.25);
+}
+
+.btn-flamengo-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(226, 14, 14, 0.3);
+}
+
+.btn-flamengo-secondary {
+  background: white;
+  color: var(--flamengo-red);
+  border: 2px solid var(--flamengo-red);
+}
+
+.btn-flamengo-secondary:hover {
+  background: var(--flamengo-gray-50);
+  transform: translateY(-2px);
+}
+
+/* Cards com tema do Flamengo */
+.card-flamengo {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-normal) ease, box-shadow var(--transition-normal) ease;
+}
+
+.card-flamengo:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-flamengo-header {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-flamengo-content {
+  padding: 1.25rem;
+}
+
+.card-flamengo-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--flamengo-gray-900);
+}
+
+/* Utilitu00e1rios para uso das cores do Flamengo */
+.text-flamengo-red {
+  color: var(--flamengo-red);
+}
+
+.bg-flamengo-red {
+  background-color: var(--flamengo-red);
+}
+
+.border-flamengo-red {
+  border-color: var(--flamengo-red);
+}
+
+.hover\:text-flamengo-red:hover {
+  color: var(--flamengo-red);
+}
+
+.hover\:bg-flamengo-red:hover {
+  background-color: var(--flamengo-red);
+}
+
+/* Gradientes com as cores do Flamengo */
+.bg-flamengo-gradient {
+  background: var(--flamengo-gradient);
+}
+
+.bg-flamengo-dark-gradient {
+  background: linear-gradient(135deg, var(--flamengo-black) 0%, #333 100%);
+}
+
+/* Layout de pu00e1ginas */
+.container-flamengo {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-flamengo {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-flamengo {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Esquema de cores para anu00fancios */
+.ad-container {
+  position: relative;
+}
+
+.ad-container::before {
+  content: 'Publicidade';
+  display: block;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--flamengo-gray-400);
+  margin-bottom: 0.25rem;
+}
+
+/* Melhorias para formulu00e1rios */
+.form-input-flamengo {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--flamengo-gray-300);
+  border-radius: var(--border-radius-md);
+  transition: border-color var(--transition-fast) ease, box-shadow var(--transition-fast) ease;
+}
+
+.form-input-flamengo:focus {
+  outline: none;
+  border-color: var(--flamengo-red);
+  box-shadow: 0 0 0 3px rgba(226, 14, 14, 0.1);
+}
+
+/* Tabelas com estilo Flamengo */
+.table-flamengo {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-flamengo th {
+  background-color: var(--flamengo-gray-100);
+  color: var(--flamengo-gray-900);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid var(--flamengo-red);
+}
+
+.table-flamengo td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--flamengo-gray-200);
+}
+
+.table-flamengo tr:hover {
+  background-color: var(--flamengo-gray-50);
+}

@@ -3,16 +3,17 @@ import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import * as prismic from '@prismicio/client';
 import { getAllNews } from '@/lib/getNews';
+import '@/styles/animations.css';
 
 // Componentes com carregamento dinâmico
-const HeroSlider = dynamic(() => import('@/components/HeroSlider'), {
-  loading: () => <div className="animate-pulse bg-gray-200 h-[400px] rounded-lg" />
+const HeroBanner = dynamic(() => import('@/components/HeroBanner'), {
+  loading: () => <div className="animate-pulse bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 h-[500px] rounded-lg" />
 });
 
 const LastResultAndNextGame = dynamic(() => import('@/components/LastResultAndNextGame'));
 const NewsletterSignup = dynamic(() => import('@/components/NewsletterSignup'));
 const SearchBar = dynamic(() => import('@/components/SearchBar'));
-const NoticiasSection = dynamic(() => import('@/components/NoticiasSection'));
+const NoticiasGrid = dynamic(() => import('@/components/NoticiasGrid'));
 const AddBanner = dynamic(() => import('@/components/AddBanner'));
 const CookieConsent = dynamic(() => import('@/components/CookieConsent'));
 const ProductShelf = dynamic(() => import('@/components/ProductShelf'), {
@@ -43,10 +44,18 @@ export default async function Home() {
   return (
     <div className="container mx-auto px-4 py-8 bg-gradient-to-b from-gray-50 to-white min-h-screen">
       {/* Hero Section */}
-      <section className="mb-12 transform hover:scale-[1.01] transition-transform duration-300">
-        <Suspense fallback={<div className="animate-pulse bg-gradient-to-r from-gray-200 to-gray-300 h-[400px] rounded-2xl shadow-2xl" />}>
-          <div className="glass-morphism rounded-2xl overflow-hidden shadow-2xl">
-            <HeroSlider news={initialNoticias} />
+      {/* Hero Banner */}
+      <section className="mb-12 -mx-4">
+        <Suspense fallback={<div className="animate-pulse bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 h-[500px]" />}>
+          <div className="overflow-hidden rounded-lg shadow-2xl">
+            <HeroBanner slides={initialNoticias?.map(noticia => ({
+              id: noticia.id,
+              title: noticia.title,
+              description: noticia.excerpt,
+              image: noticia.image || noticia.featuredImage?.url || '/assets/bannerubro.png',
+              category: noticia.category,
+              url: `/noticias/${noticia.uid}`
+            }))} />
           </div>
         </Suspense>
       </section>
@@ -104,9 +113,9 @@ export default async function Home() {
             }
           >
             <div className="glass-morphism rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6">
-              <NoticiasSection 
+              <NoticiasGrid
                 initialNoticias={initialNoticias}
-                className="divide-y divide-gray-100" 
+                className=""
               />
             </div>
           </Suspense>

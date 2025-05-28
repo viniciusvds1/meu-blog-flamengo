@@ -8,8 +8,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        flamengoRed: '#D50000',
-        flamengoBlack: '#000000',
+        'flamengo-red': '#D50000',
+        'flamengo-red-dark': '#B30000',
+        'flamengo-black': '#000000',
+        // Mantemos a compatibilidade com o código existente
+        'flamengoRed': '#D50000',
+        'flamengoBlack': '#000000',
       },
       fontFamily: {
         sans: ['Roboto', 'system-ui', 'sans-serif'],

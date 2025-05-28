@@ -7,7 +7,7 @@ import OptimizedImage from './OptimizedImage';
 export default function HeroSlider({ news }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-  const timerRef = useRef(null);
+  
 
   const slides = useMemo(() => {
     return [
@@ -48,8 +48,6 @@ export default function HeroSlider({ news }) {
 
     return () => clearInterval(timer);
   }, [slides, currentSlide, updateSlide]);
-
-  console.log(slides);
 
   return (
     <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden bg-black">

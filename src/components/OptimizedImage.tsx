@@ -8,7 +8,10 @@ interface OptimizedImageProps {
   className?: string;
   priority?: boolean;
   aspectRatio?: string;
+  // Propriedade objectFit legada - será removida em breve
   objectFit?: string;
+  // Nova propriedade style compatível com Next.js 13+
+  style?: React.CSSProperties;
   width?: number;
   height?: number;
   quality?: number;

@@ -9,7 +9,7 @@ const OptimizedImage = dynamic(() => import('./OptimizedImage'), {
   ssr: false
 });
 
-const NewsCard = memo(function NewsCard({ uid, title, content, date, image, category }) {
+const NewCard = memo(function NewCard({ uid, title, content, date, image, category }) {
   const isSupabaseContent = Array.isArray(content) && content[0]?.type === 'paragraph';
   const isPrismicContent = content?.richText || content?.text;
 
@@ -69,4 +69,4 @@ const NewsCard = memo(function NewsCard({ uid, title, content, date, image, cate
   );
 });
 
-export default NewsCard;
+export default NewCard;

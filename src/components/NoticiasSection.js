@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react';
-import NewsCard from '@/components/NewCard';
+import NewsCard from '@/components/NewsCard';
 import LoadMoreButton from '@/components/LoadMoreButton';
 import { getAllNews } from '@/lib/getNews';
 

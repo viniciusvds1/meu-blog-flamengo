@@ -67,7 +67,7 @@ export default function Historia() {
   const [activeEvent, setActiveEvent] = useState(0);
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
-  console.log("title",timelineEvents[activeEvent].image)
+
 
   return (
     <div className="min-h-screen bg-neutral-900">
