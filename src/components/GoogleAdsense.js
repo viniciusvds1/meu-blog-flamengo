@@ -58,11 +58,6 @@ const GoogleAdsense = ({ pId }) => {
     return () => clearTimeout(initTimer);
   }, []);
 
-  if (!googleAdsClientId) {
-    console.error('ID do cliente Google AdSense não encontrado');
-    return null;
-  }
-
   // Implementação direta para carregar o script do AdSense
   useEffect(() => {
     if (typeof window === 'undefined' || !googleAdsClientId) return;
@@ -128,6 +123,11 @@ const GoogleAdsense = ({ pId }) => {
       }
     };
   }, [googleAdsClientId]); // Só recarrega se o ID mudar
+  
+  if (!googleAdsClientId) {
+    console.error('ID do cliente Google AdSense não encontrado');
+    return null;
+  }
   
   return (
     <div className="w-full my-4 text-center">

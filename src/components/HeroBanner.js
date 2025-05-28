@@ -52,7 +52,7 @@ const HeroBanner = ({ slides = [] }) => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [currentIndex]);
+  }, [currentIndex, goToNext]);
 
   const goToPrevious = () => {
     if (isAnimating) return;

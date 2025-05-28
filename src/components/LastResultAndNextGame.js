@@ -68,9 +68,11 @@ const TeamDisplay = memo(({ badge, name, abbreviation }) => {
   return (
     <div className="flex flex-col items-center w-14 sm:w-16 md:w-20">
       <div className="bg-white rounded-full p-1 shadow border border-gray-200 mb-1 flex items-center justify-center">
-        <img
+        <MemoizedImage
           src={badge || defaultBadge}
           alt={`${name} badge`}
+          width={40}
+          height={40}
           className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
           onError={handleImageError}
         />
