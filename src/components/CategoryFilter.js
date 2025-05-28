@@ -3,10 +3,17 @@
  * 
  * @param {string} currentCategory - Categoria de notícias atualmente selecionada.
  * @returns {JSX.Element} - Elemento JSX do componente de filtro de categorias.
- * @throws {Error} - Se a prop currentCategory não estiver def
- * inida.
  */
 import Link from 'next/link';
+
+// Categorias disponíveis e seus rótulos amigáveis
+const CATEGORY_LABELS = {
+  'futebol': 'Futebol',
+  'basquete': 'Basquete',
+  'remo': 'Remo',
+  'clube': 'Clube'
+};
+
 export default function CategoryFilter({ currentCategory }) {
   // Verificar se currentCategory está definido
   if (typeof currentCategory === 'undefined') {
@@ -30,7 +37,7 @@ export default function CategoryFilter({ currentCategory }) {
           {Object.entries(CATEGORY_LABELS).map(([value, label]) => (
             <Link
               key={value}
-              href={`/categoria/${value}`}
+              href={`/noticias/categoria/${value}`}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 currentCategory === value ? 'bg-red-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
               }`}

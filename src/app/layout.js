@@ -1,23 +1,42 @@
 import "./globals.css";
+import "@/styles/custom-animations.css";
+import "@/styles/flamengo-theme.css";
 import Navbar from "../components/NavBar";
 import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/react";
-import { Inter } from "next/font/google";
+import { Inter, Roboto_Serif } from "next/font/google";
 import GoogleAdsense from "@/components/GoogleAdsense";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import InbendaScripts from "@/components/InbedaScripts"
 import WebStory from "@/components/webstories";
+import CookieConsentBanner from "@/components/CookieConsent";
 
+// Carregamento otimizado das fontes
 const inter = Inter({
   subsets: ["latin"],
   display: 'swap',
+  preload: true,
+  fallback: ['system-ui', '-apple-system', 'Segoe UI', 'Arial', 'sans-serif'],
+  adjustFontFallback: true,
+  variable: '--font-inter',
 });
 
+const robotoSerif = Roboto_Serif({
+  subsets: ["latin"],
+  display: 'swap',
+  preload: true,
+  weight: ['400', '500', '700'],
+  variable: '--font-roboto-serif',
+});
+
+// Configurações otimizadas de viewport para melhor responsividade
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#000000',
+  themeColor: '#e20e0e', // Vermelho Flamengo como tema principal
+  colorScheme: 'light dark',
+  'accept-ch': 'DPR, Width, Viewport-Width', // Client hints para otimizações
 };
 
 export const metadata = {
@@ -52,7 +71,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="pt-BR" className={inter.className}>
+    <html lang="pt-BR" className={`${inter.variable} ${robotoSerif.variable}`}>
       <head>
         <link
           rel="preconnect"
@@ -83,12 +102,27 @@ export default function RootLayout({ children }) {
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} />
       </head>
-      <body className="flex flex-col min-h-screen bg-gray-50">
-        <Navbar />
-        <main className="flex-grow">
+      <body className="flex flex-col min-h-screen bg-gray-50 font-sans" style={{
+        '--font-sans': 'var(--font-inter), system-ui, sans-serif',
+        '--font-serif': 'var(--font-roboto-serif), Georgia, serif'
+      }}>
+        {/* Faixa superior nas cores do Flamengo */}
+        <div className="h-1 w-full bg-flamengo-gradient"></div>
+        
+        {/* Header com navegação */}
+        <header className="sticky top-0 z-50 w-full bg-white shadow-md">
+          <Navbar />
+        </header>
+        
+        {/* Conteúdo principal com otimizações para anúncios */}
+        <main className="flex-grow pt-4 container-flamengo">
           {children}
         </main>
+        
+        {/* Footer com informações do site */}
         <Footer />
+        
+        {/* Scripts e componentes de terceiros */}
         <div id="fb-root"></div>
         <Analytics />
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GTM_ID} />
@@ -96,6 +130,11 @@ export default function RootLayout({ children }) {
         <InbendaScripts />
         <WebStory 
           embedURL="https://www.orubronegronews.com/"
+        />
+        
+        {/* Banner de consentimento de cookies otimizado */}
+        <CookieConsentBanner 
+          buttonText="Aceitar Cookies"
         />
       </body>
     </html>

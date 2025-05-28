@@ -3,10 +3,6 @@ import OpenAI from 'openai';
 import { JSDOM } from 'jsdom';
 import crypto from 'crypto';
 import * as prismic from '@prismicio/client';
-import dotenv from 'dotenv';
-import fs from 'fs';
-
-dotenv.config({ path: '.env.local' });
 
 export class NewsService {
   constructor() {

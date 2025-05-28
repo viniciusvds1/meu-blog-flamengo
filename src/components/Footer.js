@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import Image from 'next/image';
+import { Facebook, Instagram, Youtube, Mail, MapPin, Phone, Heart, ExternalLink } from 'lucide-react';
 
 /**
  * Componente do rodapé do site.

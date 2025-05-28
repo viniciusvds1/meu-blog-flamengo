@@ -165,7 +165,7 @@ export default function ResultadosFlamengo() {
             src={resultado.flamengoBadge ?? '/assets/flamengo.png'}
             alt="Flamengo Logo"
             aspectRatio="aspect-square"
-            objectFit="contain"
+            style={{ objectFit: 'contain' }}
             priority={false}
             width={40}
             height={40}
@@ -191,7 +191,7 @@ export default function ResultadosFlamengo() {
             src={resultado.adversarioBadge}
             alt={`${resultado.adversario} Logo`}
             aspectRatio="aspect-square"
-            objectFit="contain"
+            style={{ objectFit: 'contain' }}
             priority={false}
             width={40}
             height={40}
@@ -225,7 +225,7 @@ export default function ResultadosFlamengo() {
             src={jogo.flamengoBadge ?? '/assets/flamengo.png'}
             alt="Flamengo Logo"
             aspectRatio="aspect-square"
-            objectFit="contain"
+            style={{ objectFit: 'contain' }}
             priority={false}
             width={40}
             height={40}
@@ -247,7 +247,7 @@ export default function ResultadosFlamengo() {
             src={jogo.adversarioBadge}
             alt={`${jogo.adversario} Logo`}
             aspectRatio="aspect-square"
-            objectFit="contain"
+            style={{ objectFit: 'contain' }}
             priority={false}
             width={40}
             height={40}
@@ -365,7 +365,7 @@ export default function ResultadosFlamengo() {
                   src="/assets/flamengo.png"
                   alt="Flamengo Campeão"
                   aspectRatio="aspect-square"
-                  objectFit="contain"
+                  style={{ objectFit: 'contain' }}
                   priority={true}
                   width={128}
                   height={128}

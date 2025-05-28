@@ -16,7 +16,7 @@ const SidebarAd = ({ slot, className = '' }) => {
     <aside className={`sidebar-ad ${className}`}>
       <div className="sticky top-24 bg-white p-4 rounded-lg shadow-sm border border-gray-100">
         <h3 className="text-lg font-medium mb-4 text-red-800 hidden md:block">Fique por dentro</h3>
-
+        
         <AdUnit 
           format="rectangle"
           slot={slot} 
