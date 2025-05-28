@@ -59,6 +59,7 @@ const TeamDisplay = memo(({ badge, name, abbreviation }) => {
   
   // Use a function for error handling instead of useState to avoid hook issues
   const handleImageError = (e) => {
+    if (typeof window === 'undefined' || !e || !e.target) return;
     if (e && e.target) {
       e.target.src = defaultBadge;
       e.target.onerror = null; // Prevent infinite loop
@@ -75,6 +76,8 @@ const TeamDisplay = memo(({ badge, name, abbreviation }) => {
           height={40}
           className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
           onError={handleImageError}
+          unoptimized={false}
+          priority={true}
         />
       </div>
       <span className="font-bold text-xs sm:text-sm text-gray-900">{abbreviation}</span>
@@ -165,6 +168,9 @@ const LastResultAndNextGame = () => {
   const [error, setError] = useState(null);
 
   async function fetchData() {
+    // Verificar se estamos no cliente
+    if (typeof window === 'undefined') return;
+    
     try {
       setLoading(true);
       setError(null);
@@ -183,7 +189,7 @@ const LastResultAndNextGame = () => {
       });
     } catch (error) {
       console.error('Erro ao buscar dados dos jogos:', error);
-      setError(error.message);
+      setError(error instanceof Error ? error.message : 'Erro desconhecido');
     } finally {
       setLoading(false);
     }

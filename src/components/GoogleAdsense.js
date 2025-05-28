@@ -27,8 +27,12 @@ const GoogleAdsense = ({ pId }) => {
     // Marcar como inicializado para evitar múltiplas chamadas
     initialized.current = true;
     
-    // Verificar modo de economia de dados
-    if (navigator.connection && navigator.connection.saveData) {
+    // Verificar modo de economia de dados - só executa no cliente
+    const isSaveDataMode = typeof navigator !== 'undefined' && 
+                          navigator.connection && 
+                          navigator.connection.saveData;
+                          
+    if (isSaveDataMode) {
       console.log('Modo de economia de dados ativado - carregamento de anúncios reduzido');
       return; // Não carrega anúncios em modo de economia de dados
     }
