@@ -42,21 +42,22 @@ const GoogleAdsense = ({ pId }) => {
       try {
         // Inicialização segura do AdSense
         if (window.adsbygoogle) {
-          const ads = document.querySelectorAll('.adsbygoogle');
-          // Apenas inicializa anúncios que ainda não foram inicializados
-          if (ads.length > 0) {
-            ads.forEach(ad => {
-              if (!ad.dataset.adInitialized) {
-                (window.adsbygoogle = window.adsbygoogle || []).push({});
-                ad.dataset.adInitialized = 'true';
-              }
-            });
+          const currentAd = document.getElementById('adsense-container');
+          // Só inicializa se o anúncio atual não foi inicializado e existe no DOM
+          if (currentAd && !currentAd.dataset.adInitialized) {
+            try {
+              (window.adsbygoogle = window.adsbygoogle || []).push({});
+              currentAd.dataset.adInitialized = 'true';
+              console.log('Anúncio inicializado com sucesso');
+            } catch (pushError) {
+              console.error('Erro ao fazer push do anúncio:', pushError);
+            }
           }
         }
       } catch (error) {
         console.error('Erro ao inicializar AdSense:', error);
       }
-    }, 200); // Pequeno delay para garantir que o DOM esteja pronto
+    }, 300); // Aumento do delay para garantir que o DOM esteja pronto
     
     // Limpeza do timer se o componente for desmontado
     return () => clearTimeout(initTimer);
@@ -136,6 +137,7 @@ const GoogleAdsense = ({ pId }) => {
   return (
     <div className="w-full my-4 text-center">
       <ins
+        id="adsense-container"
         className="adsbygoogle"
         style={{ display: 'block', minHeight: '280px' }}
         data-ad-client={`ca-pub-${googleAdsClientId}`}
