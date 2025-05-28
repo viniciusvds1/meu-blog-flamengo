@@ -4,46 +4,76 @@
  * @returns {JSX.Element} - Elemento JSX do componente de comentários do Facebook.
  */
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 /**
  * Componente de comentários do Facebook.
  *
  * @description Carrega o SDK do Facebook e exibe os comentários.
- * @throws {Error} Se houver erro ao carregar o SDK do Facebook.
  */
-const FacebookComments = () => {
+const FacebookComments = ({ url }) => {
+  // Use URL fornecido como prop ou fallback para URL atual
   const [currentUrl, setCurrentUrl] = useState('');
   const [error, setError] = useState(null);
+  const initializationComplete = useRef(false);
 
   useEffect(() => {
-    try {
-      setCurrentUrl(window.location.href);
-      if (!document.getElementById('facebook-jssdk')) {
-        let script = document.createElement('script');
-        script.id = 'facebook-jssdk';
-        script.src = 'https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v17.0&appId=1277752713485967&autoLogAppEvents=1';
-        document.body.appendChild(script);
-        script.onload = () => {
-          if (window.FB) {
-            window.FB.init({
-              appId: '1277752713485967',
-              autoLogAppEvents: true,
-              xfbml: true,
-              version: 'v17.0',
-            });
-            window.FB.XFBML.parse();
-          }
-        };
-        if (window.FB) {
+    // Garantir que este código só executa no navegador
+    if (typeof window === 'undefined') return;
+    
+    // Função para inicializar o FB SDK com tratamento de erros adequado
+    const initFacebookSDK = () => {
+      try {
+        // Usar a URL fornecida ou obter a URL atual
+        const pageUrl = url || window.location.href;
+        setCurrentUrl(pageUrl);
+        
+        // Evitar múltiplas inicializações
+        if (initializationComplete.current) return;
+        initializationComplete.current = true;
+        
+        if (!document.getElementById('facebook-jssdk')) {
+          const script = document.createElement('script');
+          script.id = 'facebook-jssdk';
+          script.src = 'https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v17.0&appId=1277752713485967&autoLogAppEvents=1';
+          script.crossOrigin = 'anonymous'; // Adicionar crossOrigin para resolver o erro
+          script.async = true;
+          script.defer = true;
+          
+          // Anexar o script ao final do body
+          document.body.appendChild(script);
+          
+          // Configurar o callback para quando o script carregar
+          script.onload = () => {
+            if (window.FB) {
+              window.FB.init({
+                appId: '1277752713485967',
+                autoLogAppEvents: true,
+                xfbml: true,
+                version: 'v17.0',
+              });
+              // Analisar os elementos do XFBML para renderizar os comentários
+              window.FB.XFBML.parse();
+            }
+          };
+        } else if (window.FB) {
+          // Se o SDK já estiver carregado, apenas re-parse os elementos
           window.FB.XFBML.parse();
         }
+      } catch (err) {
+        setError(err);
+        console.error('Erro ao carregar o SDK do Facebook:', err);
       }
-    } catch (error) {
-      setError(error);
-      console.error('Erro ao carregar o SDK do Facebook:', error);
-    }
-  }, []);
+    };
+    
+    // Inicializar o SDK
+    initFacebookSDK();
+    
+    // Cleanup ao desmontar
+    return () => {
+      initializationComplete.current = false;
+    };
+  }, [url]); // Dependência na URL para re-inicializar quando mudar
 
   if (error) {
     return (

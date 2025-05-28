@@ -21,7 +21,13 @@ const InbendaScripts = () => {
           `,
         }}
       />
-      <Script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v22.0&appId=1277752713485967"/>
+      <Script
+        id="facebook-sdk"
+        strategy="lazyOnload"
+        src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v17.0&appId=1277752713485967"
+        crossOrigin="anonymous"
+        nonce={undefined} // Allow CSP policy to work properly
+      />
       <Script
         src="https://cs.iubenda.com/autoblocking/3887130.js"
         strategy="lazyOnload"

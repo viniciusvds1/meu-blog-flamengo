@@ -1,5 +1,4 @@
 "use client";
-import Script from "next/script";
 import { useEffect, useRef } from 'react';
 
 /**
@@ -64,48 +63,83 @@ const GoogleAdsense = ({ pId }) => {
     return null;
   }
 
+  // Implementação direta para carregar o script do AdSense
+  useEffect(() => {
+    if (typeof window === 'undefined' || !googleAdsClientId) return;
+    
+    // Limpa scripts anteriores do AdSense para evitar duplicações
+    const existingScript = document.getElementById('adsense-script');
+    if (existingScript) {
+      existingScript.remove();
+    }
+    
+    // Cria links de preconnect diretamente no head
+    const createPreconnect = (href) => {
+      const link = document.createElement('link');
+      link.rel = 'preconnect';
+      link.href = href;
+      link.crossOrigin = 'anonymous';
+      document.head.appendChild(link);
+    };
+    
+    // Adiciona preconnects para domínios do AdSense
+    createPreconnect('https://pagead2.googlesyndication.com');
+    createPreconnect('https://googleads.g.doubleclick.net');
+    createPreconnect('https://tpc.googlesyndication.com');
+    
+    // Cria e adiciona o script do AdSense
+    const script = document.createElement('script');
+    script.id = 'adsense-script';
+    script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-${googleAdsClientId}`;
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    
+    // Função para inicializar os anúncios
+    script.onload = () => {
+      console.log('Script do AdSense carregado com sucesso');
+      try {
+        setTimeout(() => {
+          if (window.adsbygoogle) {
+            const ads = document.querySelectorAll('.adsbygoogle');
+            ads.forEach(ad => {
+              if (!ad.hasAttribute('data-adsbygoogle-initialized')) {
+                (window.adsbygoogle = window.adsbygoogle || []).push({});
+                ad.setAttribute('data-adsbygoogle-initialized', 'true');
+              }
+            });
+          }
+        }, 300); // Pequeno delay para garantir que o DOM está pronto
+      } catch (err) {
+        console.error('Erro na inicialização do AdSense:', err);
+      }
+    };
+    
+    script.onerror = (e) => {
+      console.error('Erro ao carregar script do AdSense:', e);
+    };
+    
+    document.head.appendChild(script);
+    
+    // Limpeza ao desmontar
+    return () => {
+      const scriptToRemove = document.getElementById('adsense-script');
+      if (scriptToRemove) {
+        scriptToRemove.remove();
+      }
+    };
+  }, [googleAdsClientId]); // Só recarrega se o ID mudar
+  
   return (
-    <>
-      {/* Preconnect para domínios do AdSense para carregamento mais rápido */}
-      <link 
-        rel="preconnect" 
-        href="https://pagead2.googlesyndication.com" 
-        crossOrigin="anonymous" 
+    <div className="w-full my-4 text-center">
+      <ins
+        className="adsbygoogle"
+        style={{ display: 'block', minHeight: '280px' }}
+        data-ad-client={`ca-pub-${googleAdsClientId}`}
+        data-ad-slot="5962665573"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
       />
-      <link 
-        rel="preconnect" 
-        href="https://googleads.g.doubleclick.net" 
-        crossOrigin="anonymous" 
-      />
-      <link 
-        rel="preconnect" 
-        href="https://tpc.googlesyndication.com" 
-        crossOrigin="anonymous" 
-      />
-      
-      {/* Script do AdSense com estratégia otimizada de carregamento */}
-      <Script
-        id="google-adsense"
-        strategy="lazyOnload" // Mudar para lazyOnload para melhor performance
-        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-${googleAdsClientId}`}
-        crossOrigin="anonymous"
-        onError={(e) => {
-          console.error('Erro ao carregar script do AdSense:', e);
-        }}
-      />
-      
-      {/* Container para anúncios do AdSense com fallbacks e configurações seguras */}
-      <div className="w-full my-4 text-center">
-        <ins
-          className="adsbygoogle"
-          style={{ display: 'block', minHeight: '280px' }}
-          data-ad-client={`ca-pub-${googleAdsClientId}`}
-          data-ad-slot="5962665573"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        />
-      </div>
-    </>
+    </div>
   );
 };
 
