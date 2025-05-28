@@ -50,20 +50,29 @@ const GameInfo = memo(({ icon: Icon, text }) => (
 
 GameInfo.displayName = 'GameInfo';
 
+// Declare constants outside component to avoid recreating them on each render
+const getDefaultBadge = (name) => name === 'Flamengo' ? '/assets/flamengo.png' : '/assets/default-team.png';
+
 const TeamDisplay = memo(({ badge, name, abbreviation }) => {
-  const [imgError, setImgError] = useState(false);
-  const defaultBadge = name === 'Flamengo' ? '/assets/flamengo.png' : '/assets/default-team.png';
+  // Create the defaultBadge value outside the component to prevent re-creation
+  const defaultBadge = getDefaultBadge(name);
+  
+  // Use a function for error handling instead of useState to avoid hook issues
+  const handleImageError = (e) => {
+    if (e && e.target) {
+      e.target.src = defaultBadge;
+      e.target.onerror = null; // Prevent infinite loop
+    }
+  };
 
   return (
     <div className="flex flex-col items-center w-14 sm:w-16 md:w-20">
       <div className="bg-white rounded-full p-1 shadow border border-gray-200 mb-1 flex items-center justify-center">
         <img
-          src={badge}
+          src={badge || defaultBadge}
           alt={`${name} badge`}
           className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
-          onError={(e) => {
-            e.target.src = defaultBadge;
-          }}
+          onError={handleImageError}
         />
       </div>
       <span className="font-bold text-xs sm:text-sm text-gray-900">{abbreviation}</span>

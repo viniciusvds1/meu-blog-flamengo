@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Ensure images are properly handled
   images: {
     remotePatterns: [
       {
@@ -8,13 +9,17 @@ const nextConfig = {
         hostname: '**',
       },
     ],
+    domains: ['localhost'],  // Add domains explicitly for local development
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60 * 60 * 24 * 7, // 7 dias
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    unoptimized: true,  // This ensures static images work properly in production
   },
+  // Asset prefix for static files if needed
+  assetPrefix: process.env.NODE_ENV === 'production' ? undefined : undefined,
   compress: true,
   poweredByHeader: false,
   swcMinify: true,
