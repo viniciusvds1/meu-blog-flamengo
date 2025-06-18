@@ -9,6 +9,8 @@ export class NewsService {
     this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY
     });
+    this.similarityThreshold = 0.7; // Threshold for similarity detection (0-1)
+    this.processingCache = new Map(); // Cache for already processed content fingerprints
   }
 
   async fetchNews() {
@@ -128,8 +130,86 @@ Regras para reescrita:
     }
   }
 
+  // Calculate content fingerprint for similarity detection
+  calculateFingerprint(text) {
+    if (!text) return '';
+    
+    // Normalize text: lowercase, remove accents, punctuation, and extra spaces
+    const normalized = text.toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9\s]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    
+    // Create a hash of the normalized text
+    return crypto.createHash('sha256').update(normalized).digest('hex');
+  }
+
+  // Calculate Jaccard similarity between two texts
+  calculateSimilarity(text1, text2) {
+    if (!text1 || !text2) return 0;
+    
+    // Extract words from texts
+    const words1 = new Set(text1.toLowerCase().split(/\s+/).filter(w => w.length > 3));
+    const words2 = new Set(text2.toLowerCase().split(/\s+/).filter(w => w.length > 3));
+    
+    // Calculate intersection
+    const intersection = new Set([...words1].filter(x => words2.has(x)));
+    
+    // Calculate Jaccard similarity: |intersection| / |union|
+    const union = new Set([...words1, ...words2]);
+    
+    return intersection.size / union.size;
+  }
+  
+  // Check if article is similar to any existing articles
+  async isSimilarToExisting(articleTitle, articleContent) {
+    try {
+      const fingerprint = this.calculateFingerprint(articleContent);
+      
+      // Check processing cache first to avoid redundant queries
+      if (this.processingCache.has(fingerprint)) {
+        return true;
+      }
+      
+      // Get recent articles for comparison
+      const { data: recentArticles, error } = await supabase
+        .from('news')
+        .select('title, content')
+        .order('created_at', { ascending: false })
+        .limit(10);
+      
+      if (error || !recentArticles) {
+        return false;
+      }
+      
+      // Check for title or content similarity
+      for (const existing of recentArticles) {
+        // Check title similarity
+        if (this.calculateSimilarity(articleTitle, existing.title) > 0.8) {
+          return true;
+        }
+        
+        // Check content similarity 
+        if (this.calculateSimilarity(articleContent, existing.content) > this.similarityThreshold) {
+          return true;
+        }
+      }
+      
+      // Cache this fingerprint to avoid reprocessing
+      this.processingCache.set(fingerprint, true);
+      
+      return false;
+    } catch (error) {
+      console.error(`Erro ao verificar similaridade: ${error}`);
+      return false;
+    }
+  }
+
   async saveToSupabase(article) {
     try {
+      // Check if article already exists with exact title
       const { data: existingArticles, error: checkError } = await supabase
         .from('news')
         .select('title')
@@ -142,8 +222,16 @@ Regras para reescrita:
       if (existingArticles && existingArticles.length > 0) {
         return false;
       }
-
+      
+      // Fetch full content for better similarity checking
       const fullContent = await this.fetchFullArticleContent(article.url);
+      
+      // Check similarity with existing articles
+      if (await this.isSimilarToExisting(article.title, fullContent || article.description)) {
+        console.log(`Artigo similar já publicado: "${article.title}"`);
+        return false;
+      }
+      
       const rewrittenContent = await this.rewriteContentWithOpenAI(
         article.title,
         fullContent || article.description
@@ -355,6 +443,11 @@ export async function fetchAndCreateFlamengoNews() {
   const metaSocialService = new MetaSocialService();
   const savedArticles = [];
   const socialMediaPosts = [];
+  const startTime = Date.now();
+  
+  // Format atual para comparações de data
+  const today = new Date();
+  const currentDate = today.toISOString().split('T')[0]; // YYYY-MM-DD
 
   try {
     console.log('Buscando artigos...');
@@ -373,37 +466,128 @@ export async function fetchAndCreateFlamengoNews() {
     console.log(`Total de artigos encontrados: ${articles.length}`);
 
     // Filtra artigos relevantes
-    const relevantArticles = articles.filter(article => {
-      if (!article?.title) return false;
-      const title = article.title.toLowerCase();
-      return title.includes('flamengo') && !title.includes('flamenguista');
-    });
+    const relevantArticles = articles
+      .filter(article => {
+        if (!article?.title || !article?.publishedAt) return false;
+        const title = article.title.toLowerCase();
+        return title.includes('flamengo') && !title.includes('flamenguista');
+      })
+      .sort((a, b) => {
+        // Primeiro critério: priorizar artigos de hoje
+        const dateA = a.publishedAt.split('T')[0];
+        const dateB = b.publishedAt.split('T')[0];
+        
+        if (dateA === currentDate && dateB !== currentDate) return -1;
+        if (dateA !== currentDate && dateB === currentDate) return 1;
+        
+        // Segundo critério: artigos mais recentes primeiro
+        return new Date(b.publishedAt) - new Date(a.publishedAt);
+      });
 
     console.log(`Artigos relevantes filtrados: ${relevantArticles.length}\n`);
+    
+    // Verifica se temos artigos do dia atual
+    const todayArticles = relevantArticles.filter(article => {
+      const articleDate = article.publishedAt.split('T')[0];
+      return articleDate === currentDate;
+    });
+    
+    console.log(`Artigos do dia atual: ${todayArticles.length}`);
 
-    // Processa cada artigo
-    for (const article of relevantArticles) {
-      console.log(`\nProcessando artigo: "${article.title}"`);
-
-      const saved = await newsService.saveToSupabase(article);
+    // Flag para controlar se um artigo do dia atual foi publicado
+    let publishedTodayArticle = false;
+    
+    // Processa artigos em lotes para melhor performance
+    const processArticleBatch = async (articles, forceTodayArticle = false) => {
+      // Slice para não processar muitos artigos de uma vez e evitar timeout
+      const batchSize = 5;
+      let batchArticles = articles.slice(0, batchSize);
       
-      if (saved) {
-        console.log('Artigo salvo com sucesso no Supabase');
-        savedArticles.push(article);
+      for (const article of batchArticles) {  
+        // Verificar se é um artigo do dia atual
+        const articleDate = article.publishedAt.split('T')[0];
+        const isToday = articleDate === currentDate;
         
-        console.log('Tentando postar no Facebook...');
-        const facebookPosted = await metaSocialService.postToFacebook(article);
-        console.log(`Post no Facebook: ${facebookPosted ? 'Sucesso' : 'Falha'}`);
+        console.log(`\nProcessando artigo: "${article.title}"`);  
+        console.log(`Data do artigo: ${articleDate}${isToday ? ' (HOJE)' : ''}`);
         
-        socialMediaPosts.push({
-          article: article.title,
-          facebook: facebookPosted
-        });
+        // Se já publicamos um artigo de hoje e este não é de hoje, podemos aplicar
+        // critérios mais rigorosos para evitar excesso de publicações
+        if (publishedTodayArticle && !isToday && !forceTodayArticle) {
+          // Aplicar análise de relevância mais rigorosa para artigos não atuais
+          if (!article.title.toLowerCase().match(/flamengo.*\b(contrata|vence|título|importante|decisivo)/i)) {
+            console.log('Artigo antigo e de menor relevância. Pulando...');
+            continue;
+          }
+        }
         
-        // Aguarda um intervalo entre os posts para evitar limitações da API
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        const startProcessTime = Date.now();
+        const saved = await newsService.saveToSupabase(article);
+        
+        if (saved) {
+          console.log('Artigo salvo com sucesso no Supabase');
+          savedArticles.push(article);
+          
+          // Marcar que publicamos um artigo de hoje
+          if (isToday) {
+            publishedTodayArticle = true;
+            console.log('✅ Artigo do dia atual publicado com sucesso!');
+          }
+          
+          // Executar postagem nas redes sociais como uma Promise separada para não bloquear
+          console.log('Tentando postar no Facebook...');
+          const facebookPosted = await metaSocialService.postToFacebook(article);
+          console.log(`Post no Facebook: ${facebookPosted ? 'Sucesso' : 'Falha'}`);
+          
+          socialMediaPosts.push({
+            article: article.title,
+            date: articleDate,
+            isToday,
+            facebook: facebookPosted
+          });
+          
+          // Aguarda um intervalo entre os posts para evitar limitações da API
+          // Intervalo menor para melhor performance
+          await new Promise(resolve => setTimeout(resolve, 1500));
+          
+          // Se não estamos forçando a publicação de artigos de hoje e já temos artigos suficientes, podemos parar
+          if (!forceTodayArticle && savedArticles.length >= 3) {
+            console.log('Atingido limite recomendado de artigos. Finalizando processamento.');
+            break;
+          }
+        }
+        
+        console.log(`Tempo de processamento: ${Date.now() - startProcessTime}ms`);
       }
+      
+      return savedArticles.length;
+    };
+    
+    // Primeiro tenta processar apenas os artigos de hoje para garantir conteúdo atual
+    if (todayArticles.length > 0) {
+      console.log('\nProcessando artigos do dia atual prioritariamente...');
+      await processArticleBatch(todayArticles, true);
     }
+    
+    // Se não conseguimos publicar um artigo de hoje, processa todos os artigos
+    if (!publishedTodayArticle) {
+      console.log('\nNenhum artigo do dia atual foi publicado. Processando artigos mais antigos...');
+      await processArticleBatch(relevantArticles);
+    }
+    
+    // Se ainda não temos artigos de hoje, vamos forçar pelo menos um ser publicado
+    if (!publishedTodayArticle && todayArticles.length > 0) {
+      console.log('\n⚠️ Forçando publicação de pelo menos um artigo do dia atual...');
+      // Reduzir o threshold de similaridade temporariamente para permitir artigos de hoje
+      const originalThreshold = newsService.similarityThreshold;
+      newsService.similarityThreshold = 0.85; // Mais permissivo para artigos de hoje
+      
+      await processArticleBatch(todayArticles.slice(0, 2), true);
+      
+      // Restaurar threshold original
+      newsService.similarityThreshold = originalThreshold;
+    }
+
 
     // Só posta o produto se houver novas notícias salvas
     if (savedArticles.length > 0) {
@@ -442,9 +626,21 @@ export async function fetchAndCreateFlamengoNews() {
       }
     }
 
+    // Calcular tempo total de execução
+    const executionTimeSeconds = ((Date.now() - startTime) / 1000).toFixed(2);
+    
     console.log('\n=== Resumo da execução ===');
+    console.log(`Tempo total de execução: ${executionTimeSeconds}s`);
     console.log(`Artigos salvos: ${savedArticles.length}`);
     console.log(`Posts nas redes sociais: ${socialMediaPosts.length}`);
+    
+    // Verificar se publicamos pelo menos um artigo do dia atual
+    const publishedTodayArticles = savedArticles.filter(article => {
+      const articleDate = article.publishedAt.split('T')[0];
+      return articleDate === currentDate;
+    });
+    
+    console.log(`Artigos do dia atual publicados: ${publishedTodayArticles.length}`);
 
     return {
       success: true,
