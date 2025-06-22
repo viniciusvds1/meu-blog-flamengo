@@ -15,11 +15,25 @@ export class NewsService {
 
   async fetchNews() {
     const API_KEY = process.env.NEWS_API_KEY;
+    
+    // Create today's date in format YYYY-MM-DD
+    const today = new Date();
+    
+    // Create a date for 3 days ago to ensure we get results
+    const threeDaysAgo = new Date(today);
+    threeDaysAgo.setDate(today.getDate() - 3);
+    
+    const formattedFromDate = threeDaysAgo.toISOString().split('T')[0];
+    const formattedToDate = today.toISOString().split('T')[0];
+    
+    // Constrói parâmetros para a API
     const params = new URLSearchParams({
       q: 'Flamengo',
       language: 'pt',
-      sortBy: 'publishedAt',
-      pageSize: '10',
+      sortBy: 'publishedAt', // Garante que as mais recentes apareçam primeiro
+      pageSize: '15', // Buscamos um pouco mais de artigos para aumentar chances
+      from: formattedFromDate, // Busca a partir de 3 dias atrás
+      to: formattedToDate, // Até hoje
       apiKey: API_KEY
     });
 
@@ -93,10 +107,11 @@ export class NewsService {
   async rewriteContentWithOpenAI(title, content) {
     try {
       const prompt = `
-Reescreva este artigo sobre o Flamengo de forma original e envolvente, mantendo todas as informações importantes:
+Reescreva este artigo sobre o Flamengo de forma original e envolvente, mantendo todas as informações importantes.
+NÃO inclua o título no conteúdo reescrito, apenas o corpo do artigo.
 
-Título: ${title}
-Conteúdo: ${content}
+Título do artigo: ${title}
+Conteúdo original: ${content}
 
 Regras para reescrita:
 1. Mantenha todos os fatos e dados importantes
@@ -106,6 +121,7 @@ Regras para reescrita:
 5. Mantenha citações diretas quando houver
 6. Preserve nomes e números exatos
 7. Adicione um parágrafo de contextualização quando relevante
+8. NÃO inclua o título ou frases como "Título:" no texto reescrito
 `;
 
       const completion = await this.openai.chat.completions.create({
@@ -124,7 +140,16 @@ Regras para reescrita:
         max_tokens: 1000
       });
 
-      return completion.choices[0].message.content.trim();
+      // Remove any remaining instances of "Título:" that might have been generated
+      let rewrittenContent = completion.choices[0].message.content.trim();
+      
+      // Remove título if it was still included by the AI
+      rewrittenContent = rewrittenContent
+        .replace(new RegExp(`^Título:\s*${title}\s*`, 'i'), '')
+        .replace(/^Título:.*?\n/i, '')
+        .trim();
+        
+      return rewrittenContent;
     } catch (error) {
       return content;
     }
