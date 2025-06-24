@@ -10,12 +10,6 @@ export default function WelcomePage() {
   const { user, isLoading } = useAuth()
   const router = useRouter()
 
-  // Se não estiver carregando e não houver usuário, redirecionar para login
-  useEffect(() => {
-    if (!isLoading && !user) {
-      router.push('/auth/login')
-    }
-  }, [isLoading, user, router])
 
   if (isLoading) {
     return (
@@ -68,7 +62,7 @@ export default function WelcomePage() {
                     <Inbox className="h-5 w-5" />
                   </div>
                   <div>
-                    <div className="font-semibold">De: RubroNews &lt;no-reply@rubronews.com.br&gt;</div>
+                    <div className="font-semibold">De: RubroNews </div>
                     <div className="text-sm text-gray-500">Para: {user?.email}</div>
                   </div>
                 </div>
