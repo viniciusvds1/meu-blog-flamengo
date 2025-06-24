@@ -40,7 +40,6 @@ const HeroBanner = ({ slides = [] }) => {
     }
   ];
 
-  console.log('Slides recebidos:', slides); // Para debug
   const slidesToShow = slides && slides.length > 0 ? slides : defaultSlides;
   
   // Definir as funções de navegação antes do useEffect
@@ -118,8 +117,6 @@ const HeroBanner = ({ slides = [] }) => {
                   }}
                   onLoad={(e) => {
                     if (index === currentIndex) {
-                      console.log(`Hero image ${index} loaded successfully: ${slide.image}`);
-                      // Add a CSS class to trigger proper rendering
                       e.target.classList.add('loaded');
                     }
                   }}

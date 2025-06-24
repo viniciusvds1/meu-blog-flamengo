@@ -33,7 +33,6 @@ const GoogleAdsense = ({ pId }) => {
                           navigator.connection.saveData;
                           
     if (isSaveDataMode) {
-      console.log('Modo de economia de dados ativado - carregamento de anúncios reduzido');
       return; // Não carrega anúncios em modo de economia de dados
     }
 
@@ -48,7 +47,6 @@ const GoogleAdsense = ({ pId }) => {
             try {
               (window.adsbygoogle = window.adsbygoogle || []).push({});
               currentAd.dataset.adInitialized = 'true';
-              console.log('Anúncio inicializado com sucesso');
             } catch (pushError) {
               console.error('Erro ao fazer push do anúncio:', pushError);
             }
@@ -96,7 +94,6 @@ const GoogleAdsense = ({ pId }) => {
     
     // Função para inicializar os anúncios
     script.onload = () => {
-      console.log('Script do AdSense carregado com sucesso');
       try {
         setTimeout(() => {
           if (window.adsbygoogle) {

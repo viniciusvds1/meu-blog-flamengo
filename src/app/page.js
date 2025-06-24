@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import * as prismic from '@prismicio/client';
 import { getAllNews } from '@/lib/getNews';
 import '@/styles/animations.css';
-
+import RegistrationPrompt from '@/components/auth/RegistrationPrompt';
 
 const HeroBanner = dynamic(() => import('@/components/HeroBanner'), {
   loading: () => <div className="animate-pulse bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 h-[500px] rounded-lg" />
@@ -19,7 +19,6 @@ const CookieConsent = dynamic(() => import('@/components/CookieConsent'));
 const ProductShelf = dynamic(() => import('@/components/ProductShelf'), {
   ssr: false,
 });
-
 
 const SidebarSkeleton = () => (
   <div className="space-y-4 animate-pulse">
@@ -43,6 +42,8 @@ export default async function Home() {
 
   return (
     <div className="container mx-auto px-4 py-8 bg-gradient-to-b from-gray-50 to-white min-h-screen">
+      {/* Registration Promotion Modal */}
+      <RegistrationPrompt />
       {/* Hero Section */}
       {/* Hero Banner */}
       <section className="mb-12 -mx-4">

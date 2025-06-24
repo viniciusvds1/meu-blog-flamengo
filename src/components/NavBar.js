@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useCallback } from 'react';
-import { usePathname } from 'next/navigation';
-import { Menu, X, Search, ChevronDown, Home, Newspaper, Calendar, Image as ImageIcon, Award, ShoppingBag, Trophy, Users, Star } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { Menu, X, Search, ChevronDown, Home, Newspaper, Calendar, Image as ImageIcon, Award, ShoppingBag, Trophy, Users, Star, LogIn, LogOut, UserPlus } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 
 const menuItems = [
   { href: '/', label: 'Início', icon: Home },
@@ -18,8 +19,10 @@ const menuItems = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
+  const { user, isAuthenticated, logout } = useAuth();
 
   const handleMenuToggle = useCallback(() => {
     setMenuOpen(prev => !prev);
@@ -105,8 +108,44 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Search button */}
-          <div className="hidden lg:block">
+          {/* Auth and Search Buttons */}
+          <div className="hidden lg:flex items-center space-x-3">
+            {isAuthenticated ? (
+              <div className="flex items-center">
+                <span className="text-white text-sm mr-3">
+                  Olá, {user?.user_metadata?.name || 'Rubro-Negro'}
+                </span>
+                <button 
+                  onClick={() => { 
+                    logout();
+                    router.push('/');
+                  }}
+                  className="flex items-center px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors"
+                  aria-label="Logout"
+                >
+                  <LogOut className="w-4 h-4 mr-1.5" />
+                  <span>Sair</span>
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Link
+                  href="/auth/login"
+                  className="flex items-center px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors"
+                >
+                  <LogIn className="w-4 h-4 mr-1.5" />
+                  <span>Entrar</span>
+                </Link>
+                <Link
+                  href="/auth/register"
+                  className="flex items-center px-3 py-2 rounded-md text-white font-medium bg-white/20 hover:bg-white/30 transition-colors"
+                >
+                  <UserPlus className="w-4 h-4 mr-1.5" />
+                  <span>Cadastrar</span>
+                </Link>
+              </div>
+            )}
+            
             <button className="text-white p-1">
               <Search className="w-5 h-5" />
             </button>
@@ -196,6 +235,47 @@ export default function Navbar() {
                 />
                 <Search className="absolute left-3 w-5 h-5 text-gray-400" />
               </div>
+            </div>
+            
+            {/* Auth buttons for mobile */}
+            <div className="mt-6 flex flex-col space-y-2 px-2">
+              {isAuthenticated ? (
+                <div className="flex flex-col space-y-3">
+                  <p className="text-white text-sm px-2">
+                    Olá, {user?.user_metadata?.name || 'Rubro-Negro'}
+                  </p>
+                  <button
+                    onClick={() => { 
+                      logout();
+                      setMenuOpen(false);
+                      router.push('/');
+                    }}
+                    className="flex items-center py-3 px-4 rounded-lg text-white bg-black/30 hover:bg-flamengoRed/80 transition-all duration-200"
+                  >
+                    <LogOut className="w-5 h-5 mr-3" />
+                    <span>Sair da conta</span>
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <Link
+                    href="/auth/login"
+                    className="flex items-center py-3 px-4 rounded-lg text-white bg-black/30 hover:bg-flamengoRed/80 transition-all duration-200"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <LogIn className="w-5 h-5 mr-3" />
+                    <span>Entrar</span>
+                  </Link>
+                  <Link
+                    href="/auth/register"
+                    className="flex items-center py-3 px-4 rounded-lg text-white bg-flamengoRed/80 hover:bg-flamengoRed transition-all duration-200"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <UserPlus className="w-5 h-5 mr-3" />
+                    <span>Cadastrar-se</span>
+                  </Link>
+                </>
+              )}
             </div>
             
             {/* Botões rápidos para acesso */}

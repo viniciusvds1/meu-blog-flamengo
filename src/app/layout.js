@@ -10,6 +10,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import InbendaScripts from "@/components/InbedaScripts"
 import WebStory from "@/components/webstories";
 import CookieConsentBanner from "@/components/CookieConsent";
+import ProvidersWrapper from "@/components/ProvidersWrapper";
 
 // Carregamento otimizado das fontes
 const inter = Inter({
@@ -105,36 +106,39 @@ export default function RootLayout({ children }) {
         '--font-sans': 'var(--font-inter), system-ui, sans-serif',
         '--font-serif': 'var(--font-roboto-serif), Georgia, serif'
       }}>
-        {/* Faixa superior nas cores do Flamengo */}
-        <div className="h-1 w-full bg-flamengo-gradient"></div>
-        
-        {/* Header com navegação */}
-        <header className="sticky top-0 z-50 w-full bg-white shadow-md">
-          <Navbar />
-        </header>
-        
-        {/* Conteúdo principal com otimizações para anúncios */}
-        <main className="flex-grow pt-4 container-flamengo">
-          {children}
-        </main>
-        
-        {/* Footer com informações do site */}
-        <Footer />
-        
-        {/* Scripts e componentes de terceiros */}
-        <div id="fb-root"></div>
-        <Analytics />
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GTM_ID} />
-        <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} />
-        <InbendaScripts />
-        <WebStory 
-          embedURL="https://www.orubronegronews.com/"
-        />
-        
-        {/* Banner de consentimento de cookies otimizado */}
-        <CookieConsentBanner 
-          buttonText="Aceitar Cookies"
-        />
+        {/* Wrapper que contém todos os providers de autenticação como Client Component */}
+        <ProvidersWrapper>
+          {/* Faixa superior nas cores do Flamengo */}
+          <div className="h-1 w-full bg-flamengo-gradient"></div>
+          
+          {/* Header com navegação */}
+          <header className="sticky top-0 z-50 w-full bg-white shadow-md">
+            <Navbar />
+          </header>
+          
+          {/* Conteúdo principal com otimizações para anúncios */}
+          <main className="flex-grow pt-4 container-flamengo">
+            {children}
+          </main>
+          
+          {/* Footer com informações do site */}
+          <Footer />
+        </ProvidersWrapper>
+          
+          {/* Scripts e componentes de terceiros */}
+          <div id="fb-root"></div>
+          <Analytics />
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GTM_ID} />
+          <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} />
+          <InbendaScripts />
+          <WebStory 
+            embedURL="https://www.orubronegronews.com/"
+          />
+          
+          {/* Banner de consentimento de cookies otimizado */}
+          <CookieConsentBanner 
+            buttonText="Aceitar Cookies"
+          />
       </body>
     </html>
   );
