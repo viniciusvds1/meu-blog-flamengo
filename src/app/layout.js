@@ -12,11 +12,12 @@ import WebStory from "@/components/webstories";
 import CookieConsentBanner from "@/components/CookieConsent";
 import ProvidersWrapper from "@/components/ProvidersWrapper";
 
-// Carregamento otimizado das fontes
+// Carregamento otimizado das fontes - limitando ao mínimo necessário
 const inter = Inter({
   subsets: ["latin"],
   display: 'swap',
   preload: true,
+  weight: ['400', '500', '700'], // Apenas os pesos que realmente usamos
   fallback: ['system-ui', '-apple-system', 'Segoe UI', 'Arial', 'sans-serif'],
   adjustFontFallback: true,
   variable: '--font-inter',
@@ -26,7 +27,7 @@ const robotoSerif = Roboto_Serif({
   subsets: ["latin"],
   display: 'swap',
   preload: true,
-  weight: ['400', '500', '700'],
+  weight: ['400', '700'], // Reduzindo para apenas os pesos essenciais
   variable: '--font-roboto-serif',
 });
 
@@ -74,6 +75,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR" className={`${inter.variable} ${robotoSerif.variable}`}>
       <head>
+        {/* Otimização crítica: Preconnect para domínios externos */}
         <link
           rel="preconnect"
           href="https://www.googletagmanager.com"
@@ -84,11 +86,31 @@ export default function RootLayout({ children }) {
           href="https://www.google-analytics.com"
           crossOrigin="anonymous"
         />
+        <link
+          rel="preconnect"
+          href="https://fonts.googleapis.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        
+        {/* Preload para imagens e recursos críticos na primeira renderização */}
         <link 
           rel="preload" 
           href="/assets/logooficialrubronews.png" 
           as="image"
         />
+        <link 
+          rel="preload" 
+          href="/assets/bannerubro.png" 
+          as="image"
+          fetchpriority="high"
+        />
+        
+        {/* Conexões antecipadas para API */}
         <link
           rel="preconnect"
           href="https://images.prismic.io"
@@ -98,13 +120,18 @@ export default function RootLayout({ children }) {
           rel="dns-prefetch" 
           href="https://images.prismic.io"
         />
+        
+        {/* Configurações PWA e mobile */}
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="format-detection" content="telephone=no" />
       </head>
       <body className="flex flex-col min-h-screen bg-gray-50 font-sans" style={{
-        '--font-sans': 'var(--font-inter), system-ui, sans-serif',
-        '--font-serif': 'var(--font-roboto-serif), Georgia, serif'
+        '--font-sans': 'var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        '--font-serif': 'var(--font-roboto-serif), Georgia, "Times New Roman", serif',
+        scrollBehavior: 'smooth', // Melhor UX para rolagem
+        textRendering: 'optimizeLegibility', // Melhor renderização de texto
       }}>
         {/* Wrapper que contém todos os providers de autenticação como Client Component */}
         <ProvidersWrapper>
