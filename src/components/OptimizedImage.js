@@ -42,9 +42,6 @@ export default function OptimizedImage({
   if (src.startsWith('/') && !src.startsWith('data:') && !src.endsWith('.webp')) {
     imageUrl = `${src}?format=webp`;
   }
-  
-  console.log('OptimizedImage - URL original:', src);
-  console.log('OptimizedImage - URL processada:', imageUrl);
 
   // Default dimensions for the shimmer effect
   const shimmerWidth = width || 1200;
