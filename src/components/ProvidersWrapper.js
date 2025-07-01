@@ -1,17 +1,21 @@
 'use client'
 
-import { AuthProvider } from '@/context/AuthContext'
-import { NextAuthProvider } from '@/context/NextAuthContext'
+import { AuthProvider } from '@/contexts'
+import { NotificationProvider } from '@/hooks'
 import { SessionProvider } from 'next-auth/react'
 
+/**
+ * Componente que agrupa todos os providers da aplicação
+ * Necessário para definir a ordem correta de aninhamento dos providers
+ */
 export default function ProvidersWrapper({ children }) {
   return (
     <SessionProvider>
-      <NextAuthProvider>
-        <AuthProvider>
+      <AuthProvider>
+        <NotificationProvider>
           {children}
-        </AuthProvider>
-      </NextAuthProvider>
+        </NotificationProvider>
+      </AuthProvider>
     </SessionProvider>
   )
 }

@@ -2,24 +2,29 @@
 
 import Link from 'next/link';
 import { Clock, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
+import { useState, memo, useMemo } from 'react';
 import dynamic from 'next/dynamic';
+import useFormatDate from '@/hooks/useFormatDate';
 
 const OptimizedImage = dynamic(() => import('./OptimizedImage'), {
   ssr: true
 });
 
-const NewsCard = ({ news, featured = false, compact = false }) => {
+const NewsCard = memo(({ news, featured = false, compact = false }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const { formatDate, formatRelativeTime } = useFormatDate();
   
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('pt-BR', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    }).format(date);
-  };
+  // Use formatação de data relativa para artigos recentes (menos de 2 dias)
+  const formattedDate = useMemo(() => {
+    if (!news?.date) return '';
+    
+    const newsDate = new Date(news.date);
+    const now = new Date();
+    const diffTime = Math.abs(now - newsDate);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    return diffDays < 2 ? formatRelativeTime(news.date) : formatDate(news.date);
+  }, [news?.date, formatDate, formatRelativeTime]);
 
   if (!news) return null;
   
@@ -97,7 +102,7 @@ const NewsCard = ({ news, featured = false, compact = false }) => {
             <div className="flex justify-between items-center">
               <span className="text-xs text-gray-300 flex items-center">
                 <Clock size={14} className="mr-1" />
-                {formatDate(news.date)}
+                {formattedDate}
               </span>
               <span className="text-white text-sm font-medium flex items-center group-hover:text-flamengo-red transition-colors duration-200">
                 Ler mais
@@ -144,7 +149,7 @@ const NewsCard = ({ news, featured = false, compact = false }) => {
           <div className="flex justify-between items-center">
             <span className="text-xs text-gray-500 flex items-center">
               <Clock size={14} className="mr-1" />
-              {formatDate(news.date)}
+              {formattedDate}
             </span>
             <span className="text-flamengo-red text-sm font-medium flex items-center">
               Ler mais
@@ -155,6 +160,6 @@ const NewsCard = ({ news, featured = false, compact = false }) => {
       </div>
     </Link>
   );
-};
+});
 
 export default NewsCard;

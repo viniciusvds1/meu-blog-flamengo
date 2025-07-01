@@ -11,6 +11,18 @@ import InbendaScripts from "@/components/InbedaScripts"
 import WebStory from "@/components/webstories";
 import CookieConsentBanner from "@/components/CookieConsent";
 import ProvidersWrapper from "@/components/ProvidersWrapper";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import dynamic from "next/dynamic";
+
+// Dynamic imports para componentes não críticos ao carregamento inicial
+const DynamicWebStory = dynamic(() => import('@/components/webstories'), {
+  loading: () => <div className="h-10 animate-pulse bg-gray-200 rounded"></div>,
+  ssr: false
+});
+
+const DynamicInbendaScripts = dynamic(() => import('@/components/InbedaScripts'), {
+  ssr: false
+});
 
 // Carregamento otimizado das fontes - limitando ao mínimo necessário
 const inter = Inter({
@@ -105,7 +117,7 @@ export default function RootLayout({ children }) {
         />
         <link 
           rel="preload" 
-          href="/assets/bannerubro.png" 
+          href="/assets/bannerubro.webp" 
           as="image"
           fetchpriority="high"
         />
@@ -134,38 +146,57 @@ export default function RootLayout({ children }) {
         textRendering: 'optimizeLegibility', // Melhor renderização de texto
       }}>
         {/* Wrapper que contém todos os providers de autenticação como Client Component */}
-        <ProvidersWrapper>
-          {/* Faixa superior nas cores do Flamengo */}
-          <div className="h-1 w-full bg-flamengo-gradient"></div>
-          
-          {/* Header com navegação */}
-          <header className="sticky top-0 z-50 w-full bg-white shadow-md">
-            <Navbar />
-          </header>
-          
-          {/* Conteúdo principal com otimizações para anúncios */}
-          <main className="flex-grow pt-4 container-flamengo">
-            {children}
-          </main>
-          
-          {/* Footer com informações do site */}
-          <Footer />
-        </ProvidersWrapper>
-          
+        <ErrorBoundary 
+          title="Ops! Algo deu errado" 
+          message="Ocorreu um problema inesperado na aplicação."
+        >
+          <ProvidersWrapper>
+            {/* Faixa superior nas cores do Flamengo */}
+            <div className="h-1 w-full bg-flamengo-gradient"></div>
+            
+            {/* Header com navegação */}
+            <header className="sticky top-0 z-50 w-full bg-white shadow-md">
+              <ErrorBoundary title="Erro na navegação" message="Ocorreu um problema ao carregar o menu.">
+                <Navbar />
+              </ErrorBoundary>
+            </header>
+            
+            {/* Conteúdo principal com otimizações para anúncios */}
+            <main className="flex-grow pt-4 container-flamengo">
+              <ErrorBoundary>
+                {children}
+              </ErrorBoundary>
+            </main>
+            
+            {/* Footer com informações do site */}
+            <ErrorBoundary title="Erro no rodapé" message="Ocorreu um problema ao carregar o rodapé.">
+              <Footer />
+            </ErrorBoundary>
+          </ProvidersWrapper>
+            
           {/* Scripts e componentes de terceiros */}
           <div id="fb-root"></div>
           <Analytics />
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GTM_ID} />
-          <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} />
-          <InbendaScripts />
-          <WebStory 
-            embedURL="https://www.orubronegronews.com/"
-          />
+          <ErrorBoundary title="Erro nos anúncios" message="Ocorreu um problema ao carregar os anúncios." showReset={false}>
+            <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} />
+          </ErrorBoundary>
+          <ErrorBoundary showReset={false}>
+            <DynamicInbendaScripts />
+          </ErrorBoundary>
+          <ErrorBoundary title="Erro nas Web Stories" message="Ocorreu um problema ao carregar as histórias." showReset={false}>
+            <DynamicWebStory 
+              embedURL="https://www.orubronegronews.com/"
+            />
+          </ErrorBoundary>
           
           {/* Banner de consentimento de cookies otimizado */}
-          <CookieConsentBanner 
-            buttonText="Aceitar Cookies"
-          />
+          <ErrorBoundary title="Erro nas configurações de cookies" message="Ocorreu um problema ao carregar as configurações de cookies." showReset={false}>
+            <CookieConsentBanner 
+              buttonText="Aceitar Cookies"
+            />
+          </ErrorBoundary>
+        </ErrorBoundary>
       </body>
     </html>
   );

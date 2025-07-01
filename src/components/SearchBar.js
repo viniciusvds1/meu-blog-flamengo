@@ -1,52 +1,86 @@
-    'use client'
+'use client'
 
-import { useState, useCallback, useRef, useEffect, memo } from 'react';
-import { Search, X, Loader2 } from 'lucide-react';
+import { useCallback, useRef, memo, useState } from 'react';
+import { Search, X, Loader2, AlertCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useForm, useNotification } from '@/hooks';
 
 function SearchBarComponent() {
   const router = useRouter();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isFocused, setIsFocused] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [debouncedTerm, setDebouncedTerm] = useState('');
+  const { notify } = useNotification();
   const inputRef = useRef(null);
 
-  // Debounce search term
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedTerm(searchTerm);
-    }, 300);
+  // Validação para o campo de busca
+  const validationSchema = {
+    searchTerm: (value) => {
+      if (!value || !value.trim()) return 'Digite algo para buscar';
+      if (value.trim().length < 2) return 'Digite pelo menos 2 caracteres';
+      return '';
+    }
+  };
 
-    return () => clearTimeout(timer);
-  }, [searchTerm]);
+  // Função para realizar a busca
+  const handleSearchSubmit = useCallback(async (values, { setSubmitting }) => {
+    try {
+      // Aqui seria a navegação real para a página de resultados
+      // router.push(`/search?q=${encodeURIComponent(values.searchTerm)}`);
+      
+      // Simulação de busca
+      notify({
+        type: 'info',
+        title: 'Buscando...',
+        message: `Procurando por "${values.searchTerm}"`,
+        duration: 2000
+      });
+      
+      // Simular delay de busca
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      notify({
+        type: 'success',
+        title: 'Busca realizada',
+        message: `Resultados para "${values.searchTerm}"`,
+        duration: 3000
+      });
+    } catch (error) {
+      console.error('Erro na busca:', error);
+      notify({
+        type: 'error',
+        title: 'Erro na busca',
+        message: 'Não foi possível completar a busca. Tente novamente.'
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  }, [notify]);
 
-  // Uso do termo pesquisado com debounce
-  useEffect(() => {
-    // Podemos implementar análise de dados aqui no futuro
-  }, [debouncedTerm]);
-
-  const handleSearch = useCallback((e) => {
-    e.preventDefault();
-    if (!searchTerm.trim()) return;
-
-    setIsLoading(true);
-
-    // Simulate search request
-    setTimeout(() => {
-      // Here you would normally navigate to search results
-      // router.push(`/search?q=${encodeURIComponent(searchTerm)}`);
-      setIsLoading(false);
-    }, 800);
-
-    // Mock analytics event
-
-  }, [searchTerm]);
+  // Usando nosso hook personalizado useForm
+  const {
+    values,
+    errors,
+    touched,
+    isSubmitting,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    setFieldValue,
+    resetForm
+  } = useForm({
+    initialValues: {
+      searchTerm: ''
+    },
+    validationSchema,
+    validateOnChange: false, // Validar apenas no submit para melhor UX
+    onSubmit: handleSearchSubmit
+  });
+  
+  // Estado de foco do campo
+  const [isFocused, setIsFocused] = useState(false);
 
   const clearSearch = useCallback(() => {
-    setSearchTerm('');
+    resetForm();
     inputRef.current?.focus();
-  }, []);
+  }, [resetForm]);
 
   const handleKeyDown = useCallback((e) => {
     // Add escape key to clear search
@@ -57,8 +91,8 @@ function SearchBarComponent() {
 
   return (
     <form 
-      onSubmit={handleSearch} 
-      className="relative  animate-fade-in" 
+      onSubmit={handleSubmit} 
+      className="relative animate-fade-in" 
       role="search"
       aria-label="Buscar notícias no blog"
     >
@@ -69,29 +103,40 @@ function SearchBarComponent() {
           <input
             ref={inputRef}
             type="search"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            name="searchTerm"
+            value={values.searchTerm}
+            onChange={handleChange}
+            onBlur={(e) => {
+              handleBlur(e);
+              setIsFocused(false);
+            }}
             onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
             onKeyDown={handleKeyDown}
             placeholder="Buscar notícias..."
-            className="w-full rounded-full pl-12 pr-28 py-3
+            className={`w-full rounded-full pl-12 pr-28 py-3
                      bg-white dark:bg-neutral-800 shadow-md
-                     border border-gray-200 dark:border-gray-700
+                     border ${touched.searchTerm && errors.searchTerm 
+                       ? 'border-red-500 dark:border-red-400' 
+                       : 'border-gray-200 dark:border-gray-700'}
                      placeholder-gray-400 dark:placeholder-gray-500
                      text-gray-800 dark:text-gray-100
-                     focus:outline-none focus:ring-2 focus:ring-flamengo-red/50
-                     transition-all duration-300"
+                     focus:outline-none focus:ring-2 ${touched.searchTerm && errors.searchTerm
+                       ? 'focus:ring-red-400/50'
+                       : 'focus:ring-flamengo-red/50'}
+                     transition-all duration-300`}
             aria-label="Campo de busca"
+            aria-invalid={touched.searchTerm && errors.searchTerm ? 'true' : 'false'}
             autoComplete="off"
+            disabled={isSubmitting}
           />
           <div className={`absolute left-4 top-1/2 transform -translate-y-1/2
                     transition-all duration-300
-                    ${isFocused ? 'text-flamengo-red' : 'text-gray-400'}`}>
+                    ${isFocused ? 'text-flamengo-red' : 
+                      (touched.searchTerm && errors.searchTerm ? 'text-red-500' : 'text-gray-400')}`}>
             <Search size={18} aria-hidden="true" />
           </div>
           
-          {searchTerm && (
+          {values.searchTerm && (
             <button
               type="button"
               onClick={clearSearch}
@@ -100,6 +145,7 @@ function SearchBarComponent() {
                      p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700
                      transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-300"
               aria-label="Limpar busca"
+              disabled={isSubmitting}
             >
               <X size={16} className="transform transition-transform duration-300 hover:rotate-90" />
             </button>
@@ -107,7 +153,7 @@ function SearchBarComponent() {
           
           <button
             type="submit"
-            disabled={isLoading || !searchTerm.trim()}
+            disabled={isSubmitting || !values.searchTerm?.trim()}
             className="absolute right-2 top-1/2 transform -translate-y-1/2
                    bg-gradient-to-r from-flamengo-red to-flamengo-red-dark
                    text-white font-medium rounded-full px-4 py-1.5
@@ -116,7 +162,7 @@ function SearchBarComponent() {
                    focus:outline-none focus:ring-2 focus:ring-flamengo-red/50"
             aria-label="Executar busca"
           >
-            {isLoading ? (
+            {isSubmitting ? (
               <span className="flex items-center">
                 <Loader2 size={16} className="animate-spin mr-1" />
                 <span>Buscando</span>
@@ -125,6 +171,13 @@ function SearchBarComponent() {
               <span>Buscar</span>
             )}
           </button>
+          
+          {touched.searchTerm && errors.searchTerm && (
+            <div className="absolute top-full left-4 mt-1 text-red-500 text-sm flex items-center">
+              <AlertCircle size={14} className="mr-1" />
+              <span>{errors.searchTerm}</span>
+            </div>
+          )}
         </div>
       </div>
     </form>

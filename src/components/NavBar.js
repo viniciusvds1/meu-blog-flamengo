@@ -2,10 +2,11 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, X, Search, ChevronDown, Home, Newspaper, Calendar, Image as ImageIcon, Award, ShoppingBag, Trophy, Users, Star, LogIn, LogOut, UserPlus } from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
+import { Menu, X, Search, ChevronDown, Home, Newspaper, Calendar, Image as ImageIcon, Award, ShoppingBag, Trophy, Users, Star, LogIn, LogOut, UserPlus, Sun, Moon } from 'lucide-react';
+import { useAuth } from '@/contexts';
+import { useTheme, useMediaQuery, useIsMobile, useScrollPosition } from '@/hooks';
 
 const menuItems = [
   { href: '/', label: 'Início', icon: Home },
@@ -23,6 +24,12 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const { user, isAuthenticated, logout } = useAuth();
+  const { theme, toggleTheme, isDarkMode } = useTheme();
+  const isMobile = useIsMobile();
+  const { scrollY, isScrolling } = useScrollPosition({ throttleTime: 100 });
+  
+  // Determinar se a navbar deve ser compacta com base no scroll
+  const isCompact = useMemo(() => scrollY > 50, [scrollY]);
 
   const handleMenuToggle = useCallback(() => {
     setMenuOpen(prev => !prev);
@@ -48,11 +55,27 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
+  // Fechar submenus quando o componente desmonta ou quando há mudança na rota
+  useEffect(() => {
+    setActiveSubmenu(null);
+    return () => setActiveSubmenu(null);
+  }, [pathname]);
+
+  // Memoizar estados derivados para melhorar performance
+  const navbarClasses = useMemo(() => {
+    const baseClasses = "sticky top-0 z-50 w-full transition-all duration-200";
+    const colorClasses = isDarkMode ? "bg-gray-900" : "bg-flamengoRed";
+    const heightClasses = isCompact ? "py-1" : "py-2";
+    const shadowClasses = isCompact ? "shadow-md" : "";
+    
+    return `${baseClasses} ${colorClasses} ${heightClasses} ${shadowClasses}`;
+  }, [isCompact, isDarkMode]);
+
   return (
-    <nav className="sticky top-0 z-50 w-full bg-flamengoRed">
+    <nav className={navbarClasses}>
       
       {/* Main Navbar */}
-      <div className="container mx-auto px-4 py-2">
+      <div className={`container mx-auto px-4 ${isCompact ? 'py-1' : 'py-2'} transition-all duration-200`}>
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link href="/" className="flex items-center">
@@ -108,42 +131,51 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Auth and Search Buttons */}
-          <div className="hidden lg:flex items-center space-x-3">
+          {/* Theme toggle and Auth buttons */}
+          <div className="hidden lg:flex items-center ml-4 space-x-3">
+            {/* Theme toggle button */}
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-full transition-colors ${isDarkMode ? 'bg-gray-700 text-yellow-400 hover:bg-gray-600' : 'bg-black/30 text-white hover:bg-black/20'}`}
+              aria-label={isDarkMode ? 'Mudar para modo claro' : 'Mudar para modo escuro'}
+              title={isDarkMode ? 'Modo claro' : 'Modo escuro'}
+            >
+              {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+            
+            {/* Auth buttons */}
             {isAuthenticated ? (
               <div className="flex items-center">
-                <span className="text-white text-sm mr-3">
+                <span className={`mr-3 text-sm transition-colors ${isDarkMode ? 'text-gray-200' : 'text-white'}`}>
                   Olá, {user?.user_metadata?.name || 'Rubro-Negro'}
                 </span>
                 <button 
-                  onClick={() => { 
-                    logout();
-                    router.push('/');
-                  }}
-                  className="flex items-center px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors"
-                  aria-label="Logout"
+                  onClick={logout}
+                  className={`px-4 py-2 rounded-md transition-colors ${isDarkMode ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-black/30 text-white hover:bg-black/20'}`}
+                  aria-label="Sair da conta"
                 >
-                  <LogOut className="w-4 h-4 mr-1.5" />
-                  <span>Sair</span>
+                  <LogOut className="w-4 h-4" />
                 </button>
               </div>
             ) : (
-              <div className="flex items-center space-x-2">
-                <Link
-                  href="/auth/login"
-                  className="flex items-center px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors"
+              <>
+                <Link 
+                  href="/auth/login" 
+                  className={`px-4 py-2 rounded-md transition-colors ${isDarkMode ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-black/30 text-white hover:bg-black/20'}`}
+                  aria-label="Entrar na conta"
                 >
-                  <LogIn className="w-4 h-4 mr-1.5" />
-                  <span>Entrar</span>
+                  <span className="hidden md:inline">Entrar</span>
+                  <LogIn className="w-4 h-4 md:hidden" />
                 </Link>
-                <Link
-                  href="/auth/register"
-                  className="flex items-center px-3 py-2 rounded-md text-white font-medium bg-white/20 hover:bg-white/30 transition-colors"
+                <Link 
+                  href="/auth/register" 
+                  className={`px-4 py-2 rounded-md transition-colors ${isDarkMode ? 'bg-gray-800 text-red-400 hover:bg-gray-700' : 'bg-white text-flamengoRed hover:bg-white/90'}`}
+                  aria-label="Cadastrar nova conta"
                 >
-                  <UserPlus className="w-4 h-4 mr-1.5" />
-                  <span>Cadastrar</span>
+                  <span className="hidden md:inline">Cadastrar</span>
+                  <UserPlus className="w-4 h-4 md:hidden" />
                 </Link>
-              </div>
+              </>
             )}
             
             <button className="text-white p-1">
