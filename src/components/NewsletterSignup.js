@@ -1,63 +1,109 @@
 'use client'
 
-import { useState } from 'react';
-import { Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { useState, memo } from 'react';
+import { Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { useForm, useNotification } from '@/hooks';
 
-export default function NewsletterSignup() {
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState('idle'); // idle, loading, success, error
-  const [errorMessage, setErrorMessage] = useState('');
+function NewsletterSignupComponent() {
+  const { notify } = useNotification();
+  const [showSuccess, setShowSuccess] = useState(false);
 
-  const validateEmail = (email) => {
-    return email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+  // Validação para o campo de email
+  const validationSchema = {
+    email: (value) => {
+      if (!value) return 'E-mail é obrigatório';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        return 'Digite um e-mail válido';
+      }
+      return '';
+    }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!email) {
-      setStatus('error');
-      setErrorMessage('Por favor, insira seu e-mail');
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      setStatus('error');
-      setErrorMessage('Por favor, insira um e-mail válido');
-      return;
-    }
-
-    setStatus('loading');
-    
+  // Função para processar o formulário
+  const handleNewsletterSubmit = async (values, { setSubmitting }) => {
     try {
-      const { data, error } = await supabase
+      // Notificar início do processo
+      notify({
+        type: 'info',
+        title: 'Processando...',
+        message: 'Inscrevendo seu email na newsletter',
+        duration: 2000
+      });
+
+      // Realizar inserção no Supabase
+      const { error } = await supabase
         .from('newsletter_subscribers')
         .insert([
-          { email: email, subscribed_at: new Date().toISOString() }
-        ])
-        .select();
+          { email: values.email, subscribed_at: new Date().toISOString() }
+        ]);
 
       if (error) throw error;
       
-      setStatus('success');
-      setEmail('');
+      // Notificar sucesso
+      notify({
+        type: 'success',
+        title: 'Inscrição confirmada!',
+        message: 'Você receberá todas as novidades do Mengão!',
+        duration: 5000
+      });
+      
+      // Mostrar tela de sucesso
+      setShowSuccess(true);
     } catch (error) {
-      console.error('Error:', error);
-      setStatus('error');
-      setErrorMessage('Ocorreu um erro ao salvar seu e-mail. Tente novamente mais tarde.');
+      console.error('Erro ao salvar email:', error);
+      
+      // Verificar tipo de erro
+      let errorMessage = 'Ocorreu um erro ao salvar seu e-mail. Tente novamente mais tarde.';
+      
+      // Verifica se o erro é de email duplicado (assumindo constraint unique)
+      if (error?.code === '23505' || error?.message?.includes('unique')) {
+        errorMessage = 'Este email já está inscrito em nossa newsletter.';
+      }
+      
+      // Notificar erro
+      notify({
+        type: 'error',
+        title: 'Falha na inscrição',
+        message: errorMessage
+      });
+    } finally {
+      setSubmitting(false);
     }
   };
+  
+  // Usando nosso hook personalizado useForm
+  const {
+    values,
+    errors,
+    touched,
+    isSubmitting,
+    handleChange,
+    handleBlur,
+    handleSubmit
+  } = useForm({
+    initialValues: {
+      email: ''
+    },
+    validationSchema,
+    onSubmit: handleNewsletterSubmit
+  });
 
-  if (status === 'success') {
+  if (showSuccess) {
     return (
-      <div className="bg-white border-2 border-red-600 p-6 rounded-xl shadow-sm">
+      <div className="bg-white border-2 border-red-600 p-6 rounded-xl shadow-sm animate-fade-in">
         <div className="flex flex-col items-center text-center space-y-3">
           <CheckCircle className="w-12 h-12 text-green-500" />
           <h3 className="text-xl font-bold text-gray-800">Inscrição confirmada!</h3>
           <p className="text-gray-600">
             Obrigado por se inscrever. Você receberá todas as novidades do Mengão!
           </p>
+          <button 
+            onClick={() => setShowSuccess(false)}
+            className="mt-2 text-sm px-4 py-2 rounded-full text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors duration-200"
+          >
+            Voltar
+          </button>
         </div>
       </div>
     );
@@ -72,49 +118,53 @@ export default function NewsletterSignup() {
         Receba as últimas notícias do Mengão diretamente no seu e-mail
       </p>
 
-      <form onSubmit={handleSubmit} className="space-y-3">
+      <form onSubmit={handleSubmit} className="space-y-3" noValidate>
         <div className="relative">
           <input 
-            type="email" 
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              if (status === 'error') {
-                setStatus('idle');
-                setErrorMessage('');
-              }
-            }}
+            type="email"
+            id="newsletter-email"
+            name="email"
+            value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
             placeholder="Seu melhor e-mail" 
             className={`w-full px-4 py-3 rounded-lg border-2 focus:outline-none focus:ring-2 focus:ring-offset-2
-              ${status === 'error' 
+              ${touched.email && errors.email 
                 ? 'border-red-500 focus:border-red-500 focus:ring-red-500' 
                 : 'border-gray-200 focus:border-red-600 focus:ring-red-600'
               }
             `}
-            disabled={status === 'loading'}
+            disabled={isSubmitting}
+            aria-invalid={touched.email && errors.email ? 'true' : 'false'}
+            aria-describedby={touched.email && errors.email ? 'newsletter-email-error' : undefined}
           />
-          {status === 'error' && (
-            <div className="flex items-center gap-1 mt-1 text-red-500 text-sm">
+          {touched.email && errors.email && (
+            <div 
+              id="newsletter-email-error"
+              className="flex items-center gap-1 mt-1 text-red-500 text-sm"
+              aria-live="polite"
+            >
               <AlertCircle className="w-4 h-4" />
-              <span>{errorMessage}</span>
+              <span>{errors.email}</span>
             </div>
           )}
         </div>
 
         <button 
           type="submit"
-          disabled={status === 'loading'}
+          disabled={isSubmitting}
           className={`w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg
             font-semibold transition-all duration-200
-            ${status === 'loading'
+            ${isSubmitting
               ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
               : 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800'
             }
           `}
+          aria-busy={isSubmitting ? 'true' : 'false'}
         >
-          {status === 'loading' ? (
+          {isSubmitting ? (
             <>
-              <div className="w-5 h-5 border-2 border-gray-400 border-t-gray-600 rounded-full animate-spin" />
+              <Loader2 size={20} className="animate-spin mr-2" />
               <span>Processando...</span>
             </>
           ) : (
@@ -128,3 +178,5 @@ export default function NewsletterSignup() {
     </div>
   );
 }
+
+export default memo(NewsletterSignupComponent);

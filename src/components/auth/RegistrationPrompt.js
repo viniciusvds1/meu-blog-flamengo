@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '@/context/AuthContext'
+import { useAuth } from '@/contexts'
 
 export default function RegistrationPrompt() {
   const [isOpen, setIsOpen] = useState(false)

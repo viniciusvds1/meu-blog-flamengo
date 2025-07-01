@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { Shield } from 'lucide-react';
 
 const shimmer = (w, h) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -23,6 +24,27 @@ const toBase64 = (str) =>
     ? Buffer.from(str).toString('base64')
     : window.btoa(str);
 
+// Função nativa para verificar cookies sem dependências externas
+const getCookie = (name) => {
+  if (typeof document === 'undefined') return null;
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+};
+
+// Componente de placeholder para mostrar quando não há consentimento
+const ConsentPlaceholder = ({ className = '' }) => {
+  return (
+    <div className={`flex flex-col items-center justify-center p-4 bg-gray-100 dark:bg-gray-800 rounded-lg ${className}`}>
+      <Shield className="w-8 h-8 text-flamengo-red mb-2" />
+      <p className="text-sm text-center text-gray-600 dark:text-gray-300">
+        Necessitamos do seu consentimento para exibir este conteúdo.
+      </p>
+    </div>
+  );
+};
+
 export default function OptimizedImage({ 
   src,
   priority = false, 
@@ -35,7 +57,41 @@ export default function OptimizedImage({
 }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isInView, setIsInView] = useState(false);
+  const [hasConsent, setHasConsent] = useState(false);
   const imageRef = useRef(null);
+  const checkInterval = useRef(null);
+  
+  // Verificar consentimento de cookies
+  useEffect(() => {
+    // Verificar imediatamente
+    const flamengoBlogConsent = getCookie('flamengoBlogConsent');
+    setHasConsent(!!flamengoBlogConsent);
+    
+    // Continuar verificando a cada 2 segundos para atualizar quando o usuário der consentimento
+    if (!flamengoBlogConsent) {
+      checkInterval.current = setInterval(() => {
+        const updatedConsent = getCookie('flamengoBlogConsent');
+        if (updatedConsent) {
+          setHasConsent(true);
+          if (checkInterval.current) {
+            clearInterval(checkInterval.current);
+          }
+        }
+      }, 2000);
+    }
+    
+    return () => {
+      if (checkInterval.current) {
+        clearInterval(checkInterval.current);
+      }
+    };
+  }, []);
+  
+  // Verificar se é uma imagem local (assets) ou externa
+  const isLocalAsset = src.startsWith('/assets/') || src.startsWith('/images/');
+  
+  // Determinar se a imagem deve ser mostrada (prioridade, assets locais ou com consentimento)
+  const shouldShowImage = priority || isLocalAsset || hasConsent;
   
   // Tratar URLs externas e internas de forma diferente
   let imageUrl = src;
@@ -118,13 +174,17 @@ export default function OptimizedImage({
     return (
       <div className="relative w-full h-full" ref={imageRef}>
         {(isInView || priority) ? (
-          <Image
-            {...imageProps}
-            fill
-            sizes={props.sizes || "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
-            style={{ objectFit: props.objectFit || 'cover' }}
-            alt={alt} // Certifique-se de que todas as imagens tenham um alt definido.
-          />
+          shouldShowImage ? (
+            <Image
+              {...imageProps}
+              fill
+              sizes={props.sizes || "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
+              style={{ objectFit: props.objectFit || 'cover' }}
+              alt={alt} // Certifique-se de que todas as imagens tenham um alt definido.
+            />
+          ) : (
+            <ConsentPlaceholder className="w-full h-full" />
+          )
         ) : (
           <div 
             className="w-full h-full bg-gray-200 animate-pulse" 
@@ -145,12 +205,16 @@ export default function OptimizedImage({
         style={{ aspectRatio: `${width}/${height}` }}
       >
         {(isInView || priority) ? (
-          <Image
-            {...imageProps}
-            width={width}
-            height={height}
-            alt={alt} // Certifique-se de que todas as imagens tenham um alt definido.
-          />
+          shouldShowImage ? (
+            <Image
+              {...imageProps}
+              width={width}
+              height={height}
+              alt={alt} // Certifique-se de que todas as imagens tenham um alt definido.
+            />
+          ) : (
+            <ConsentPlaceholder className="w-full h-full" />
+          )
         ) : (
           <div 
             className="w-full h-full bg-gray-200 animate-pulse" 
@@ -166,12 +230,16 @@ export default function OptimizedImage({
   return (
     <div className={`relative ${className}`} ref={imageRef}>
       {(isInView || priority) ? (
-        <Image
-          {...imageProps}
-          width={1200}
-          height={630}
-          alt={alt} // Certifique-se de que todas as imagens tenham um alt definido.
-        />
+        shouldShowImage ? (
+          <Image
+            {...imageProps}
+            width={1200}
+            height={630}
+            alt={alt} // Certifique-se de que todas as imagens tenham um alt definido.
+          />
+        ) : (
+          <ConsentPlaceholder className="w-full h-full" />
+        )
       ) : (
         <div 
           className="w-full h-full bg-gray-200 animate-pulse" 
