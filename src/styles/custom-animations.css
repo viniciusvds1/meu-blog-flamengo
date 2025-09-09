@@ -1,144 +1,352 @@
-/* Animações básicas */
+/* Animações otimizadas para performance - Blog do Flamengo */
+
+/* Animations using GPU acceleration for better performance */
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%, 100% { 
+    transform: translate3d(0, 0, 0); 
+  }
+  50% { 
+    transform: translate3d(0, -10px, 0); 
+  }
 }
 
 @keyframes pulse-red {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(226, 14, 14, 0.4); } /* Vermelho Flamengo */
-  50% { box-shadow: 0 0 0 20px rgba(226, 14, 14, 0); }
+  0%, 100% { 
+    box-shadow: 0 0 0 0 rgba(226, 14, 14, 0.4);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 0 20px rgba(226, 14, 14, 0);
+    transform: scale(1.05);
+  }
 }
 
-@keyframes shine {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
+@keyframes shimmer {
+  0% { 
+    background-position: -200% center;
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% { 
+    background-position: 200% center;
+    opacity: 0.6;
+  }
 }
 
-/* Animação para carregamento de anúncios */
-@keyframes adLoading {
-  0% { background-position: -200% 0; opacity: 0.6; }
-  100% { background-position: 200% 0; opacity: 0.8; }
+@keyframes slideInUp {
+  from { 
+    opacity: 0; 
+    transform: translate3d(0, 30px, 0);
+  }
+  to { 
+    opacity: 1; 
+    transform: translate3d(0, 0, 0);
+  }
 }
 
-/* Animação de entrada para anúncios */
-@keyframes adFadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes slideInDown {
+  from { 
+    opacity: 0; 
+    transform: translate3d(0, -30px, 0);
+  }
+  to { 
+    opacity: 1; 
+    transform: translate3d(0, 0, 0);
+  }
 }
 
-/* Animação de transição entre slides */
-@keyframes slideTransition {
-  from { opacity: 0; transform: translateX(20px); }
-  to { opacity: 1; transform: translateX(0); }
+@keyframes slideInLeft {
+  from { 
+    opacity: 0; 
+    transform: translate3d(-30px, 0, 0);
+  }
+  to { 
+    opacity: 1; 
+    transform: translate3d(0, 0, 0);
+  }
 }
 
-/* Classes de animação */
+@keyframes slideInRight {
+  from { 
+    opacity: 0; 
+    transform: translate3d(30px, 0, 0);
+  }
+  to { 
+    opacity: 1; 
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0; 
+    transform: scale3d(0.8, 0.8, 1);
+  }
+  to { 
+    opacity: 1; 
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes bounceIn {
+  0% { 
+    opacity: 0; 
+    transform: scale3d(0.3, 0.3, 1);
+  }
+  20% { 
+    transform: scale3d(1.1, 1.1, 1);
+  }
+  40% { 
+    transform: scale3d(0.9, 0.9, 1);
+  }
+  60% { 
+    opacity: 1; 
+    transform: scale3d(1.03, 1.03, 1);
+  }
+  80% { 
+    transform: scale3d(0.97, 0.97, 1);
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  20% { transform: scale(1.1); }
+  40% { transform: scale(1); }
+  60% { transform: scale(1.1); }
+  80% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+/* Performance-optimized animation classes */
 .animate-float {
   animation: float 3s ease-in-out infinite;
+  will-change: transform;
 }
 
 .animate-pulse-red {
   animation: pulse-red 2s infinite;
+  will-change: transform, box-shadow;
 }
 
-.shine-effect {
+.animate-shimmer {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(226, 14, 14, 0.2), /* Vermelho Flamengo */
+    rgba(226, 14, 14, 0.2),
     transparent
   );
   background-size: 200% 100%;
-  animation: shine 3s infinite;
+  animation: shimmer 2s infinite;
+  will-change: background-position;
 }
 
-/* Animações para componentes de anúncios */
-.ad-container {
-  opacity: 0;
-  animation: adFadeIn 0.5s ease forwards;
+.animate-slide-in-up {
+  animation: slideInUp 0.6s ease-out forwards;
 }
 
-.ad-container.top-ad {
-  animation-delay: 0.2s;
+.animate-slide-in-down {
+  animation: slideInDown 0.6s ease-out forwards;
 }
 
-.ad-container.content-ad {
-  animation-delay: 0.4s;
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s ease-out forwards;
 }
 
-.ad-container.sidebar-ad {
-  animation-delay: 0.3s;
+.animate-slide-in-right {
+  animation: slideInRight 0.6s ease-out forwards;
 }
 
-/* Efeito de carregamento para anúncios */
-.adsbygoogle.loading {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+.animate-scale-in {
+  animation: scaleIn 0.4s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-bounce-in {
+  animation: bounceIn 0.8s ease-out forwards;
+}
+
+.animate-heartbeat {
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+/* Delayed animations for staggered effects */
+.animate-delay-100 { animation-delay: 0.1s; }
+.animate-delay-200 { animation-delay: 0.2s; }
+.animate-delay-300 { animation-delay: 0.3s; }
+.animate-delay-500 { animation-delay: 0.5s; }
+
+/* Hover effects with GPU acceleration */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform: translateZ(0);
+}
+
+.hover-lift:hover {
+  transform: translate3d(0, -8px, 0);
+  box-shadow: 0 20px 40px rgba(226, 14, 14, 0.15);
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+  transform: translateZ(0);
+}
+
+.hover-scale:hover {
+  transform: scale3d(1.05, 1.05, 1);
+}
+
+.hover-glow {
+  transition: box-shadow 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(226, 14, 14, 0.5);
+}
+
+/* Loading states */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200% 100%;
-  animation: adLoading 1.5s infinite;
-  min-height: 90px;
+  animation: shimmer 1.5s infinite;
   border-radius: 4px;
 }
 
-/* Efeitos para cartões e elementos interativos */
-.card-hover-effect {
-  transition: all 0.3s ease;
+.loading-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-.card-hover-effect:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(226, 14, 14, 0.1); /* Vermelho Flamengo */
-}
-
-.gradient-text {
-  background: linear-gradient(45deg, #e20e0e, #9b2c2c); /* Tons de vermelho Flamengo */
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.flamengo-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e20e0e' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-}
-
-/* Glass Morphism Effects */
+/* Glass morphism effects */
 .glass-morphism {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px) saturate(180%);
-  -webkit-backdrop-filter: blur(10px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .glass-morphism-light {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(5px) saturate(160%);
-  -webkit-backdrop-filter: blur(5px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px) saturate(160%);
+  -webkit-backdrop-filter: blur(8px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
 
-/* Enhanced Shimmer Effect */
-@keyframes enhanced-shine {
-  0% {
-    background-position: -200% center;
-    opacity: 0.5;
+.glass-morphism-dark {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  color: white;
+}
+
+/* Text effects */
+.gradient-text-flamengo {
+  background: linear-gradient(135deg, #E20E0E 0%, #B71C1C 50%, #FFD700 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% 200%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Pattern backgrounds */
+.flamengo-pattern {
+  background-color: #fafafa;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e20e0e' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Interactive states */
+.interactive {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.interactive:active {
+  transform: scale(0.98);
+}
+
+/* Performance optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-auto {
+  will-change: auto;
+}
+
+.gpu-layer {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Media queries for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-pulse-red,
+  .animate-shimmer,
+  .animate-slide-in-up,
+  .animate-slide-in-down,
+  .animate-slide-in-left,
+  .animate-slide-in-right,
+  .animate-scale-in,
+  .animate-fade-in,
+  .animate-bounce-in,
+  .animate-heartbeat {
+    animation: none;
   }
-  50% {
-    opacity: 0.8;
+  
+  .hover-lift:hover,
+  .hover-scale:hover {
+    transform: none;
   }
-  100% {
-    background-position: 200% center;
-    opacity: 0.5;
+  
+  .loading-skeleton {
+    animation: none;
+    background: #e0e0e0;
+  }
+  
+  .gradient-text-flamengo {
+    animation: none;
+    background: #E20E0E;
+    -webkit-background-clip: text;
+    background-clip: text;
   }
 }
 
-.shine-effect-enhanced {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(220, 38, 38, 0.3),
-    transparent
-  );
-  background-size: 200% 100%;
-  animation: enhanced-shine 4s infinite;
+/* Print optimizations */
+@media print {
+  .animate-float,
+  .animate-pulse-red,
+  .animate-shimmer,
+  .glass-morphism,
+  .glass-morphism-light,
+  .glass-morphism-dark {
+    animation: none;
+    background: white;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+  }
+  
+  .gradient-text-flamengo {
+    color: #E20E0E;
+    background: none;
+  }
 }
