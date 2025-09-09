@@ -1,0 +1,144 @@
+/* Animações básicas */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(226, 14, 14, 0.4); } /* Vermelho Flamengo */
+  50% { box-shadow: 0 0 0 20px rgba(226, 14, 14, 0); }
+}
+
+@keyframes shine {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Animação para carregamento de anúncios */
+@keyframes adLoading {
+  0% { background-position: -200% 0; opacity: 0.6; }
+  100% { background-position: 200% 0; opacity: 0.8; }
+}
+
+/* Animação de entrada para anúncios */
+@keyframes adFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Animação de transição entre slides */
+@keyframes slideTransition {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Classes de animação */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-red {
+  animation: pulse-red 2s infinite;
+}
+
+.shine-effect {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(226, 14, 14, 0.2), /* Vermelho Flamengo */
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: shine 3s infinite;
+}
+
+/* Animações para componentes de anúncios */
+.ad-container {
+  opacity: 0;
+  animation: adFadeIn 0.5s ease forwards;
+}
+
+.ad-container.top-ad {
+  animation-delay: 0.2s;
+}
+
+.ad-container.content-ad {
+  animation-delay: 0.4s;
+}
+
+.ad-container.sidebar-ad {
+  animation-delay: 0.3s;
+}
+
+/* Efeito de carregamento para anúncios */
+.adsbygoogle.loading {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: adLoading 1.5s infinite;
+  min-height: 90px;
+  border-radius: 4px;
+}
+
+/* Efeitos para cartões e elementos interativos */
+.card-hover-effect {
+  transition: all 0.3s ease;
+}
+
+.card-hover-effect:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(226, 14, 14, 0.1); /* Vermelho Flamengo */
+}
+
+.gradient-text {
+  background: linear-gradient(45deg, #e20e0e, #9b2c2c); /* Tons de vermelho Flamengo */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.flamengo-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e20e0e' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Glass Morphism Effects */
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+}
+
+.glass-morphism-light {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(5px) saturate(160%);
+  -webkit-backdrop-filter: blur(5px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+}
+
+/* Enhanced Shimmer Effect */
+@keyframes enhanced-shine {
+  0% {
+    background-position: -200% center;
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    background-position: 200% center;
+    opacity: 0.5;
+  }
+}
+
+.shine-effect-enhanced {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(220, 38, 38, 0.3),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: enhanced-shine 4s infinite;
+}

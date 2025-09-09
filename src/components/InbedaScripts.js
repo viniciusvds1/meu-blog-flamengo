@@ -1,0 +1,59 @@
+// components/InbedaScripts.js
+'use client';
+import Script from 'next/script';
+
+const InbendaScripts = () => {
+  
+  return (
+    <>
+      <Script
+        id="iubenda-config"
+         strategy="lazyOnload"
+        dangerouslySetInnerHTML={{
+          __html: `
+            var _iub = _iub || [];
+            _iub.csConfiguration = {
+              "siteId": 3887130,
+              "cookiePolicyId": 16891695,
+              "lang": "pt-BR",
+              "storage": { "useSiteId": true }
+            };
+          `,
+        }}
+      />
+      <Script
+        id="facebook-sdk"
+        strategy="lazyOnload"
+        src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v17.0&appId=1277752713485967"
+        crossOrigin="anonymous"
+        nonce={undefined} // Allow CSP policy to work properly
+      />
+      <Script
+        src="https://cs.iubenda.com/autoblocking/3887130.js"
+        strategy="lazyOnload"
+        id="iubenda-cs"
+      />
+      <Script
+        src="//cdn.iubenda.com/cs/gpp/stub.js"
+        strategy="lazyOnload"
+        id="iubenda-stub"
+      />
+      <Script type="text/javascript" data-cmp-ab="1" src="https://cdn.consentmanager.net/delivery/autoblocking/642b8c93223d8.js" data-cmp-host="d.delivery.consentmanager.net" data-cmp-cdn="cdn.consentmanager.net" data-cmp-codesrc="16"></Script>
+      <Script
+        id="gtm-script"
+        strategy="lazyOnload"
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-TKDPTXNH');
+          `,
+        }}
+      />
+    </>
+  );
+};
+
+export default InbendaScripts;
