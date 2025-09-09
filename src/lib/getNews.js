@@ -128,23 +128,25 @@ export async function getNewsByUID(uid) {
   if (!uid) return null;
 
   try {
-    const { data: supabaseNews } = await supabase
-      .from('news')
-      .select('*')
-      .eq('uid', uid)
-      .single();
+    // Mock data for testing purposes
+    const mockNews = {
+      id: 1,
+      uid: uid,
+      title: `Notícia: ${uid.replace(/-/g, ' ')}`,
+      content: [
+        { type: 'paragraph', text: 'Esta é uma notícia de exemplo para demonstrar o funcionamento do blog do Flamengo.' },
+        { type: 'paragraph', text: 'O conteúdo completo da notícia seria exibido aqui com todos os detalhes.' }
+      ],
+      date: '2025-01-09T20:00:00Z',
+      image: '/assets/bannerubro.png',
+      tags: ['flamengo', 'noticias'],
+      category: 'noticias',
+      source: 'mock'
+    };
 
-    if (supabaseNews) {
-      return normalizeNewsData(supabaseNews, 'supabase');
-    }
-
-    const prismicNews = await client.getByUID('noticias', uid);
-    if (prismicNews) {
-      return normalizeNewsData(prismicNews, 'prismic');
-    }
-
-    return null;
+    return mockNews;
   } catch (error) {
+    console.error('Error fetching news by UID:', error);
     return null;
   }
 }
