@@ -213,6 +213,7 @@ async def get_search_suggestions(q: str = Query(..., min_length=2)):
         },
         {
             "$project": {
+                "_id": 0,  # Exclude _id to avoid ObjectId serialization issues
                 "title": 1,
                 "slug": 1,
                 "category": 1
