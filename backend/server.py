@@ -115,6 +115,20 @@ async def get_posts(
     posts = await db.posts.find(filter_query).sort("created_at", -1).skip(skip).limit(limit).to_list(limit)
     return [Post(**post) for post in posts]
 
+# Popular posts (must come before the slug route)
+@api_router.get("/posts/popular", response_model=List[Post])
+async def get_popular_posts(limit: int = Query(5, ge=1, le=20)):
+    """Get most viewed posts"""
+    posts = await db.posts.find({"published": True}).sort("views", -1).limit(limit).to_list(limit)
+    return [Post(**post) for post in posts]
+
+# Recent posts (must come before the slug route)
+@api_router.get("/posts/recent", response_model=List[Post])
+async def get_recent_posts(limit: int = Query(5, ge=1, le=20)):
+    """Get most recent posts"""
+    posts = await db.posts.find({"published": True}).sort("created_at", -1).limit(limit).to_list(limit)
+    return [Post(**post) for post in posts]
+
 @api_router.get("/posts/{slug}", response_model=Post)
 async def get_post_by_slug(slug: str):
     """Get a single post by slug"""
