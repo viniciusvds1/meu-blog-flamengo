@@ -259,3 +259,236 @@ h3 {
 .table-flamengo tr:hover {
   background-color: var(--flamengo-gray-50);
 }
+
+/* Tema Flamengo - Cores e Classes Otimizadas */
+
+:root {
+  /* Cores oficiais do Flamengo - Atualizações */
+  --flamengo-red: #E20E0E;
+  --flamengo-red-dark: #B71C1C;
+  --flamengo-red-light: #FF1744;
+  --flamengo-black: #000000;
+  --flamengo-gold: #FFD700;
+  --flamengo-white: #FFFFFF;
+  
+  /* Gradientes */
+  --flamengo-gradient: linear-gradient(135deg, #E20E0E 0%, #B71C1C 100%);
+  --flamengo-gradient-reverse: linear-gradient(135deg, #B71C1C 0%, #E20E0E 100%);
+  --flamengo-radial: radial-gradient(circle, #E20E0E 0%, #B71C1C 100%);
+  
+  /* Sombras */
+  --shadow-flamengo: 0 4px 20px rgba(226, 14, 14, 0.3);
+  --shadow-flamengo-lg: 0 10px 40px rgba(226, 14, 14, 0.4);
+  --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Classes utilitárias otimizadas */
+.bg-flamengo-gradient-reverse {
+  background: var(--flamengo-gradient-reverse);
+}
+
+.bg-flamengo-radial {
+  background: var(--flamengo-radial);
+}
+
+.shadow-flamengo {
+  box-shadow: var(--shadow-flamengo);
+}
+
+.shadow-flamengo-lg {
+  box-shadow: var(--shadow-flamengo-lg);
+}
+
+/* Glass morphism effects */
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-morphism-light {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-morphism-dark {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+/* Elementos interativos otimizados */
+.btn-flamengo-outline {
+  background: transparent;
+  color: var(--flamengo-red);
+  border: 2px solid var(--flamengo-red);
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.btn-flamengo-outline:hover {
+  background: var(--flamengo-red);
+  color: var(--flamengo-white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-flamengo);
+}
+
+/* Cards otimizados */
+.card-flamengo-dark {
+  background: var(--flamengo-black);
+  color: var(--flamengo-white);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Animações performance-first */
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in-scale {
+  animation: fadeInScale 0.4s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.5s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.5s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Loading states optimizados */
+.loading-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Focus states para acessibilidade */
+.focus-flamengo:focus {
+  outline: 2px solid var(--flamengo-red);
+  outline-offset: 2px;
+}
+
+.focus-flamengo:focus-visible {
+  outline: 2px solid var(--flamengo-red);
+  outline-offset: 2px;
+}
+
+/* Scrollbar personalizado */
+.scrollbar-flamengo {
+  scrollbar-width: thin;
+  scrollbar-color: var(--flamengo-red) #f1f1f1;
+}
+
+.scrollbar-flamengo::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-flamengo::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.scrollbar-flamengo::-webkit-scrollbar-thumb {
+  background: var(--flamengo-red);
+  border-radius: 4px;
+}
+
+.scrollbar-flamengo::-webkit-scrollbar-thumb:hover {
+  background: var(--flamengo-red-dark);
+}
+
+/* Print optimizations */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .card-flamengo {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --flamengo-red: #CC0000;
+    --flamengo-black: #000000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .loading-shimmer {
+    animation: none;
+  }
+}
