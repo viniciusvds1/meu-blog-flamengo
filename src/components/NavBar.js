@@ -1,308 +1,214 @@
 "use client";
 
 import Link from 'next/link';
-import Image from 'next/image';
-import { useState, useEffect, useCallback } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { Menu, X, Search, ChevronDown, Home, Newspaper, Calendar, Image as ImageIcon, Award, ShoppingBag, Trophy, Users, Star, LogIn, LogOut, UserPlus } from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
+import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import { 
+  Menu, 
+  X, 
+  Search, 
+  Home, 
+  Newspaper, 
+  Calendar, 
+  Users, 
+  Award, 
+  ShoppingBag,
+  User,
+  ChevronDown
+} from 'lucide-react';
 
-const menuItems = [
-  { href: '/', label: 'Início', icon: Home },
-  { href: '/noticias', label: 'Notícias', icon: Newspaper },
-  { href: '/resultados', label: 'Resultados', icon: Calendar },
-  { href: '/elenco', label: 'Elenco', icon: Users },
-  { href: '/galeria', label: 'Galeria', icon: ImageIcon },
-  { href: '/historia', label: 'História', icon: Award },
-  { href: '/loja', label: 'Loja', icon: ShoppingBag }
-];
-
-export default function Navbar() {
+const NavBar = () => {
   const pathname = usePathname();
-  const router = useRouter();
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeSubmenu, setActiveSubmenu] = useState(null);
-  const { user, isAuthenticated, logout } = useAuth();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const handleMenuToggle = useCallback(() => {
-    setMenuOpen(prev => !prev);
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close mobile menu when route changes
   useEffect(() => {
-    if (!menuOpen) return;
+    setIsMenuOpen(false);
+  }, [pathname]);
 
-    const handleClickOutside = (event) => {
-      const menu = document.getElementById('mobile-menu');
-      const button = document.getElementById('menu-button');
-      if (menu && !menu.contains(event.target) && !button.contains(event.target)) {
-        setMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    document.body.style.overflow = 'hidden';
-
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-      document.body.style.overflow = 'unset';
-    };
-  }, [menuOpen]);
+  const navigationItems = [
+    { href: '/', label: 'Início', icon: Home },
+    { href: '/noticias', label: 'Notícias', icon: Newspaper },
+    { href: '/jogos', label: 'Jogos', icon: Calendar },
+    { href: '/elenco', label: 'Elenco', icon: Users },
+    { href: '/historia', label: 'História', icon: Award },
+    { href: '/loja', label: 'Loja', icon: ShoppingBag }
+  ];
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-flamengoRed">
-      
-      {/* Main Navbar */}
-      <div className="container mx-auto px-4 py-2">
-        <div className="flex justify-between items-center">
+    <nav className={`sticky top-0 z-50 transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200' 
+        : 'bg-red-600 shadow-md'
+    }`}>
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <div className="w-7 h-7 bg-white rounded-full flex items-center justify-center mr-2">
-              <div className="w-5 h-5 bg-flamengoRed rounded-full"></div>
+          <Link href="/" className="flex items-center space-x-3 group">
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+              isScrolled ? 'bg-red-600' : 'bg-white'
+            }`}>
+              <span className={`font-bold text-lg transition-colors duration-300 ${
+                isScrolled ? 'text-white' : 'text-red-600'
+              }`}>
+                F
+              </span>
             </div>
-            <span className="text-base font-bold text-white">
-              Blog do Flamengo
-            </span>
+            <div className="hidden sm:block">
+              <h1 className={`font-bold text-xl transition-colors duration-300 ${
+                isScrolled ? 'text-gray-900' : 'text-white'
+              }`}>
+                Blog do Flamengo
+              </h1>
+              <p className={`text-xs transition-colors duration-300 ${
+                isScrolled ? 'text-gray-600' : 'text-red-100'
+              }`}>
+                Mengão de Coração
+              </p>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-2">
-            {menuItems.map((item) => (
-              <div key={item.href} className="relative group">
+          <div className="hidden lg:flex items-center space-x-1">
+            {navigationItems.map((item) => {
+              const IconComponent = item.icon;
+              const isActive = pathname === item.href;
+              
+              return (
                 <Link
+                  key={item.href}
                   href={item.href}
-                  className={`flex items-center px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors ${
-                    pathname === item.href || pathname.startsWith(`${item.href}/`) 
-                      ? 'bg-white/15 font-semibold' 
-                      : ''
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                    isActive
+                      ? isScrolled
+                        ? 'bg-red-600 text-white'
+                        : 'bg-white/20 text-white'
+                      : isScrolled
+                        ? 'text-gray-700 hover:bg-gray-100'
+                        : 'text-white hover:bg-white/10'
                   }`}
-                  onMouseEnter={() => item.submenu && setActiveSubmenu(item.href)}
-                  onClick={() => setActiveSubmenu(null)}
                 >
-                  <item.icon className="w-4 h-4 mr-1.5" />
+                  <IconComponent size={18} />
                   <span>{item.label}</span>
-                  {item.submenu && <ChevronDown className="w-4 h-4 ml-1" />}
                 </Link>
-                
-                {/* Submenu dropdown */}
-                {item.submenu && (
-                  <div 
-                    className={`absolute top-full left-0 mt-1 bg-white shadow-lg rounded-md overflow-hidden w-48 transform transition-all duration-200 origin-top-left z-50 ${
-                      activeSubmenu === item.href ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'
-                    }`}
-                    onMouseLeave={() => setActiveSubmenu(null)}
-                  >
-                    {item.submenu.map((subItem) => (
-                      <Link 
-                        key={subItem.href} 
-                        href={subItem.href}
-                        className={`block px-4 py-2 text-sm text-gray-800 hover:bg-flamengoRed hover:text-white transition-colors ${
-                          pathname === subItem.href ? 'bg-flamengoRed/10 font-medium' : ''
-                        }`}
-                      >
-                        {subItem.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
 
-          {/* Auth and Search Buttons */}
+          {/* Search and User Actions */}
           <div className="hidden lg:flex items-center space-x-3">
-            {isAuthenticated ? (
-              <div className="flex items-center">
-                <span className="text-white text-sm mr-3">
-                  Olá, {user?.user_metadata?.name || 'Rubro-Negro'}
-                </span>
-                <button 
-                  onClick={() => { 
-                    logout();
-                    router.push('/');
-                  }}
-                  className="flex items-center px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors"
-                  aria-label="Logout"
-                >
-                  <LogOut className="w-4 h-4 mr-1.5" />
-                  <span>Sair</span>
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-2">
-                <Link
-                  href="/auth/login"
-                  className="flex items-center px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors"
-                >
-                  <LogIn className="w-4 h-4 mr-1.5" />
-                  <span>Entrar</span>
-                </Link>
-                <Link
-                  href="/auth/register"
-                  className="flex items-center px-3 py-2 rounded-md text-white font-medium bg-white/20 hover:bg-white/30 transition-colors"
-                >
-                  <UserPlus className="w-4 h-4 mr-1.5" />
-                  <span>Cadastrar</span>
-                </Link>
-              </div>
-            )}
-            
-            <button className="text-white p-1">
-              <Search className="w-5 h-5" />
+            <button className={`p-2 rounded-lg transition-all duration-200 ${
+              isScrolled 
+                ? 'text-gray-700 hover:bg-gray-100' 
+                : 'text-white hover:bg-white/10'
+            }`}>
+              <Search size={20} />
             </button>
+            
+            <div className="relative group">
+              <button className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+                isScrolled 
+                  ? 'text-gray-700 hover:bg-gray-100' 
+                  : 'text-white hover:bg-white/10'
+              }`}>
+                <User size={18} />
+                <span>Conta</span>
+                <ChevronDown size={16} />
+              </button>
+              
+              {/* Dropdown */}
+              <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                <div className="py-2">
+                  <Link href="/login" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">
+                    Entrar
+                  </Link>
+                  <Link href="/register" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">
+                    Cadastrar
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile Menu Button */}
           <button
-            id="menu-button"
-            onClick={handleMenuToggle}
-            className="lg:hidden focus:outline-none rounded-lg p-2 text-white hover:bg-white/10 transition-colors"
-            aria-label="Toggle menu"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className={`lg:hidden p-2 rounded-lg transition-all duration-200 ${
+              isScrolled 
+                ? 'text-gray-700 hover:bg-gray-100' 
+                : 'text-white hover:bg-white/10'
+            }`}
           >
-            {menuOpen ? (
-              <X className="h-6 w-6 transition-transform duration-300" />
-            ) : (
-              <Menu className="h-6 w-6 transition-transform duration-300" />
-            )}
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu - melhorado */}
-      {menuOpen && (
-        <div 
-          id="mobile-menu"
-          className="lg:hidden fixed inset-0 top-[60px] bg-black/95 backdrop-blur-sm z-50 animate-fade-in"
-        >
-          <div className="py-6 px-4 h-full overflow-y-auto">
-            <div className="flex flex-col space-y-2">
-              {menuItems.map((item) => (
-                <div key={item.href} className="flex flex-col">
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="lg:hidden bg-white border-t border-gray-200 shadow-lg">
+          <div className="max-w-7xl mx-auto px-4 py-4">
+            {/* Navigation Items */}
+            <div className="space-y-2 mb-6">
+              {navigationItems.map((item) => {
+                const IconComponent = item.icon;
+                const isActive = pathname === item.href;
+                
+                return (
                   <Link
+                    key={item.href}
                     href={item.href}
-                    className={`flex items-center py-3 px-4 rounded-lg ${
-                      pathname === item.href || pathname.startsWith(`${item.href}/`) 
-                        ? 'bg-flamengoRed text-white' 
-                        : 'text-white bg-black/30 hover:bg-flamengoRed/80'
-                    } transition-all duration-200`}
-                    onClick={() => {
-                      if (!item.submenu) setMenuOpen(false);
-                      setActiveSubmenu(activeSubmenu === item.href ? null : item.href);
-                    }}
+                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
+                      isActive
+                        ? 'bg-red-600 text-white'
+                        : 'text-gray-700 hover:bg-gray-100'
+                    }`}
                   >
-                    <item.icon className="w-5 h-5 mr-3" />
-                    <span className="flex-1">{item.label}</span>
-                    {item.submenu && (
-                      <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${
-                        activeSubmenu === item.href ? 'rotate-180' : ''
-                      }`} />
-                    )}
+                    <IconComponent size={20} />
+                    <span>{item.label}</span>
                   </Link>
-                  
-                  {/* Mobile Submenu */}
-                  {item.submenu && (
-                    <div className={`overflow-hidden transition-all duration-300 ${
-                      activeSubmenu === item.href 
-                        ? 'max-h-[400px] opacity-100 mt-1 mb-2' 
-                        : 'max-h-0 opacity-0'
-                    }`}>
-                      {item.submenu.map((subItem) => (
-                        <Link 
-                          key={subItem.href} 
-                          href={subItem.href}
-                          className={`flex pl-12 py-3 rounded-lg text-sm ${
-                            pathname === subItem.href 
-                              ? 'bg-flamengoRed/30 text-white font-medium' 
-                              : 'text-gray-200 hover:bg-flamengoRed/20'
-                          } transition-colors`}
-                          onClick={() => setMenuOpen(false)}
-                        >
-                          {subItem.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
+                );
+              })}
             </div>
-            
-            {/* Barra de pesquisa móvel */}
-            <div className="mt-6 px-2">
-              <div className="relative flex items-center">
-                <input 
-                  type="text" 
-                  placeholder="Buscar no blog..." 
-                  className="w-full bg-black/30 text-white rounded-full pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-flamengoRed/50"
+
+            {/* Search Bar */}
+            <div className="mb-6">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <input
+                  type="text"
+                  placeholder="Buscar notícias..."
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
-                <Search className="absolute left-3 w-5 h-5 text-gray-400" />
               </div>
             </div>
-            
-            {/* Auth buttons for mobile */}
-            <div className="mt-6 flex flex-col space-y-2 px-2">
-              {isAuthenticated ? (
-                <div className="flex flex-col space-y-3">
-                  <p className="text-white text-sm px-2">
-                    Olá, {user?.user_metadata?.name || 'Rubro-Negro'}
-                  </p>
-                  <button
-                    onClick={() => { 
-                      logout();
-                      setMenuOpen(false);
-                      router.push('/');
-                    }}
-                    className="flex items-center py-3 px-4 rounded-lg text-white bg-black/30 hover:bg-flamengoRed/80 transition-all duration-200"
-                  >
-                    <LogOut className="w-5 h-5 mr-3" />
-                    <span>Sair da conta</span>
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <Link
-                    href="/auth/login"
-                    className="flex items-center py-3 px-4 rounded-lg text-white bg-black/30 hover:bg-flamengoRed/80 transition-all duration-200"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    <LogIn className="w-5 h-5 mr-3" />
-                    <span>Entrar</span>
-                  </Link>
-                  <Link
-                    href="/auth/register"
-                    className="flex items-center py-3 px-4 rounded-lg text-white bg-flamengoRed/80 hover:bg-flamengoRed transition-all duration-200"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    <UserPlus className="w-5 h-5 mr-3" />
-                    <span>Cadastrar-se</span>
-                  </Link>
-                </>
-              )}
-            </div>
-            
-            {/* Botões rápidos para acesso */}
-            <div className="mt-6 flex justify-around">
-              <Link 
-                href="/resultados" 
-                className="flex flex-col items-center px-4 py-2 text-white"
-                onClick={() => setMenuOpen(false)}
+
+            {/* User Actions */}
+            <div className="space-y-2 pt-4 border-t border-gray-200">
+              <Link
+                href="/login"
+                className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg font-medium"
               >
-                <Trophy className="w-6 h-6 mb-1" />
-                <span className="text-xs">Resultados</span>
+                <User size={20} />
+                <span>Entrar</span>
               </Link>
-              <Link 
-                href="/loja" 
-                className="flex flex-col items-center px-4 py-2 text-white"
-                onClick={() => setMenuOpen(false)}
+              <Link
+                href="/register"
+                className="flex items-center space-x-3 px-4 py-3 bg-red-600 text-white hover:bg-red-700 rounded-lg font-medium"
               >
-                <ShoppingBag className="w-6 h-6 mb-1" />
-                <span className="text-xs">Loja</span>
-              </Link>
-              <Link 
-                href="/historia" 
-                className="flex flex-col items-center px-4 py-2 text-white"
-                onClick={() => setMenuOpen(false)}
-              >
-                <Star className="w-6 h-6 mb-1" />
-                <span className="text-xs">História</span>
+                <User size={20} />
+                <span>Cadastrar</span>
               </Link>
             </div>
           </div>
@@ -310,4 +216,6 @@ export default function Navbar() {
       )}
     </nav>
   );
-}
+};
+
+export default NavBar;
