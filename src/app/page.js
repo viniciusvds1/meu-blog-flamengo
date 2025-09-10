@@ -1,130 +1,75 @@
-import Image from 'next/image';
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
-import * as prismic from '@prismicio/client';
 import { getAllNews } from '@/lib/getNews';
-import '@/styles/animations.css';
-import RegistrationPrompt from '@/components/auth/RegistrationPrompt';
+import HeroSection from '@/components/modern/HeroSection';
+import StatsBar from '@/components/modern/StatsBar';
+import NewsGrid from '@/components/modern/NewsGrid';
+import Sidebar from '@/components/modern/Sidebar';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
-const HeroBanner = dynamic(() => import('@/components/HeroBanner'), {
-  loading: () => <div className="animate-pulse bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 h-[500px] rounded-lg" />
-});
-
-const LastResultAndNextGame = dynamic(() => import('@/components/LastResultAndNextGame'));
-const NewsletterSignup = dynamic(() => import('@/components/NewsletterSignup'));
-const SearchBar = dynamic(() => import('@/components/SearchBar'));
-const NoticiasGrid = dynamic(() => import('@/components/NoticiasGrid'));
-const AddBanner = dynamic(() => import('@/components/AddBanner'));
-const CookieConsent = dynamic(() => import('@/components/CookieConsent'));
-const ProductShelf = dynamic(() => import('@/components/ProductShelf'), {
+// Dynamic imports for better performance
+const NewsletterCTA = dynamic(() => import('@/components/modern/NewsletterCTA'), {
   ssr: false,
+  loading: () => <div className="h-32 bg-gray-100 animate-pulse rounded-xl" />
 });
 
-const SidebarSkeleton = () => (
-  <div className="space-y-4 animate-pulse">
-    <div className="bg-gray-200 h-64 rounded-lg" />
-    <div className="bg-gray-200 h-48 rounded-lg" />
-    <div className="bg-gray-200 h-32 rounded-lg" />
-  </div>
-);
+const SocialFeed = dynamic(() => import('@/components/modern/SocialFeed'), {
+  ssr: false
+});
 
-export const revalidate = 3600;
+export const revalidate = 3600; // Revalidate every hour
 
 export default async function Home() {
-  const { news: initialNoticias } = await getAllNews({ pageSize: 6 });
+  const { news: initialNews } = await getAllNews({ pageSize: 12 });
   
-  // Fetch products from Prismic
-  const client = prismic.createClient(process.env.PRISMIC_ENDPOINT, {
-    accessToken: process.env.PRISMIC_ACCESS_TOKEN,
-  });
-  
-  const products = await client.getAllByType('produtos');
-
   return (
-    <div className="container mx-auto px-4 py-8 bg-gradient-to-b from-gray-50 to-white min-h-screen">
-      {/* Registration Promotion Modal */}
-      <RegistrationPrompt />
-      {/* Hero Section */}
-      {/* Hero Banner */}
-      <section className="mb-12 -mx-4">
-        <Suspense fallback={<div className="animate-pulse bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 h-[500px]" />}>
-          <div className="overflow-hidden rounded-lg shadow-2xl">
-            <HeroBanner slides={initialNoticias?.map(noticia => {
-              const slideImage = noticia.image || '/assets/bannerubro.png';
-              return {
-                id: noticia.id || Math.random().toString(),
-                title: noticia.title || 'Notícia Flamengo',
-                description: noticia.excerpt || noticia.description || '',
-                image: slideImage,
-                category: noticia.category || 'Notícias',
-                url: `/noticias/${noticia.uid || ''}`
-              };
-            })} />
-          </div>
-        </Suspense>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-red-50">
+      {/* Hero Section - Redesigned with better performance */}
+      <section className="relative">
+        <HeroSection news={initialNews.slice(0, 3)} />
       </section>
 
-      {/* Search Section */}
-      <section className="mb-12 max-w-2xl mx-auto transform hover:scale-[1.02] transition-all duration-300">
-        <Suspense fallback={<div className="animate-pulse bg-gradient-to-r from-gray-200 to-gray-300 h-12 rounded-full" />}>
-          <div className="glass-morphism-light rounded-full shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <SearchBar className="w-full" />
-          </div>
-        </Suspense>
+      {/* Stats Bar - New addition */}
+      <section className="py-8 bg-white/80 backdrop-blur-sm border-y border-red-100">
+        <div className="max-w-7xl mx-auto px-4">
+          <StatsBar />
+        </div>
       </section>
-
 
       {/* Main Content */}
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* Sidebar */}
-        <aside className="w-full lg:w-1/4 order-2 lg:order-1">
-          <div className="sticky top-4 space-y-6">
-            <Suspense fallback={<SidebarSkeleton />}>
-              <section className="glass-morphism rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 transform hover:scale-[1.01]">
-                <LastResultAndNextGame />
-              </section>
-
-              <section className="glass-morphism-light rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 transform hover:scale-[1.01]">
-                <NewsletterSignup />
-              </section>
-              
-              <section className="glass-morphism rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 transform hover:scale-[1.01]">
-                {products && products.length > 0 && (
-                  <ProductShelf products={products} />
-                )}
-              </section>
-              
-              <section className="glass-morphism-light rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6">
-                <AddBanner 
-                  adClient={`ca-pub-${process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID}`}
-                  adSlot="0987654321"
-                  className="min-h-[250px]"
+      <section className="py-12">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            {/* Main Content - 3/4 width */}
+            <main className="lg:col-span-3">
+              <Suspense fallback={<LoadingSpinner />}>
+                <NewsGrid 
+                  initialNews={initialNews} 
+                  title="Últimas do Mengão"
+                  className="mb-12"
                 />
-              </section>
-            </Suspense>
-          </div>
-        </aside>
+              </Suspense>
 
-        {/* Main Content */}
-        <main className="w-full lg:w-3/4 order-1 lg:order-2">
-          <Suspense 
-            fallback={
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-pulse">
-                {[...Array(6)].map((_, i) => (
-                  <div key={i} className="bg-gradient-to-r from-gray-200 to-gray-300 h-64 rounded-2xl" />
-                ))}
+              {/* Newsletter CTA */}
+              <div className="mb-12">
+                <NewsletterCTA />
               </div>
-            }
-          >
-            <div className="glass-morphism rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6">
-              <NoticiasGrid
-                initialNoticias={initialNoticias}
-                className=""
-              />
-            </div>
-          </Suspense>
-        </main>
-      </div>
+
+              {/* Social Feed */}
+              <SocialFeed />
+            </main>
+
+            {/* Sidebar - 1/4 width */}
+            <aside className="lg:col-span-1">
+              <div className="sticky top-24 space-y-6">
+                <Suspense fallback={<div className="h-64 bg-gray-100 animate-pulse rounded-xl" />}>
+                  <Sidebar />
+                </Suspense>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
