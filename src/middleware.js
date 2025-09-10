@@ -9,9 +9,7 @@ import { NextResponse } from 'next/server';
  */
 export function middleware(request) {
   try {
-    // Clone the response headers
     const response = NextResponse.next();
-    const headers = new Headers(response.headers);
 
     /**
      * Cache control for static assets.
@@ -26,10 +24,13 @@ export function middleware(request) {
       request.nextUrl.pathname.match(/\.(jpg|jpeg|png|webp|gif|ico|css|js)$/)
     ) {
       // Cache for 1 week
-      headers.set('Cache-Control', 'public, max-age=604800, stale-while-revalidate=86400');
+      response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+    } else if (request.nextUrl.pathname.startsWith('/api/')) {
+      // API routes - shorter cache
+      response.headers.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=60');
     } else {
       // Default cache for dynamic pages
-      headers.set('Cache-Control', 'public, max-age=3600, stale-while-revalidate=300');
+      response.headers.set('Cache-Control', 'public, max-age=3600, stale-while-revalidate=300');
     }
 
     /**
@@ -37,19 +38,39 @@ export function middleware(request) {
      * 
      * Set various security headers to protect against common web vulnerabilities.
      */
-    headers.set('X-DNS-Prefetch-Control', 'on');
-    headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
-    headers.set('X-Frame-Options', 'SAMEORIGIN');
-    headers.set('X-Content-Type-Options', 'nosniff');
-    headers.set('Referrer-Policy', 'origin-when-cross-origin');
-    headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+    response.headers.set('X-DNS-Prefetch-Control', 'on');
+    response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
+    response.headers.set('X-Frame-Options', 'SAMEORIGIN');
+    response.headers.set('X-Content-Type-Options', 'nosniff');
+    response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+    response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), interest-cohort=(), browsing-topics=()');
+    
+    // Content Security Policy
+    const csp = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com https://connect.facebook.net",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com",
+      "img-src 'self' data: https: http:",
+      "connect-src 'self' https://www.google-analytics.com https://vitals.vercel-insights.com https://*.supabase.co",
+      "frame-src 'self' https://www.facebook.com https://www.youtube.com",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-ancestors 'self'"
+    ].join('; ');
+    
+    response.headers.set('Content-Security-Policy', csp);
+    
+    // Performance headers
+    response.headers.set('X-Powered-By', 'Next.js');
+    
+    // SEO headers
+    if (request.nextUrl.pathname === '/') {
+      response.headers.set('Link', '</assets/logooficialrubronews.png>; rel=preload; as=image');
+    }
 
-    // Create new response with added headers
-    return NextResponse.next({
-      request: {
-        headers: headers,
-      },
-    });
+    return response;
   } catch (error) {
     // Log the error and return a 500 Internal Server Error response
     console.error('Erro no middleware:', error);
@@ -65,6 +86,6 @@ export function middleware(request) {
 export const config = {
   matcher: [
     // Match all routes except API routes and Next.js internals
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    '/((?!_next/static|_next/image|favicon.ico).*)',
   ],
 };

@@ -31,9 +31,12 @@ export default function OptimizedImage({
   width,
   height,
   fill,
+  loading = 'lazy',
+  decoding = 'async',
   ...props 
 }) {
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const imageRef = useRef(null);
   
@@ -96,6 +99,14 @@ export default function OptimizedImage({
     };
   }, [priority, onIntersection]);
 
+  const handleLoad = useCallback(() => {
+    setIsLoading(false);
+  }, []);
+
+  const handleError = useCallback(() => {
+    setHasError(true);
+    setIsLoading(false);
+  }, []);
   const imageProps = {
     src: imageUrl,
     alt,
@@ -104,15 +115,29 @@ export default function OptimizedImage({
       ${isLoading ? 'opacity-0' : 'opacity-100'}
       ${className}
     `,
-    loading: priority ? 'eager' : 'lazy',
+    loading: priority ? 'eager' : loading,
+    decoding,
     quality: priority ? 90 : (props.quality || 75), // Melhor qualidade para imagens prioritárias
     placeholder: "blur",
     fetchPriority: priority ? 'high' : 'auto', // Nova propriedade para melhorar LCP
     blurDataURL: `data:image/svg+xml;base64,${toBase64(shimmer(shimmerWidth, shimmerHeight))}`,
-    onLoad: () => setIsLoading(false),
+    onLoad: handleLoad,
+    onError: handleError,
     ...props
   };
 
+  // Error fallback
+  if (hasError) {
+    return (
+      <div 
+        className={`bg-gray-200 flex items-center justify-center ${className}`}
+        style={{ aspectRatio: width && height ? `${width}/${height}` : '16/9' }}
+        aria-label={`Erro ao carregar imagem: ${alt}`}
+      >
+        <span className="text-gray-500 text-sm">Imagem não disponível</span>
+      </div>
+    );
+  }
   // If fill mode is enabled
   if (fill) {
     return (
@@ -123,11 +148,11 @@ export default function OptimizedImage({
             fill
             sizes={props.sizes || "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
             style={{ objectFit: props.objectFit || 'cover' }}
-            alt={alt} // Certifique-se de que todas as imagens tenham um alt definido.
+            alt={alt || 'Imagem do Blog do Flamengo'}
           />
         ) : (
           <div 
-            className="w-full h-full bg-gray-200 animate-pulse" 
+            className="w-full h-full loading-skeleton" 
             style={{ aspectRatio: width && height ? `${width}/${height}` : '16/9' }}
             aria-label={`Carregando imagem: ${alt}`}
           />
@@ -149,11 +174,11 @@ export default function OptimizedImage({
             {...imageProps}
             width={width}
             height={height}
-            alt={alt} // Certifique-se de que todas as imagens tenham um alt definido.
+            alt={alt || 'Imagem do Blog do Flamengo'}
           />
         ) : (
           <div 
-            className="w-full h-full bg-gray-200 animate-pulse" 
+            className="w-full h-full loading-skeleton" 
             style={{ aspectRatio: `${width}/${height}` }}
             aria-label={`Carregando imagem: ${alt}`}
           />
@@ -170,11 +195,11 @@ export default function OptimizedImage({
           {...imageProps}
           width={1200}
           height={630}
-          alt={alt} // Certifique-se de que todas as imagens tenham um alt definido.
+          alt={alt || 'Imagem do Blog do Flamengo'}
         />
       ) : (
         <div 
-          className="w-full h-full bg-gray-200 animate-pulse" 
+          className="w-full h-full loading-skeleton" 
           style={{ aspectRatio: '1200/630' }}
           aria-label={`Carregando imagem: ${alt}`}
         />
